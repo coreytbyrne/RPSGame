@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://djdqua7kt6oik"]
+
+[node name="Main" type="Node2D"]
+
+[node name="SceneManager" type="Node2D" parent="."]
+
+[node name="TransitionsPlaceHolder" type="Node2D" parent="SceneManager"]

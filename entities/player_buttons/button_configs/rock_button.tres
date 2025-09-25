@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ButtonConfig" load_steps=2 format=3 uid="uid://bxxd4bter8s1l"]
+
+[ext_resource type="Script" uid="uid://cd8i00kjkmq6c" path="res://entities/player_buttons/button_configs/base_button_config.gd" id="1_shocy"]
+
+[resource]
+script = ExtResource("1_shocy")
+effect = 1
+metadata/_custom_type_script = "uid://cd8i00kjkmq6c"

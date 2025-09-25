@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EncounterConfig" load_steps=6 format=3 uid="uid://dcy8ipl26k8dx"]
+
+[ext_resource type="Script" uid="uid://cd8i00kjkmq6c" path="res://entities/player_buttons/button_configs/base_button_config.gd" id="1_2mat3"]
+[ext_resource type="Script" uid="uid://qhm0afqsyma5" path="res://game_scenes/encounter/encounter_configs/encounter_config_base.gd" id="2_nn4yx"]
+[ext_resource type="Resource" uid="uid://dxyuqq11kmsot" path="res://entities/player_buttons/button_configs/paper_button.tres" id="2_ocjs7"]
+[ext_resource type="Resource" uid="uid://bxxd4bter8s1l" path="res://entities/player_buttons/button_configs/rock_button.tres" id="3_ko5nk"]
+[ext_resource type="Resource" uid="uid://c66oakuj5nobt" path="res://entities/player_buttons/button_configs/scissors_button.tres" id="4_ln0t5"]
+
+[resource]
+script = ExtResource("2_nn4yx")
+player_buttons = Array[ExtResource("1_2mat3")]([ExtResource("2_ocjs7"), ExtResource("3_ko5nk"), ExtResource("4_ln0t5")])
+opponent_buttons = Array[ExtResource("1_2mat3")]([ExtResource("2_ocjs7"), ExtResource("3_ko5nk"), ExtResource("4_ln0t5")])
+metadata/_custom_type_script = "uid://qhm0afqsyma5"

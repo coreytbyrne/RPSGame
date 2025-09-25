@@ -1,0 +1,95 @@
+extends Node2D
+class_name Wire
+
+var connected_button:PlayerButton
+var connected_target:Target
+
+var is_drawing_line:bool = false :
+	set(value):
+		if value:
+			$WireLine.visible = true
+		else:
+			$WireLine.visible = false
+		is_drawing_line = value
+		
+var is_full_circuit:bool = false :
+	set(value):
+		is_full_circuit = value
+		if is_full_circuit:
+			circuit_completed.emit()
+
+signal circuit_completed()
+
+## TODO: Need to add a way to create wires in game.
+## Either when clicking a WireConnection, or when clicking a "WireSpool" item
+
+
+func _ready() -> void:
+	# Create 2 points that can be edited via other functions
+	$WireLine.add_point(Vector2.ZERO)
+	$WireLine.add_point(Vector2.ZERO)
+	$WireLine.visible = false
+
+
+func _process(delta: float) -> void:
+	if not is_full_circuit and is_drawing_line:
+		var mouse_pos:Vector2 = get_global_mouse_position()
+		$WireLine.points[1] = mouse_pos
+
+
+
+func connect_button(button:PlayerButton) -> void:
+	disconnect_button()
+	connected_button = button
+	connected_button.player_button_pressed.connect(send_button_signal)
+	
+	# On the first connection established, draw from the button -> mouse
+	if not is_drawing_line:
+		is_drawing_line = true
+		$StartConnection.position = connected_button.wire_connection_point
+	# If the button is the second connection established, draw from button -> target
+	else:
+		is_full_circuit = true
+		$EndConnection.position = connected_button.wire_connection_point
+		
+	draw_wire()
+
+
+func disconnect_button() -> void:
+	if connected_button != null:
+		connected_button.player_button_pressed.disconnect(send_button_signal)
+		connected_button = null
+
+
+func draw_wire() -> void:
+	$WireLine.points[0] = $StartConnection.position
+	if is_full_circuit:
+		#$WireLine.points[0] = $StartConnection.position
+		$WireLine.points[1] = $EndConnection.position
+	else:
+		$WireLine.points[1] = get_global_mouse_position()
+
+
+func connect_target(target:Target) -> void:
+	connected_target = target
+	
+	# On the first connection established, draw from the button -> mouse
+	if not is_drawing_line:
+		is_drawing_line = true
+		$StartConnection.position = connected_target.wire_connection_point
+	# If the button is the second connection established, draw from button -> target
+	else:
+		is_full_circuit = true
+		$EndConnection.position = connected_target.wire_connection_point
+	draw_wire()
+
+
+func disconnect_target() -> void:
+	connected_target.revert_assignment()
+
+
+func send_button_signal(button_name:GameplayUtils.OBJECT, button_effect:GameplayUtils.EFFECT) -> void:
+	if connected_target is EffectTarget:
+		connected_target.update_assignment(button_effect)
+	elif connected_target is ObjectTarget:
+		connected_target.update_assignment(button_name)
