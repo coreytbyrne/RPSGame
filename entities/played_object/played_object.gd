@@ -11,6 +11,12 @@ func _ready() -> void:
 	target.reverted_assignment.connect(update_played_card_slot.bind(RULE_CHANGE_TYPE.REVERT))
 
 
+func clear_played_object() -> void:
+	target.assignment = GameplayUtils.OBJECT.NONE
+	target.temp_assignment = GameplayUtils.OBJECT.NONE
+	target.commit_assignment()
+
+
 func update_played_card_slot(rule_type:RULE_CHANGE_TYPE) -> void:
 	var target_assignment:GameplayUtils.OBJECT
 	var target_color:Color
@@ -40,3 +46,7 @@ func update_played_card_slot(rule_type:RULE_CHANGE_TYPE) -> void:
 	# Need to deffer the signal emission b/c emitting blocks until connected nodes finish
 	# running their functions. Hence, we get stuck in a loop
 	(func():SignalBus.rule_updated.emit()).call_deferred()
+
+
+func get_played_object() -> GameplayUtils.OBJECT:
+	return target.assignment

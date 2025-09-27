@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://sq45r4t4q6cs"]
+
+[ext_resource type="Script" uid="uid://ciy5afajknnno" path="res://entities/participant/player/player.gd" id="1_abrql"]
+[ext_resource type="PackedScene" uid="uid://bkev045ddgk2m" path="res://entities/played_object/played_object.tscn" id="1_symyc"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_abrql")
+
+[node name="PlayerButtonPositions" type="Node2D" parent="."]
+
+[node name="ButtonSpawn1" type="Marker2D" parent="PlayerButtonPositions"]
+position = Vector2(621, 598)
+
+[node name="ButtonSpawn2" type="Marker2D" parent="PlayerButtonPositions"]
+position = Vector2(464, 570)
+
+[node name="ButtonSpawn3" type="Marker2D" parent="PlayerButtonPositions"]
+position = Vector2(746, 568)
+
+[node name="ButtonSpawn4" type="Marker2D" parent="PlayerButtonPositions"]
+position = Vector2(338, 588)
+
+[node name="ButtonSpawn5" type="Marker2D" parent="PlayerButtonPositions"]
+position = Vector2(893, 588)
+
+[node name="PlayedObject" parent="." instance=ExtResource("1_symyc")]
+position = Vector2(849, 151)
+
+[node name="Wires" type="Node2D" parent="."]

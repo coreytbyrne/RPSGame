@@ -14,6 +14,13 @@ func _ready() -> void:
 	wire_connection_point = $WireConnection.global_position
 
 
+func toggle_button_disable(is_disabled:bool) -> void:
+	if is_disabled:
+		$Button.disabled = true
+	else:
+		$Button.disabled = false
+
+
 func _on_button_pressed() -> void:
 	player_button_pressed.emit(button_config.object_name, button_config.effect)
 

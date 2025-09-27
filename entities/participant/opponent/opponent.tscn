@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1l3o1il342tx"]
+
+[ext_resource type="Script" uid="uid://be2wisk5e4j55" path="res://entities/participant/opponent/opponent.gd" id="1_8r4vp"]
+
+[node name="Opponent" type="Node2D"]
+script = ExtResource("1_8r4vp")

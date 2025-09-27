@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://bxxd4bter8s1l" path="res://entities/player_buttons/button_configs/rock_button.tres" id="2_kajh2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ondt7"]
-size = Vector2(25, 23)
+size = Vector2(25, 25)
 
 [node name="PlayerButton" type="Node2D"]
 script = ExtResource("1_k4nl3")
@@ -25,11 +25,6 @@ text = "[Button]"
 [node name="WireConnection" type="Area2D" parent="."]
 position = Vector2(48, 18)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WireConnection"]
-position = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_ondt7")
-metadata/_edit_lock_ = true
-
 [node name="PlaceholderWireVisual" type="ColorRect" parent="WireConnection"]
 offset_left = -12.0
 offset_top = -12.0
@@ -37,6 +32,11 @@ offset_right = 13.0
 offset_bottom = 13.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WireConnection"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_ondt7")
 metadata/_edit_lock_ = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

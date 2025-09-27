@@ -27,6 +27,7 @@ func _ready() -> void:
 	right_target.reverted_assignment.connect(update_rule_text.bind(RULE_CHANGE_TYPE.REVERT))
 	right_target.set_initial_assignment(rule_config.right_object)
 
+
 func update_rule_text(rule_type:RULE_CHANGE_TYPE) -> void:
 	var left_assignment:GameplayUtils.OBJECT
 	var effect_assignment:GameplayUtils.EFFECT
@@ -58,3 +59,12 @@ func update_rule_text(rule_type:RULE_CHANGE_TYPE) -> void:
 	# Need to deffer the signal emission b/c emitting blocks until connected nodes finish
 	# running their functions. Hence, we get stuck in a loop
 	(func():SignalBus.rule_updated.emit()).call_deferred()
+
+
+func get_current_rule() -> RuleConfig:
+	var current_rule:RuleConfig = RuleConfig.new()
+	current_rule.left_object = left_target.assignment
+	current_rule.effect = effect_target.assignment
+	current_rule.right_object = right_target.assignment
+	
+	return current_rule

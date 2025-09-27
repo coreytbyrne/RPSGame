@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnftt4hbqswa"]
+[gd_scene load_steps=9 format=3 uid="uid://dnftt4hbqswa"]
 
 [ext_resource type="PackedScene" uid="uid://ef5k8qsi1n2v" path="res://entities/wire/wire.tscn" id="1_pu0m1"]
 [ext_resource type="Script" uid="uid://cbnvbdhqk3ds6" path="res://game_scenes/encounter/encounter.gd" id="1_s1ku8"]
@@ -6,7 +6,8 @@
 [ext_resource type="Resource" uid="uid://dcy8ipl26k8dx" path="res://game_scenes/encounter/encounter_configs/test_encounter.tres" id="3_1kcpe"]
 [ext_resource type="Texture2D" uid="uid://10rsr5wb2ecd" path="res://game_scenes/encounter/temp_background.png" id="4_rutn5"]
 [ext_resource type="PackedScene" uid="uid://3aycb44fsqqk" path="res://game_scenes/encounter/rules_board.tscn" id="6_11x0d"]
-[ext_resource type="PackedScene" uid="uid://bkev045ddgk2m" path="res://entities/played_object/played_object.tscn" id="7_11x0d"]
+[ext_resource type="PackedScene" uid="uid://sq45r4t4q6cs" path="res://entities/participant/player/player.tscn" id="7_1kcpe"]
+[ext_resource type="PackedScene" uid="uid://b1l3o1il342tx" path="res://entities/participant/opponent/opponent.tscn" id="8_1kcpe"]
 
 [node name="Encounter" type="Node2D"]
 script = ExtResource("1_s1ku8")
@@ -26,28 +27,6 @@ offset_right = 250.0
 offset_bottom = 38.0
 text = "Reset Wires"
 
-[node name="PlayerButtonPositions" type="Node2D" parent="."]
-
-[node name="ButtonSpawn1" type="Marker2D" parent="PlayerButtonPositions"]
-position = Vector2(621, 598)
-
-[node name="ButtonSpawn2" type="Marker2D" parent="PlayerButtonPositions"]
-position = Vector2(464, 570)
-
-[node name="ButtonSpawn3" type="Marker2D" parent="PlayerButtonPositions"]
-position = Vector2(746, 568)
-
-[node name="ButtonSpawn4" type="Marker2D" parent="PlayerButtonPositions"]
-position = Vector2(338, 588)
-
-[node name="ButtonSpawn5" type="Marker2D" parent="PlayerButtonPositions"]
-position = Vector2(893, 588)
-
-[node name="PlayedObject" parent="." instance=ExtResource("7_11x0d")]
-position = Vector2(849, 151)
-
-[node name="Wires" type="Node2D" parent="."]
-
 [node name="EndRoundButton" type="Button" parent="."]
 offset_left = 271.0
 offset_top = 6.0
@@ -57,6 +36,13 @@ text = "End Round"
 
 [node name="RuleBoardSpawnPosition" type="Marker2D" parent="."]
 position = Vector2(185, 134)
+
+[node name="Player" parent="." instance=ExtResource("7_1kcpe")]
+participant_name = "Corey"
+
+[node name="Opponent" parent="." instance=ExtResource("8_1kcpe")]
+played_object = 1
+participant_name = "Fynn"
 
 [connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]
 [connection signal="pressed" from="EndRoundButton" to="." method="_on_next_round_button_pressed"]

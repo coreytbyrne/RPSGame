@@ -15,23 +15,25 @@ var hovered_button = null
 func _ready() -> void:
 	# Create the player buttons
 	for count:int in encounter_config.player_buttons.size():
-		var button_position:Marker2D = $PlayerButtonPositions.get_child(count)
+		var button_position:Marker2D = $Player/PlayerButtonPositions.get_child(count)
 		var new_button:PlayerButton = button_scene.instantiate()
 		new_button.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
 		new_button.button_config = encounter_config.player_buttons[count]
 		button_position.add_child(new_button)
 	
-	
+	# Create the Rules Board and give the Resolver a reference to it
 	var rules_board:RulesBoard = rule_board_scene.instantiate()
 	rules_board.rule_configs = encounter_config.rules
+	RuleResolver.rule_board_reference = rules_board
+	
 	$RuleBoardSpawnPosition.add_child(rules_board)
 	rules_board.connect_encounter_to_rule_signals(self)
 	
+	
 	# Connect to Played Object target
-	$PlayedObject.target.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
+	$Player/PlayedObject.target.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
 	
 	remaining_wires = encounter_config.num_player_wires
-
 
 
 func update_hovered_wire_connection(button, is_hovering) -> void:
@@ -45,7 +47,7 @@ func update_hovered_wire_connection(button, is_hovering) -> void:
 func create_wire() -> void:
 	current_wire = wire_scene.instantiate()
 	current_wire.circuit_completed.connect(wire_circuit_completed)
-	$Wires.add_child(current_wire)
+	$Player/Wires.add_child(current_wire)
 
 
 func wire_circuit_completed() -> void:
@@ -75,7 +77,7 @@ func update_current_wire() -> void:
 func remove_wire() -> void:
 	# Don't cut wires while you're drawing a wire
 	if hovered_button != null and current_wire == null:
-		for wire:Wire in $Wires.get_children():
+		for wire:Wire in $Player/Wires.get_children():
 			if wire.connected_button == hovered_button:
 				current_wire = wire
 				wire.disconnect_button()
@@ -89,7 +91,62 @@ func remove_wire() -> void:
 
 
 func resolve_round() -> void:
-	pass
+	# Get the objects that both players have played
+	var player_object:GameplayUtils.OBJECT = $Player/PlayedObject.get_played_object()
+	var opponent_object:GameplayUtils.OBJECT = $Opponent.get_played_object()
+	
+	# Get the current rules
+	var rules:Array[RuleConfig] = $RuleBoardSpawnPosition.get_child(0).get_current_rules()
+	
+	# Check what rules are applicable
+	var applicable_rules:Array[RuleConfig] = get_applicable_rules(player_object, opponent_object, rules)
+	
+	# Resolve the applicable rules
+	if not applicable_rules.is_empty():
+		resolve_rules(player_object, opponent_object, applicable_rules)
+	
+	# Clear current played object
+	$Player/PlayedObject.clear_played_object()
+
+
+func get_applicable_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Array[RuleConfig]) -> Array[RuleConfig]:
+	var applicable_rules:Array[RuleConfig]
+	
+	for rule:RuleConfig in rules:
+		var left_rule:GameplayUtils.OBJECT = rule.left_object
+		var right_rule:GameplayUtils.OBJECT = rule.right_object
+		
+		var is_applicable:bool = (
+			 ( (player_obj == left_rule) and (opponent_obj == right_rule) ) or
+			 ( (player_obj == right_rule) and (opponent_obj == left_rule) )
+			)
+		
+		if is_applicable:
+			applicable_rules.append(rule)
+	
+	return applicable_rules
+
+
+func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Array[RuleConfig]) -> void:
+	for rule:RuleConfig in rules:
+
+		# Check if it is the player or opponent that wins the rule
+		if rule.left_object != rule.right_object:
+			var winner:Participant
+			var loser:Participant
+			if player_obj == rule.left_object:
+				winner = $Player
+				loser = $Opponent
+			else:
+				winner = $Opponent
+				loser = $Player
+			
+			RuleResolver.delegate_rule_resolve(winner, loser, rule.effect)
+			
+		# If the objects are the same, the rule resolution should trigger for both participants.
+		else:
+			RuleResolver.delegate_rule_resolve($Player, $Opponent, rule.effect)
+			RuleResolver.delegate_rule_resolve($Opponent, $Player, rule.effect)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -104,12 +161,12 @@ func _unhandled_input(event: InputEvent) -> void:
 ## TODO: This is for testing only. In practice, there would need to be a more elegant
 ## option to remove a single wire at a time
 func _on_reset_wires_pressed() -> void:
-	for wire:Wire in $Wires.get_children():
+	for wire:Wire in $Player/Wires.get_children():
 		wire.disconnect_button()
 		wire.disconnect_target()
 		wire.queue_free()
 	
-	remaining_wires = encounter_config.num_player_wires
+	remaining_wires = encounter_config.num_player_wires + $Player.wire_count_modifier
 
 
 func _on_next_round_button_pressed() -> void:
@@ -117,9 +174,13 @@ func _on_next_round_button_pressed() -> void:
 	if current_wire != null:
 		return
 	
-	for wire:Wire in $Wires.get_children():
+	for wire:Wire in $Player/Wires.get_children():
 		wire.connected_target.commit_assignment()
 		await SignalBus.rule_updated
-	_on_reset_wires_pressed()
-	
+		
 	resolve_round()
+
+	RuleResolver.next_round()
+	RuleResolver.resolve_futures_round_start()
+	
+	_on_reset_wires_pressed()

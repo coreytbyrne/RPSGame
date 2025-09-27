@@ -24,3 +24,11 @@ func connect_encounter_to_rule_signals(encounter:Encounter) -> void:
 		rule.left_target.mouse_wire_connection_overlap.connect(encounter.update_hovered_wire_connection)
 		rule.effect_target.mouse_wire_connection_overlap.connect(encounter.update_hovered_wire_connection)
 		rule.right_target.mouse_wire_connection_overlap.connect(encounter.update_hovered_wire_connection)
+
+func get_current_rules() -> Array[RuleConfig]:
+	var rules:Array[RuleConfig]
+	
+	for rule:Rule in $Rules.get_children():
+		rules.append(rule.get_current_rule())
+	
+	return rules
