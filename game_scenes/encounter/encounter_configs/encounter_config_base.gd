@@ -11,3 +11,6 @@ class_name EncounterConfig
 @export var opponent_buttons:Array[ButtonConfig]
 ##@export var opponent_personality:OpponentPersonality
 ##@export var opponent_items:Array[Items]
+
+@export_category("Starting Rules")
+@export var rules:Array[RuleConfig]

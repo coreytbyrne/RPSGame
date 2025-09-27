@@ -1,8 +1,10 @@
 extends Node2D
-class_name EncounterScene
+class_name Encounter
 
 @export var wire_scene:PackedScene
 @export var button_scene:PackedScene
+@export var rule_board_scene:PackedScene
+
 @export var encounter_config:EncounterConfig
 
 var remaining_wires:int
@@ -19,11 +21,11 @@ func _ready() -> void:
 		new_button.button_config = encounter_config.player_buttons[count]
 		button_position.add_child(new_button)
 	
-	# Connect to rules targets
-	for rule:Rule in $RulesBoard.get_children():
-		rule.left_target.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
-		rule.effect_target.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
-		rule.right_target.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
+	
+	var rules_board:RulesBoard = rule_board_scene.instantiate()
+	rules_board.rule_configs = encounter_config.rules
+	$RuleBoardSpawnPosition.add_child(rules_board)
+	rules_board.connect_encounter_to_rule_signals(self)
 	
 	# Connect to Played Object target
 	$PlayedObject.target.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
@@ -70,11 +72,33 @@ func update_current_wire() -> void:
 				current_wire.queue_free()
 				remaining_wires = clamp(remaining_wires + 1, 0, encounter_config.num_player_wires)
 
+func remove_wire() -> void:
+	# Don't cut wires while you're drawing a wire
+	if hovered_button != null and current_wire == null:
+		for wire:Wire in $Wires.get_children():
+			if wire.connected_button == hovered_button:
+				current_wire = wire
+				wire.disconnect_button()
+				await SignalBus.rule_updated
+				wire.resume_drawing_wire()
+			elif wire.connected_target == hovered_button:
+				current_wire = wire
+				wire.disconnect_target()
+				await SignalBus.rule_updated
+				wire.resume_drawing_wire()
+
+
+func resolve_round() -> void:
+	pass
+
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_click"):
+	if event.is_action_pressed("select"):
 		# If you're hovering over a button, create a wire
 		update_current_wire()
+	
+	if event.is_action_pressed("deselect"):
+		remove_wire()
 
 
 ## TODO: This is for testing only. In practice, there would need to be a more elegant
@@ -87,9 +111,15 @@ func _on_reset_wires_pressed() -> void:
 	
 	remaining_wires = encounter_config.num_player_wires
 
-## TODO: Need to clear wires after the round
+
 func _on_next_round_button_pressed() -> void:
+	# Ignore a "next round" button press if you're in the middle of drawing a wire
+	if current_wire != null:
+		return
+	
 	for wire:Wire in $Wires.get_children():
 		wire.connected_target.commit_assignment()
+		await SignalBus.rule_updated
+	_on_reset_wires_pressed()
 	
-		
+	resolve_round()

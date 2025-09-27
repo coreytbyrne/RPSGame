@@ -5,13 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://kt2e6gm7ny3v" path="res://entities/player_buttons/player_button.tscn" id="2_s1ku8"]
 [ext_resource type="Resource" uid="uid://dcy8ipl26k8dx" path="res://game_scenes/encounter/encounter_configs/test_encounter.tres" id="3_1kcpe"]
 [ext_resource type="Texture2D" uid="uid://10rsr5wb2ecd" path="res://game_scenes/encounter/temp_background.png" id="4_rutn5"]
-[ext_resource type="PackedScene" uid="uid://57ifw7akmij1" path="res://entities/rule/rule.tscn" id="6_s1ku8"]
+[ext_resource type="PackedScene" uid="uid://3aycb44fsqqk" path="res://game_scenes/encounter/rules_board.tscn" id="6_11x0d"]
 [ext_resource type="PackedScene" uid="uid://bkev045ddgk2m" path="res://entities/played_object/played_object.tscn" id="7_11x0d"]
 
 [node name="Encounter" type="Node2D"]
 script = ExtResource("1_s1ku8")
 wire_scene = ExtResource("1_pu0m1")
 button_scene = ExtResource("2_s1ku8")
+rule_board_scene = ExtResource("6_11x0d")
 encounter_config = ExtResource("3_1kcpe")
 
 [node name="Background" type="Sprite2D" parent="."]
@@ -42,18 +43,6 @@ position = Vector2(338, 588)
 [node name="ButtonSpawn5" type="Marker2D" parent="PlayerButtonPositions"]
 position = Vector2(893, 588)
 
-[node name="RulesBoard" type="Node2D" parent="."]
-position = Vector2(236, 247)
-
-[node name="Rule" parent="RulesBoard" instance=ExtResource("6_s1ku8")]
-position = Vector2(0, -82)
-
-[node name="Rule2" parent="RulesBoard" instance=ExtResource("6_s1ku8")]
-position = Vector2(0, 26)
-
-[node name="Rule3" parent="RulesBoard" instance=ExtResource("6_s1ku8")]
-position = Vector2(0, 138)
-
 [node name="PlayedObject" parent="." instance=ExtResource("7_11x0d")]
 position = Vector2(849, 151)
 
@@ -65,6 +54,9 @@ offset_top = 6.0
 offset_right = 363.0
 offset_bottom = 37.0
 text = "End Round"
+
+[node name="RuleBoardSpawnPosition" type="Marker2D" parent="."]
+position = Vector2(185, 134)
 
 [connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]
 [connection signal="pressed" from="EndRoundButton" to="." method="_on_next_round_button_pressed"]

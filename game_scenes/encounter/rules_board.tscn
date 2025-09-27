@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://3aycb44fsqqk"]
+
+[ext_resource type="Script" uid="uid://cc1e6g0jfdxtq" path="res://game_scenes/encounter/rules_board.gd" id="1_jnthe"]
+[ext_resource type="PackedScene" uid="uid://57ifw7akmij1" path="res://entities/rule/rule.tscn" id="2_qtvto"]
+
+[node name="RulesBoard" type="Node2D"]
+script = ExtResource("1_jnthe")
+rule_scene = ExtResource("2_qtvto")
+
+[node name="RuleSpawnPositions" type="Node2D" parent="."]
+
+[node name="RuleSpawn1" type="Marker2D" parent="RuleSpawnPositions"]
+
+[node name="RuleSpawn2" type="Marker2D" parent="RuleSpawnPositions"]
+position = Vector2(0, 67)
+
+[node name="RuleSpawn3" type="Marker2D" parent="RuleSpawnPositions"]
+position = Vector2(0, 141)
+
+[node name="RuleSpawn4" type="Marker2D" parent="RuleSpawnPositions"]
+position = Vector2(0, 204)
+
+[node name="RuleSpawn5" type="Marker2D" parent="RuleSpawnPositions"]
+position = Vector2(0, 266)
+
+[node name="Rules" type="Node2D" parent="."]

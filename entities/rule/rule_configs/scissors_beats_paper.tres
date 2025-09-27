@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RuleConfig" load_steps=2 format=3 uid="uid://batgj7s71f400"]
+
+[ext_resource type="Script" uid="uid://cfk5nrkdvl5ig" path="res://entities/rule/rule_configs/rule_configs.gd" id="1_41o5q"]
+
+[resource]
+script = ExtResource("1_41o5q")
+left_object = 3
+right_object = 2
+metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"

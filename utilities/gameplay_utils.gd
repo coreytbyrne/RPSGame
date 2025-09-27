@@ -2,6 +2,7 @@ extends Node
 class_name GameplayUtils
 
 enum OBJECT {
+	NONE,
 	ROCK,
 	PAPER,
 	SCISSORS

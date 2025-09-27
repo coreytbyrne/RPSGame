@@ -17,8 +17,10 @@ position = Vector2(108, 0)
 
 [node name="RuleText" type="Label" parent="."]
 custom_minimum_size = Vector2(200, 50)
-offset_left = 24.0
-offset_top = -54.0
-offset_right = 224.0
-offset_bottom = -4.0
+offset_left = -12.0
+offset_top = -63.0
+offset_right = 234.0
+offset_bottom = -13.0
 text = "Rock Beats Paper"
+horizontal_alignment = 1
+vertical_alignment = 1

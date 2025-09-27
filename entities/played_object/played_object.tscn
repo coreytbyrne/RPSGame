@@ -10,6 +10,7 @@ script = ExtResource("1_wbwkq")
 offset_right = 135.0
 offset_bottom = 135.0
 mouse_filter = 2
+color = Color(0.048061915, 0.25097883, 0.26330563, 1)
 
 [node name="ObjectTarget" parent="." instance=ExtResource("1_ff6c1")]
 position = Vector2(70, 112)

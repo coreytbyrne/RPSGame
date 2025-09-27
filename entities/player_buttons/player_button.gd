@@ -4,6 +4,7 @@ class_name PlayerButton
 @export var button_config:ButtonConfig
 
 var wire_connection_point:Vector2
+var is_connected:bool = false
 
 signal player_button_pressed(name:GameplayUtils.OBJECT, effect:GameplayUtils.EFFECT)
 signal mouse_wire_connection_overlap(player_button:PlayerButton, is_hovering:bool)
@@ -11,8 +12,6 @@ signal mouse_wire_connection_overlap(player_button:PlayerButton, is_hovering:boo
 func _ready() -> void:
 	$Button.text = GameplayUtils.get_object_name(button_config.object_name)
 	wire_connection_point = $WireConnection.global_position
-	
-	
 
 
 func _on_button_pressed() -> void:
