@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnftt4hbqswa"]
+[gd_scene load_steps=10 format=3 uid="uid://dnftt4hbqswa"]
 
 [ext_resource type="PackedScene" uid="uid://ef5k8qsi1n2v" path="res://entities/wire/wire.tscn" id="1_pu0m1"]
 [ext_resource type="Script" uid="uid://cbnvbdhqk3ds6" path="res://game_scenes/encounter/encounter.gd" id="1_s1ku8"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://3aycb44fsqqk" path="res://game_scenes/encounter/rules_board.tscn" id="6_11x0d"]
 [ext_resource type="PackedScene" uid="uid://sq45r4t4q6cs" path="res://entities/participant/player/player.tscn" id="7_1kcpe"]
 [ext_resource type="PackedScene" uid="uid://b1l3o1il342tx" path="res://entities/participant/opponent/opponent.tscn" id="8_1kcpe"]
+[ext_resource type="Resource" uid="uid://cjewkgo5pwd1g" path="res://entities/participant/opponent/opponent_preferences/test_opponent_preferences.tres" id="9_fbhgj"]
 
 [node name="Encounter" type="Node2D"]
 script = ExtResource("1_s1ku8")
@@ -41,7 +42,14 @@ position = Vector2(185, 134)
 participant_name = "Corey"
 
 [node name="Opponent" parent="." instance=ExtResource("8_1kcpe")]
+preferences = ExtResource("9_fbhgj")
 played_object = 1
+player_history = Dictionary[int, int]({
+1: 5,
+2: 2,
+3: 0
+})
+health = 5
 participant_name = "Fynn"
 
 [connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]

@@ -3,6 +3,7 @@ class_name Opponent
 
 @export var preferences:OpponentPreferences
 @export var played_object:GameplayUtils.OBJECT
+@export var player_history:Dictionary[GameplayUtils.OBJECT, int]
 
 var buttons:Array[ButtonConfig]
 var default_wire_count:int :
@@ -11,7 +12,33 @@ var default_wire_count:int :
 		current_wire_count = value
 var current_wire_count:int
 var rule_board_reference:RulesBoard
-var player_history:Dictionary[GameplayUtils.OBJECT, int]
+
+
+func choose_actions_to_perform() -> void:
+	var possible_actions:Array[ActionSequence] = generate_rules()
+	
+	# Sort actions
+	evaluate_actions(possible_actions)
+	# Remove suboptimal actions
+	possible_actions = filter_suboptimal_actions(possible_actions)
+	
+	# NOTE: Temp file, just for testing
+	var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
+	for action_set in possible_actions:
+		file.store_string(action_set.to_string())
+	
+	# Choose a random action
+	var chosen_action_sequence:ActionSequence
+	chosen_action_sequence = possible_actions[randi_range(0, possible_actions.size() - 1)]
+	
+	# NOTE: Temp, just for testing
+	file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
+	file.close()
+
+
+func add_to_player_history(player_played_obj:GameplayUtils.OBJECT) -> void:
+	var current_count:int = player_history.get_or_add(player_played_obj, 0)
+	player_history[player_played_obj] = current_count + 1
 
 
 func get_played_object() -> GameplayUtils.OBJECT:
@@ -21,6 +48,24 @@ func get_played_object() -> GameplayUtils.OBJECT:
 func get_current_rules() -> Array[RuleConfig]:
 	return rule_board_reference.get_current_rules()
 
+
+func evaluate_actions(actions:Array[ActionSequence]) -> void:
+	for action:ActionSequence in actions:
+		action.evaluate_action(get_current_rules(), preferences, player_history)
+	
+	actions.sort_custom(func(a:ActionSequence, b:ActionSequence): return a.action_weight > b.action_weight)
+
+
+## This function assumes that the actions are already sorted by action weight
+func filter_suboptimal_actions(actions:Array[ActionSequence]) -> Array[ActionSequence]:
+	var best_weight:float = actions[0].action_weight
+	var filtered_actions:Array[ActionSequence]
+	
+	filtered_actions = actions.filter(
+		(func(action:ActionSequence,filter_weight:float): return action.action_weight == filter_weight
+		).bind(best_weight))
+		
+	return filtered_actions
 
 func generate_rules() -> Array[ActionSequence]:
 	var all_actions:Array[ActionSequence]
@@ -46,6 +91,7 @@ func generate_rules() -> Array[ActionSequence]:
 		
 		all_actions.append_array(temp_sequence)
 		
+	#evaluate_actions(all_actions)
 	return all_actions
 
 
@@ -144,10 +190,6 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 				generate_rule_update_list(right_action_sequences.duplicate(true), next_buttons.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
 
-func evaluate_actions(sequence_list:Array[ActionSequence]) -> void:
-	var prefs
-
-
 ################################################################################
 ## Nested classes for keeping track of actions that the AI may use. 		  ##
 ## Local only to this class													  ##
@@ -157,7 +199,10 @@ class Action:
 
 class ActionSequence:
 	var max_sequence_size:int
+	var action_weight:float
+	
 	var _actions:Array[Action]
+
 	
 	func _init(max_size:int):
 		max_sequence_size = max_size
@@ -184,24 +229,55 @@ class ActionSequence:
 			elif action is RuleEffectAction:
 				rule_ref[action.rule_num].effect = action.update
 	
-	func evalue_action(rule_ref:Array[RuleConfig]) -> void:
+	func evaluate_action(rule_ref:Array[RuleConfig], prefs:OpponentPreferences, player_history:Dictionary[GameplayUtils.OBJECT, int]) -> void:
 		# Duplicate Deep because we don't want to keep overwriting the actual rule resource being used
 		var updated_rule_ref:Array[RuleConfig] = rule_ref.duplicate_deep(Resource.DeepDuplicateMode.DEEP_DUPLICATE_ALL)
 		simulate_rule_updates(updated_rule_ref)
 		
 		# The first action is a sequence is always the object being played
 		var obj_played:GameplayUtils.OBJECT = _actions[0].obj
+		#Base weight
+		var rule_weight:float = 10.0
 		
 		for rule:RuleConfig in updated_rule_ref:
+			var effect_prefs:EffectPreference = prefs.preferences[rule.effect]
+			var player_odds_denom:float = player_history.values().reduce(func(accum, number): return accum + number, 0)
+			var player_odds:float = 1.0
+			
+			# Winning Position
 			if rule.left_object == obj_played:
-				#Evaluate based on left preference
-				pass
+				if player_history.has(rule.right_object):
+					player_odds = (player_history[rule.right_object]/ player_odds_denom)
+				
+				match(effect_prefs.winning_preference):
+					EffectPreference.PREFERENCE.HIGH:
+						rule_weight += 10.0
+					EffectPreference.PREFERENCE.MEDIUM:
+						rule_weight += 5.0
+					EffectPreference.PREFERENCE.LOW:
+						pass
+				
+				rule_weight *= player_odds
+			# Losing Position
 			elif rule.right_object == obj_played:
-				#Evaluate based on right preference
-				pass
+				if player_history.has(rule.left_object):
+					player_odds = (player_history[rule.left_object]/ player_odds_denom)
+					
+				match(effect_prefs.losing_preference):
+					EffectPreference.PREFERENCE.HIGH:
+						rule_weight -= 10.0
+					EffectPreference.PREFERENCE.MEDIUM:
+						rule_weight -= 5.0
+					EffectPreference.PREFERENCE.LOW:
+						pass
+				rule_weight *= player_odds
+				
+		action_weight = snappedf(rule_weight, .001)
+
+		
 		
 	func _to_string() -> String:
-		var print_str:String = ""
+		var print_str:String = "Sequence Weight: %f.\n" % action_weight
 		for count:int in range(_actions.size()):
 			print_str += "Action Number: %d. Action{%s}\n" % [count, _actions[count].to_string()]
 		

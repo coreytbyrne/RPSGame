@@ -183,11 +183,7 @@ func _on_next_round_button_pressed() -> void:
 		wire.connected_target.commit_assignment()
 		await SignalBus.rule_updated
 	
-	var opp_actions:Array[Opponent.ActionSequence] = $Opponent.generate_rules()
-	var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
-	for action_set in opp_actions:
-		file.store_string(action_set.to_string())
-	file.close()
+	$Opponent.choose_actions_to_perform()
 	
 	resolve_round()
 
