@@ -8,6 +8,7 @@ class_name Rule
 @onready var right_target:ObjectTarget = $ObjectTargetRight
 
 enum RULE_CHANGE_TYPE {UPDATE,COMMIT,REVERT}
+enum RULE_TARGET {LEFT, RIGHT, EFFECT}
 
 func _ready() -> void:
 	

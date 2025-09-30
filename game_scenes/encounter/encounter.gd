@@ -24,16 +24,21 @@ func _ready() -> void:
 	# Create the Rules Board and give the Resolver a reference to it
 	var rules_board:RulesBoard = rule_board_scene.instantiate()
 	rules_board.rule_configs = encounter_config.rules
+	
 	RuleResolver.rule_board_reference = rules_board
 	
 	$RuleBoardSpawnPosition.add_child(rules_board)
 	rules_board.connect_encounter_to_rule_signals(self)
 	
-	
 	# Connect to Played Object target
 	$Player/PlayedObject.target.mouse_wire_connection_overlap.connect(update_hovered_wire_connection)
 	
 	remaining_wires = encounter_config.num_player_wires
+	
+	# Setup Opponent dependencies/configs
+	$Opponent.rule_board_reference = rules_board
+	$Opponent.buttons = encounter_config.opponent_buttons
+	$Opponent.default_wire_count = encounter_config.num_opponent_wires
 
 
 func update_hovered_wire_connection(button, is_hovering) -> void:
@@ -177,7 +182,13 @@ func _on_next_round_button_pressed() -> void:
 	for wire:Wire in $Player/Wires.get_children():
 		wire.connected_target.commit_assignment()
 		await SignalBus.rule_updated
-		
+	
+	var opp_actions:Array[Opponent.ActionSequence] = $Opponent.generate_rules()
+	var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
+	for action_set in opp_actions:
+		file.store_string(action_set.to_string())
+	file.close()
+	
 	resolve_round()
 
 	RuleResolver.next_round()
