@@ -32,3 +32,11 @@ func get_current_rules() -> Array[RuleConfig]:
 		rules.append(rule.get_current_rule())
 	
 	return rules
+
+
+func opponent_rule_update(rule_update:Opponent.Action) -> void:
+	var rule_nodes:Array = $Rules.get_children()
+	if rule_update is Opponent.RuleObjectAction:
+		rule_nodes[rule_update.rule_num].opponent_update(rule_update.update_target, rule_update.update)
+	else:
+		rule_nodes[rule_update.rule_num].opponent_update(Rule.RULE_TARGET.EFFECT, rule_update.update)

@@ -22,19 +22,29 @@ func choose_actions_to_perform() -> void:
 	# Remove suboptimal actions
 	possible_actions = filter_suboptimal_actions(possible_actions)
 	
-	# NOTE: Temp file, just for testing
-	var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
-	for action_set in possible_actions:
-		file.store_string(action_set.to_string())
+	## NOTE: Temp file, just for testing
+	#var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
+	#for action_set in possible_actions:
+		#file.store_string(action_set.to_string())
 	
 	# Choose a random action
 	var chosen_action_sequence:ActionSequence
 	chosen_action_sequence = possible_actions[randi_range(0, possible_actions.size() - 1)]
 	
-	# NOTE: Temp, just for testing
-	file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
-	file.close()
+	## NOTE: Temp, just for testing
+	#file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
+	#file.close()
 
+	# Apply the action
+	var actions:Array[Action] = chosen_action_sequence.get_actions()
+	for action:Action in actions:
+		
+		# Play cards
+		if action is PlayAction:
+			played_object = action.obj
+		else:
+			rule_board_reference.opponent_rule_update(action)
+	
 
 func add_to_player_history(player_played_obj:GameplayUtils.OBJECT) -> void:
 	var current_count:int = player_history.get_or_add(player_played_obj, 0)
@@ -207,6 +217,9 @@ class ActionSequence:
 	func _init(max_size:int):
 		max_sequence_size = max_size
 	
+	func get_actions() -> Array[Action]:
+		return _actions
+	
 	func add_action(action:Action) -> void:
 		if _actions.size() < max_sequence_size:
 			_actions.append(action)
@@ -290,6 +303,12 @@ class RuleObjectAction extends Action:
 	var update_target:Rule.RULE_TARGET
 	var update:GameplayUtils.OBJECT
 	
+	func apply_action() -> void:
+		if update_target == Rule.RULE_TARGET.LEFT:
+			rule.left_object = update
+		elif update_target == Rule.RULE_TARGET.RIGHT:
+			rule.right_object = update
+	
 	func _to_string() -> String:
 		var obj_name:String = GameplayUtils.get_object_name(update)
 		return "Object:%s | Rule Num:%d | Target:%s" % [obj_name, rule_num, Rule.RULE_TARGET.keys()[update_target]]
@@ -298,6 +317,9 @@ class RuleEffectAction extends Action:
 	var rule:RuleConfig
 	var rule_num:int
 	var update:GameplayUtils.EFFECT
+	
+	func apply_action() -> void:
+		rule.effect = update
 	
 	func _to_string() -> String:
 		var obj_name:String = GameplayUtils.get_effect_name(update)

@@ -28,6 +28,10 @@ func revert_assignment() -> void:
 	reverted_assignment.emit()
 
 
+func direct_update(new_assignment:GameplayUtils.EFFECT) -> void:
+	temp_assignment = new_assignment
+	commit_assignment()
+
 # Some color/visual change most likely
 func commit_assignment() -> void:
 	assignment = temp_assignment

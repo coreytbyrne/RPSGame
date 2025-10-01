@@ -49,7 +49,6 @@ player_history = Dictionary[int, int]({
 2: 2,
 3: 0
 })
-health = 5
 participant_name = "Fynn"
 
 [connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]
