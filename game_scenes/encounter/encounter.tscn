@@ -39,16 +39,12 @@ text = "End Round"
 position = Vector2(185, 134)
 
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
+health = 3
 participant_name = "Corey"
 
 [node name="Opponent" parent="." instance=ExtResource("8_1kcpe")]
 preferences = ExtResource("9_fbhgj")
-played_object = 1
-player_history = Dictionary[int, int]({
-1: 5,
-2: 2,
-3: 0
-})
+health = 3
 participant_name = "Fynn"
 
 [connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]

@@ -5,13 +5,34 @@ class_name Opponent
 @export var played_object:GameplayUtils.OBJECT
 @export var player_history:Dictionary[GameplayUtils.OBJECT, int]
 
+
 var buttons:Array[ButtonConfig]
+var available_buttons:Array[ButtonConfig]
+var disabled_buttons:Array[ButtonConfig]
+
 var default_wire_count:int :
 	set(value):
 		default_wire_count = value
 		current_wire_count = value
 var current_wire_count:int
 var rule_board_reference:RulesBoard
+
+
+func set_available_buttons(button_list:Array[ButtonConfig]) -> void:
+	available_buttons = button_list
+	buttons = button_list
+
+
+func disable_button(obj:GameplayUtils.OBJECT) -> void:
+	for button:ButtonConfig in available_buttons:
+		if button.object_name == obj:
+			disabled_buttons.append(available_buttons.pop_at(available_buttons.find(button)))
+
+
+func enable_button(obj:GameplayUtils.OBJECT) -> void:
+	for button:ButtonConfig in disabled_buttons:
+		if button.object_name == obj:
+			available_buttons.append(disabled_buttons.pop_at(disabled_buttons.find(button)))
 
 
 func choose_actions_to_perform() -> void:
@@ -30,7 +51,7 @@ func choose_actions_to_perform() -> void:
 	# Choose a random action
 	var chosen_action_sequence:ActionSequence
 	chosen_action_sequence = possible_actions[randi_range(0, possible_actions.size() - 1)]
-	
+	print(chosen_action_sequence)
 	## NOTE: Temp, just for testing
 	#file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
 	#file.close()
@@ -77,11 +98,20 @@ func filter_suboptimal_actions(actions:Array[ActionSequence]) -> Array[ActionSeq
 		
 	return filtered_actions
 
+
 func generate_rules() -> Array[ActionSequence]:
 	var all_actions:Array[ActionSequence]
 	var rule_list:Dictionary[int, Array]
 	
-	for button:ButtonConfig in buttons:
+	if (current_wire_count + wire_count_modifier <= 0) or (available_buttons.size() <= 0 ):
+		var play_object:PlayAction = PlayAction.new()
+		play_object.obj = GameplayUtils.OBJECT.NONE
+
+		var action_sequence:ActionSequence = ActionSequence.new(1)
+		action_sequence.add_action(play_object)
+		return [action_sequence]
+		
+	for button:ButtonConfig in available_buttons:
 		var play_object:PlayAction = PlayAction.new()
 		play_object.obj = button.object_name
 		
@@ -89,8 +119,8 @@ func generate_rules() -> Array[ActionSequence]:
 		action_sequence.add_action(play_object)
 		
 		# Determine Action length	
-		var num_actions:int = mini(current_wire_count - 1, buttons.size() - 1)
-		var remaining_buttons:Array[ButtonConfig] = buttons.duplicate()
+		var num_actions:int = mini(current_wire_count - 1 + wire_count_modifier, available_buttons.size() - 1)
+		var remaining_buttons:Array[ButtonConfig] = available_buttons.duplicate()
 		remaining_buttons.pop_at(remaining_buttons.find(button))
 		
 		for rule_num:int in range(get_current_rules().size()):
@@ -264,11 +294,23 @@ class ActionSequence:
 				
 				match(effect_prefs.winning_preference):
 					EffectPreference.PREFERENCE.HIGH:
-						rule_weight += 10.0
+						rule_weight += prefs.high_weight
 					EffectPreference.PREFERENCE.MEDIUM:
-						rule_weight += 5.0
+						rule_weight += prefs.med_weight
 					EffectPreference.PREFERENCE.LOW:
-						pass
+						rule_weight += prefs.low_weight
+				
+				# Static rules only have a fraction of the weight. This is done to avoid the
+				# Opponent ALWAYS playing into static rules
+				if rule.constant_effect != GameplayUtils.EFFECT.NONE:
+					var const_effect_prefs:EffectPreference = prefs.preferences[rule.effect] 
+					match(const_effect_prefs.winning_preference):
+						EffectPreference.PREFERENCE.HIGH:
+							rule_weight = rule_weight + (prefs.high_weight/2)
+						EffectPreference.PREFERENCE.MEDIUM:
+							rule_weight  = rule_weight + (prefs.med_weight/2)
+						EffectPreference.PREFERENCE.LOW:
+							rule_weight = rule_weight + (prefs.low_weight/2)
 				
 				rule_weight *= player_odds
 			# Losing Position
@@ -278,11 +320,25 @@ class ActionSequence:
 					
 				match(effect_prefs.losing_preference):
 					EffectPreference.PREFERENCE.HIGH:
-						rule_weight -= 10.0
+						rule_weight -= prefs.high_weight
 					EffectPreference.PREFERENCE.MEDIUM:
-						rule_weight -= 5.0
+						rule_weight -= prefs.med_weight
 					EffectPreference.PREFERENCE.LOW:
-						pass
+						rule_weight -= prefs.low_weight
+				
+				# Static rules only have a fraction of the weight. This is done to avoid the
+				# Opponent ALWAYS playing into static rules
+				if rule.constant_effect != GameplayUtils.EFFECT.NONE:
+					var const_effect_prefs:EffectPreference = prefs.preferences[rule.effect] 
+					match(const_effect_prefs.losing_preference):
+						EffectPreference.PREFERENCE.HIGH:
+							rule_weight = rule_weight - (prefs.high_weight/2)
+						EffectPreference.PREFERENCE.MEDIUM:
+							rule_weight  = rule_weight - (prefs.med_weight/2)
+						EffectPreference.PREFERENCE.LOW:
+							rule_weight = rule_weight - (prefs.low_weight/2)
+				
+				
 				rule_weight *= player_odds
 				
 		action_weight = snappedf(rule_weight, .001)
@@ -293,8 +349,6 @@ class ActionSequence:
 		var print_str:String = "Sequence Weight: %f.\n" % action_weight
 		for count:int in range(_actions.size()):
 			print_str += "Action Number: %d. Action{%s}\n" % [count, _actions[count].to_string()]
-		
-		print_str += "---------------------------------------------------------\n"
 		return print_str
 
 class RuleObjectAction extends Action:

@@ -17,10 +17,22 @@ position = Vector2(108, 0)
 
 [node name="RuleText" type="Label" parent="."]
 custom_minimum_size = Vector2(200, 50)
-offset_left = -12.0
-offset_top = -63.0
-offset_right = 234.0
-offset_bottom = -13.0
+offset_left = -10.0
+offset_top = -86.0
+offset_right = 236.0
+offset_bottom = -36.0
 text = "Rock Beats Paper"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RuleConstant" type="RichTextLabel" parent="."]
+offset_left = -10.0
+offset_top = -37.0
+offset_right = 231.0
+offset_bottom = -14.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+bbcode_enabled = true
+text = "[i]Placeholder[/i]"
 horizontal_alignment = 1
 vertical_alignment = 1

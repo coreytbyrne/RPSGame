@@ -13,7 +13,6 @@
 [resource]
 script = ExtResource("2_nn4yx")
 player_buttons = Array[ExtResource("1_2mat3")]([ExtResource("2_ocjs7"), ExtResource("3_ko5nk"), ExtResource("4_ln0t5")])
-num_opponent_wires = 3
-opponent_buttons = Array[ExtResource("1_2mat3")]([ExtResource("2_ocjs7"), ExtResource("3_ko5nk"), ExtResource("4_ln0t5")])
+opponent_buttons = Array[ExtResource("1_2mat3")]([ExtResource("3_ko5nk"), ExtResource("2_ocjs7"), ExtResource("4_ln0t5")])
 rules = Array[ExtResource("5_ko5nk")]([ExtResource("6_v7cu4"), ExtResource("7_y41la"), ExtResource("8_p0vx0")])
 metadata/_custom_type_script = "uid://qhm0afqsyma5"

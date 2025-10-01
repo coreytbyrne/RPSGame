@@ -38,6 +38,8 @@ func delegate_rule_resolve(winner:Participant, loser:Participant, effect:Gamepla
 			snips(winner,loser)
 		GameplayUtils.EFFECT.COPIES:
 			copies(winner,loser)
+		GameplayUtils.EFFECT.NONE:
+			pass
 		_:
 			var effect_string:String = GameplayUtils.get_effect_name(effect)
 			assert(false, "The effect passed does not have a Rule Resolve reference yet. Effect %s" % effect_string)
@@ -56,6 +58,9 @@ func smashes(winner:Participant, loser:Participant) -> void:
 				var button_ref:PlayerButton = wire.connected_button
 				button_ref.toggle_button_disable(true)
 				add_future(rounds_played+2, func():button_ref.toggle_button_disable(false);print("Button Restored"))
+	else:
+		loser.disable_button(loser.played_object)
+		add_future(rounds_played+2, func():loser.enable_button(loser.played_object);print("Opponent Button Restored"))
 	
 
 func snips(winner:Participant, loser:Participant) -> void:

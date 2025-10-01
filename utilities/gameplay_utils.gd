@@ -9,6 +9,7 @@ enum OBJECT {
 }
 
 enum EFFECT {
+	NONE,
 	BEATS,
 	SMASHES,
 	SNIPS,
@@ -20,6 +21,7 @@ static var _effect_text:Dictionary[EFFECT, String] = {
 	EFFECT.SMASHES: "%s smashes %s's button", 
 	EFFECT.SNIPS: "%s snips %s's wire",
 	EFFECT.COPIES: "%s copies the effect of %s",
+	EFFECT.NONE: ""
 }
 
 static func get_object_name(obj:OBJECT) -> String:
@@ -31,7 +33,10 @@ static func get_effect_name(effect:EFFECT) -> String:
 
 
 static func get_effect_text(left_object:OBJECT, effect:EFFECT, right_object:OBJECT) -> String:
-	return _effect_text[effect] % [get_object_name(left_object), get_object_name(right_object)]
+	if effect != EFFECT.NONE:
+		return _effect_text[effect] % [get_object_name(left_object), get_object_name(right_object)]
+	else:
+		return ""
 
 
 static func get_corresponding_effect_from_object(obj:OBJECT) -> EFFECT:

@@ -5,5 +5,7 @@
 [resource]
 script = ExtResource("1_41o5q")
 left_object = 3
+effect = 2
 right_object = 2
+constant_effect = 1
 metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"

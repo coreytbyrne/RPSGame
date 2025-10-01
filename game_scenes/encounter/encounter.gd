@@ -37,7 +37,7 @@ func _ready() -> void:
 	
 	# Setup Opponent dependencies/configs
 	$Opponent.rule_board_reference = rules_board
-	$Opponent.buttons = encounter_config.opponent_buttons
+	$Opponent.set_available_buttons(encounter_config.opponent_buttons)
 	$Opponent.default_wire_count = encounter_config.num_opponent_wires
 
 
@@ -134,7 +134,7 @@ func get_applicable_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayU
 
 func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Array[RuleConfig]) -> void:
 	for rule:RuleConfig in rules:
-
+		print("Rule Triggered: %s\n" % GameplayUtils.get_effect_text(rule.left_object,rule.effect, rule.right_object))
 		# Check if it is the player or opponent that wins the rule
 		if rule.left_object != rule.right_object:
 			var winner:Participant
@@ -147,12 +147,20 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 				loser = $Player
 			
 			RuleResolver.delegate_rule_resolve(winner, loser, rule.effect)
+			RuleResolver.delegate_rule_resolve(winner, loser, rule.constant_effect)
 			
 		# If the objects are the same, the rule resolution should trigger for both participants.
 		else:
 			RuleResolver.delegate_rule_resolve($Player, $Opponent, rule.effect)
+			RuleResolver.delegate_rule_resolve($Player, $Opponent, rule.constant_effect)
 			RuleResolver.delegate_rule_resolve($Opponent, $Player, rule.effect)
+			RuleResolver.delegate_rule_resolve($Opponent, $Player, rule.constant_effect)
 
+func check_if_round_over() -> void:
+	if $Player.health <= 0:
+		print("%s loses" % $Player.participant_name)
+	if $Opponent.health <= 0:
+		print("%s loses" % $Opponent.participant_name)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
@@ -179,15 +187,20 @@ func _on_next_round_button_pressed() -> void:
 	if current_wire != null:
 		return
 	
+	$Opponent.choose_actions_to_perform()
+	
 	for wire:Wire in $Player/Wires.get_children():
 		wire.connected_target.commit_assignment()
 		await SignalBus.rule_updated
-	
-	$Opponent.choose_actions_to_perform()
-	
+	print("You played %s" % [GameplayUtils.get_object_name($Player.played_object.target.assignment)])
+	$Opponent.add_to_player_history($Player/PlayedObject.get_played_object())
+
 	resolve_round()
 
 	RuleResolver.next_round()
 	RuleResolver.resolve_futures_round_start()
 	
+	check_if_round_over()
+	
 	_on_reset_wires_pressed()
+	print("**************************************************************")
