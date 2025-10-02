@@ -31,6 +31,9 @@ func direct_update(new_assignment:GameplayUtils.OBJECT) -> void:
 	temp_assignment = new_assignment
 	commit_assignment()
 
+func is_update_pending() -> bool:
+	return (temp_assignment != assignment)
+
 
 # Some color/visual change most likely
 func commit_assignment() -> void:

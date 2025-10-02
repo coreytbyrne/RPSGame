@@ -36,14 +36,21 @@ func _ready() -> void:
 
 func opponent_update(rule_target:RULE_TARGET, update) -> void:
 	if rule_target == RULE_TARGET.LEFT:
-		left_target.direct_update(update)
+		if left_target.is_update_pending:
+			left_target.revert_assignment()
+		else:
+			left_target.direct_update(update)
 	elif rule_target == RULE_TARGET.RIGHT:
-		right_target.direct_update(update)
+		if right_target.is_update_pending:
+			right_target.revert_assignment()
+		else:
+			right_target.direct_update(update)
 	else:
-		effect_target.direct_update(update)
-	#left_target.set_initial_assignment(new_rule_config.left_object)
-	#right_target.set_initial_assignment(new_rule_config.right_object)
-	#effect_target.set_initial_assignment(new_rule_config.effect)
+		if effect_target.is_update_pending:
+			effect_target.revert_assignment()
+		else:
+			effect_target.direct_update(update)
+
 
 
 func update_rule_text(rule_type:RULE_CHANGE_TYPE) -> void:

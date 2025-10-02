@@ -156,7 +156,7 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 			RuleResolver.delegate_rule_resolve($Opponent, $Player, rule.effect)
 			RuleResolver.delegate_rule_resolve($Opponent, $Player, rule.constant_effect)
 
-func check_if_round_over() -> void:
+func check_if_game_over() -> void:
 	if $Player.health <= 0:
 		print("%s loses" % $Player.participant_name)
 	if $Opponent.health <= 0:
@@ -183,24 +183,46 @@ func _on_reset_wires_pressed() -> void:
 
 
 func _on_next_round_button_pressed() -> void:
+	var player_actions_str:String = ""
+	var opponent_action_str:String = ""
+	
 	# Ignore a "next round" button press if you're in the middle of drawing a wire
 	if current_wire != null:
 		return
 	
-	$Opponent.choose_actions_to_perform()
+	# Opponent chooses their action
+	var opponent_action_sequence:Opponent.ActionSequence = $Opponent.choose_actions_to_perform()
+	$Opponent.apply_actions(opponent_action_sequence)
 	
+	for action:Opponent.Action in opponent_action_sequence.get_actions():
+		if action is Opponent.PlayAction:
+			opponent_action_str += "%s played: %s\n" % [$Opponent.participant_name, GameplayUtils.get_object_name(action.obj)]
+		else:
+			opponent_action_str += "%s updated: %s\n" % [$Opponent.participant_name, action.to_string()]
+	
+	# Check for rule update conflicts
+	
+	
+	# Commit the player changes
 	for wire:Wire in $Player/Wires.get_children():
 		wire.connected_target.commit_assignment()
 		await SignalBus.rule_updated
-	print("You played %s" % [GameplayUtils.get_object_name($Player.played_object.target.assignment)])
+	
+	player_actions_str += "%s played %s\n" % [$Player.participant_name, GameplayUtils.get_object_name($Player.played_object.target.assignment)]
+	$LastRoundHistory.text = "%s\n%s\n\n" % [player_actions_str, opponent_action_str]
+	
 	$Opponent.add_to_player_history($Player/PlayedObject.get_played_object())
-
+	
+	# Resolve the outcome of the cards played, given the new updates
 	resolve_round()
-
+	
+	# Transition to the next round
 	RuleResolver.next_round()
+	
+	# Resolve any "in X round" effects at the beginning of the relevant round
 	RuleResolver.resolve_futures_round_start()
 	
-	check_if_round_over()
+	check_if_game_over()
 	
 	_on_reset_wires_pressed()
 	print("**************************************************************")

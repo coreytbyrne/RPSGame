@@ -47,5 +47,13 @@ preferences = ExtResource("9_fbhgj")
 health = 3
 participant_name = "Fynn"
 
+[node name="LastRoundHistory" type="Label" parent="."]
+offset_left = 753.0
+offset_top = 6.0
+offset_right = 1125.0
+offset_bottom = 148.0
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 2
+
 [connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]
 [connection signal="pressed" from="EndRoundButton" to="." method="_on_next_round_button_pressed"]

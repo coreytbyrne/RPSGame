@@ -35,7 +35,7 @@ func enable_button(obj:GameplayUtils.OBJECT) -> void:
 			available_buttons.append(disabled_buttons.pop_at(disabled_buttons.find(button)))
 
 
-func choose_actions_to_perform() -> void:
+func choose_actions_to_perform() -> ActionSequence:
 	var possible_actions:Array[ActionSequence] = generate_rules()
 	
 	# Sort actions
@@ -56,7 +56,10 @@ func choose_actions_to_perform() -> void:
 	#file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
 	#file.close()
 
-	# Apply the action
+	return chosen_action_sequence
+
+
+func apply_actions(chosen_action_sequence:ActionSequence) -> void:
 	var actions:Array[Action] = chosen_action_sequence.get_actions()
 	for action:Action in actions:
 		
@@ -65,7 +68,7 @@ func choose_actions_to_perform() -> void:
 			played_object = action.obj
 		else:
 			rule_board_reference.opponent_rule_update(action)
-	
+
 
 func add_to_player_history(player_played_obj:GameplayUtils.OBJECT) -> void:
 	var current_count:int = player_history.get_or_add(player_played_obj, 0)
@@ -293,24 +296,32 @@ class ActionSequence:
 					player_odds = (player_history[rule.right_object]/ player_odds_denom)
 				
 				match(effect_prefs.winning_preference):
-					EffectPreference.PREFERENCE.HIGH:
-						rule_weight += prefs.high_weight
-					EffectPreference.PREFERENCE.MEDIUM:
-						rule_weight += prefs.med_weight
-					EffectPreference.PREFERENCE.LOW:
-						rule_weight += prefs.low_weight
+					EffectPreference.PREFERENCE.FIVE:
+						rule_weight += prefs.five_weight
+					EffectPreference.PREFERENCE.FOUR:
+						rule_weight += prefs.four_weight
+					EffectPreference.PREFERENCE.THREE:
+						rule_weight += prefs.three_weight
+					EffectPreference.PREFERENCE.TWO:
+						rule_weight += prefs.two_weight
+					EffectPreference.PREFERENCE.ONE:
+						rule_weight += prefs.one_weight
 				
 				# Static rules only have a fraction of the weight. This is done to avoid the
 				# Opponent ALWAYS playing into static rules
 				if rule.constant_effect != GameplayUtils.EFFECT.NONE:
 					var const_effect_prefs:EffectPreference = prefs.preferences[rule.effect] 
 					match(const_effect_prefs.winning_preference):
-						EffectPreference.PREFERENCE.HIGH:
-							rule_weight = rule_weight + (prefs.high_weight/2)
-						EffectPreference.PREFERENCE.MEDIUM:
-							rule_weight  = rule_weight + (prefs.med_weight/2)
-						EffectPreference.PREFERENCE.LOW:
-							rule_weight = rule_weight + (prefs.low_weight/2)
+						EffectPreference.PREFERENCE.FIVE:
+							rule_weight = rule_weight + (prefs.five_weight/2)
+						EffectPreference.PREFERENCE.FOUR:
+							rule_weight  = rule_weight + (prefs.four_weight/2)
+						EffectPreference.PREFERENCE.THREE:
+							rule_weight = rule_weight + (prefs.three_weight/2)
+						EffectPreference.PREFERENCE.TWO:
+							rule_weight = rule_weight + (prefs.two_weight/2)
+						EffectPreference.PREFERENCE.ONE:
+							rule_weight = rule_weight + (prefs.one_weight/2)
 				
 				rule_weight *= player_odds
 			# Losing Position
@@ -319,24 +330,32 @@ class ActionSequence:
 					player_odds = (player_history[rule.left_object]/ player_odds_denom)
 					
 				match(effect_prefs.losing_preference):
-					EffectPreference.PREFERENCE.HIGH:
-						rule_weight -= prefs.high_weight
-					EffectPreference.PREFERENCE.MEDIUM:
-						rule_weight -= prefs.med_weight
-					EffectPreference.PREFERENCE.LOW:
-						rule_weight -= prefs.low_weight
+					EffectPreference.PREFERENCE.FIVE:
+						rule_weight -= prefs.five_weight
+					EffectPreference.PREFERENCE.FOUR:
+						rule_weight -= prefs.four_weight
+					EffectPreference.PREFERENCE.THREE:
+						rule_weight -= prefs.three_weight
+					EffectPreference.PREFERENCE.TWO:
+						rule_weight -= prefs.two_weight
+					EffectPreference.PREFERENCE.ONE:
+						rule_weight -= prefs.one_weight
 				
 				# Static rules only have a fraction of the weight. This is done to avoid the
 				# Opponent ALWAYS playing into static rules
 				if rule.constant_effect != GameplayUtils.EFFECT.NONE:
 					var const_effect_prefs:EffectPreference = prefs.preferences[rule.effect] 
 					match(const_effect_prefs.losing_preference):
-						EffectPreference.PREFERENCE.HIGH:
-							rule_weight = rule_weight - (prefs.high_weight/2)
-						EffectPreference.PREFERENCE.MEDIUM:
-							rule_weight  = rule_weight - (prefs.med_weight/2)
-						EffectPreference.PREFERENCE.LOW:
-							rule_weight = rule_weight - (prefs.low_weight/2)
+						EffectPreference.PREFERENCE.FIVE:
+							rule_weight = rule_weight - (prefs.five_weight/2)
+						EffectPreference.PREFERENCE.FOUR:
+							rule_weight  = rule_weight - (prefs.four_weight/2)
+						EffectPreference.PREFERENCE.THREE:
+							rule_weight = rule_weight - (prefs.three_weight/2)
+						EffectPreference.PREFERENCE.TWO:
+							rule_weight = rule_weight - (prefs.two_weight/2)
+						EffectPreference.PREFERENCE.ONE:
+							rule_weight = rule_weight - (prefs.one_weight/2)
 				
 				
 				rule_weight *= player_odds
