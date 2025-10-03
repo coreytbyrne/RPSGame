@@ -36,3 +36,6 @@ func direct_update(new_assignment:GameplayUtils.EFFECT) -> void:
 func commit_assignment() -> void:
 	assignment = temp_assignment
 	committed_assignment.emit()
+
+func is_update_pending() -> bool:
+	return (temp_assignment != assignment)
