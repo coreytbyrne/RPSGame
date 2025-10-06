@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3cgosarmpt1o"]
+
+[ext_resource type="Script" uid="uid://g8gmir4b8kvg" path="res://entities/plug/plug.gd" id="1_tlf38"]
+[ext_resource type="Texture2D" uid="uid://dmy8u8t0gg1vo" path="res://icon.svg" id="2_nyyc8"]
+
+[node name="Plug" type="Node2D"]
+script = ExtResource("1_tlf38")
+
+[node name="CartridgePlugSprite" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 0.8696906, 0.22217563, 1)
+scale = Vector2(0.17, 0.17)
+texture = ExtResource("2_nyyc8")
+
+[node name="TargetPlugSprite" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0.29803923, 0, 1)
+scale = Vector2(0.17, 0.17)
+texture = ExtResource("2_nyyc8")

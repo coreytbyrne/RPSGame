@@ -19,11 +19,13 @@ func _ready() -> void:
 		# Connect to the Rules Signals. MUST BE DONE AFTER ADDING TO THE TREE
 		rule_count += 1
 
+
 func connect_encounter_to_rule_signals(encounter:Encounter) -> void:
 	for rule:Rule in $Rules.get_children():
-		rule.left_target.mouse_wire_connection_overlap.connect(encounter.update_hovered_wire_connection)
-		rule.effect_target.mouse_wire_connection_overlap.connect(encounter.update_hovered_wire_connection)
-		rule.right_target.mouse_wire_connection_overlap.connect(encounter.update_hovered_wire_connection)
+		rule.left_target.target_plug_slot_hovered.connect(encounter.update_hovered_target)
+		rule.effect_target.target_plug_slot_hovered.connect(encounter.update_hovered_target)
+		rule.right_target.target_plug_slot_hovered.connect(encounter.update_hovered_target)
+
 
 func get_current_rules() -> Array[RuleConfig]:
 	var rules:Array[RuleConfig]

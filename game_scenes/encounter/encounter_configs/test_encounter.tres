@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="EncounterConfig" load_steps=10 format=3 uid="uid://dcy8ipl26k8dx"]
 
-[ext_resource type="Script" uid="uid://cd8i00kjkmq6c" path="res://entities/player_buttons/button_configs/base_button_config.gd" id="1_2mat3"]
+[ext_resource type="Script" uid="uid://bjdowbdjn3vcg" path="res://entities/cartridge/cartridge_config_base.gd" id="1_v7cu4"]
 [ext_resource type="Script" uid="uid://qhm0afqsyma5" path="res://game_scenes/encounter/encounter_configs/encounter_config_base.gd" id="2_nn4yx"]
-[ext_resource type="Resource" uid="uid://dxyuqq11kmsot" path="res://entities/player_buttons/button_configs/paper_button.tres" id="2_ocjs7"]
-[ext_resource type="Resource" uid="uid://bxxd4bter8s1l" path="res://entities/player_buttons/button_configs/rock_button.tres" id="3_ko5nk"]
-[ext_resource type="Resource" uid="uid://c66oakuj5nobt" path="res://entities/player_buttons/button_configs/scissors_button.tres" id="4_ln0t5"]
+[ext_resource type="Resource" uid="uid://cgl7wwkbxxgc5" path="res://entities/cartridge/configs/rock_cartridge.tres" id="2_y41la"]
+[ext_resource type="Resource" uid="uid://deesxaf4iww38" path="res://entities/cartridge/configs/paper_cartridge.tres" id="3_p0vx0"]
+[ext_resource type="Resource" uid="uid://ksr4gsxd78bf" path="res://entities/cartridge/configs/scissors_cartridge.tres" id="4_p3r7q"]
 [ext_resource type="Script" uid="uid://cfk5nrkdvl5ig" path="res://entities/rule/rule_configs/rule_configs.gd" id="5_ko5nk"]
 [ext_resource type="Resource" uid="uid://bmks6y6boqbnq" path="res://entities/rule/rule_configs/paper_beats_rock.tres" id="6_v7cu4"]
 [ext_resource type="Resource" uid="uid://cdgqxguivf58" path="res://entities/rule/rule_configs/rock_beats_scissors.tres" id="7_y41la"]
@@ -12,7 +12,6 @@
 
 [resource]
 script = ExtResource("2_nn4yx")
-player_buttons = Array[ExtResource("1_2mat3")]([ExtResource("2_ocjs7"), ExtResource("3_ko5nk"), ExtResource("4_ln0t5")])
-opponent_buttons = Array[ExtResource("1_2mat3")]([ExtResource("3_ko5nk"), ExtResource("2_ocjs7"), ExtResource("4_ln0t5")])
+player_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("2_y41la"), ExtResource("3_p0vx0"), ExtResource("4_p3r7q")])
 rules = Array[ExtResource("5_ko5nk")]([ExtResource("6_v7cu4"), ExtResource("7_y41la"), ExtResource("8_p0vx0")])
 metadata/_custom_type_script = "uid://qhm0afqsyma5"

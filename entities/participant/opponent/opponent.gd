@@ -6,33 +6,33 @@ class_name Opponent
 @export var player_history:Dictionary[GameplayUtils.OBJECT, int]
 
 
-var buttons:Array[ButtonConfig]
-var available_buttons:Array[ButtonConfig]
-var disabled_buttons:Array[ButtonConfig]
+var cartridges:Array[CartridgeConfig]
+var available_cartridges:Array[CartridgeConfig]
+var disabled_cartridges:Array[CartridgeConfig]
 
-var default_wire_count:int :
+var default_plug_count:int :
 	set(value):
-		default_wire_count = value
-		current_wire_count = value
-var current_wire_count:int
+		default_plug_count = value
+		current_plug_count = value
+var current_plug_count:int
 var rule_board_reference:RulesBoard
 
 
-func set_available_buttons(button_list:Array[ButtonConfig]) -> void:
-	available_buttons = button_list
-	buttons = button_list
+func set_available_cartridges(cartridge_list:Array[CartridgeConfig]) -> void:
+	available_cartridges = cartridge_list
+	cartridges = cartridge_list
 
 
-func disable_button(obj:GameplayUtils.OBJECT) -> void:
-	for button:ButtonConfig in available_buttons:
-		if button.object_name == obj:
-			disabled_buttons.append(available_buttons.pop_at(available_buttons.find(button)))
+func disable_cartridge(obj:GameplayUtils.OBJECT) -> void:
+	for cartridge:CartridgeConfig in available_cartridges:
+		if cartridge.object_name == obj:
+			disabled_cartridges.append(available_cartridges.pop_at(available_cartridges.find(cartridge)))
 
 
-func enable_button(obj:GameplayUtils.OBJECT) -> void:
-	for button:ButtonConfig in disabled_buttons:
-		if button.object_name == obj:
-			available_buttons.append(disabled_buttons.pop_at(disabled_buttons.find(button)))
+func enable_cartridge(obj:GameplayUtils.OBJECT) -> void:
+	for cartridge:CartridgeConfig in disabled_cartridges:
+		if cartridge.object_name == obj:
+			available_cartridges.append(disabled_cartridges.pop_at(disabled_cartridges.find(cartridge)))
 
 
 func choose_actions_to_perform() -> ActionSequence:
@@ -106,7 +106,7 @@ func generate_rules() -> Array[ActionSequence]:
 	var all_actions:Array[ActionSequence]
 	var rule_list:Dictionary[int, Array]
 	
-	if (current_wire_count + wire_count_modifier <= 0) or (available_buttons.size() <= 0 ):
+	if (current_plug_count + plug_count_modifier <= 0) or (available_cartridges.size() <= 0 ):
 		var play_object:PlayAction = PlayAction.new()
 		play_object.obj = GameplayUtils.OBJECT.NONE
 
@@ -114,23 +114,23 @@ func generate_rules() -> Array[ActionSequence]:
 		action_sequence.add_action(play_object)
 		return [action_sequence]
 		
-	for button:ButtonConfig in available_buttons:
+	for cartridge:CartridgeConfig in available_cartridges:
 		var play_object:PlayAction = PlayAction.new()
-		play_object.obj = button.object_name
+		play_object.obj = cartridge.object_name
 		
 		var action_sequence:ActionSequence = ActionSequence.new(1)
 		action_sequence.add_action(play_object)
 		
 		# Determine Action length	
-		var num_actions:int = mini(current_wire_count - 1 + wire_count_modifier, available_buttons.size() - 1)
-		var remaining_buttons:Array[ButtonConfig] = available_buttons.duplicate()
-		remaining_buttons.pop_at(remaining_buttons.find(button))
+		var num_actions:int = mini(current_plug_count - 1 + plug_count_modifier, available_cartridges.size() - 1)
+		var remaining_cartridges:Array[CartridgeConfig] = available_cartridges.duplicate()
+		remaining_cartridges.pop_at(remaining_cartridges.find(cartridge))
 		
 		for rule_num:int in range(get_current_rules().size()):
 			rule_list[rule_num] = [Rule.RULE_TARGET.LEFT, Rule.RULE_TARGET.RIGHT, Rule.RULE_TARGET.EFFECT]
 			
 		var temp_sequence:Array[ActionSequence]
-		generate_rule_update_list([action_sequence], remaining_buttons, rule_list, num_actions, temp_sequence)
+		generate_rule_update_list([action_sequence], remaining_cartridges, rule_list, num_actions, temp_sequence)
 		
 		all_actions.append_array(temp_sequence)
 		
@@ -138,26 +138,26 @@ func generate_rules() -> Array[ActionSequence]:
 	return all_actions
 
 
-func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remaining_buttons:Array[ButtonConfig], remaining_rules:Dictionary[int,Array], actions_to_add:int, end_list:Array[ActionSequence]) -> void:
+func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remaining_cartridges:Array[CartridgeConfig], remaining_rules:Dictionary[int,Array], actions_to_add:int, end_list:Array[ActionSequence]) -> void:
 	end_list.append_array(action_sequence_list)
 	
 	if actions_to_add <= 0:
 		return
 	
-	for button:ButtonConfig in remaining_buttons:
+	for cartridge:CartridgeConfig in remaining_cartridges:
 		for rule_num:int in remaining_rules.keys():
 			var remaining_rule_targets:Array = remaining_rules[rule_num]
-			var next_buttons:Array[ButtonConfig] = remaining_buttons.duplicate()
-			next_buttons.pop_at(remaining_buttons.find(button))
+			var next_cartridges:Array[CartridgeConfig] = remaining_cartridges.duplicate()
+			next_cartridges.pop_at(remaining_cartridges.find(cartridge))
 			
-			# Generate a future sequence where the current button, current rule, and LEFT are chosen
+			# Generate a future sequence where the current cartridge, current rule, and LEFT are chosen
 			if remaining_rule_targets.has(Rule.RULE_TARGET.LEFT):
 				var new_rule_action:RuleObjectAction
 				new_rule_action = RuleObjectAction.new()
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.LEFT
-				new_rule_action.update = button.object_name
+				new_rule_action.update = cartridge.object_name
 				
 				var remaining_rule_targets_left_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_left_removed.pop_at(remaining_rule_targets_left_removed.find(Rule.RULE_TARGET.LEFT))
@@ -175,16 +175,16 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 					new_action_sequence.add_action(new_rule_action)
 					left_action_sequences.append(new_action_sequence)
 				
-				generate_rule_update_list(left_action_sequences.duplicate(true), next_buttons.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
+				generate_rule_update_list(left_action_sequences.duplicate(true), next_cartridges.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
-# Generate a future sequence where the current button, current rule, and RIGHT are chosen
+# Generate a future sequence where the current cartridge, current rule, and RIGHT are chosen
 			if remaining_rule_targets.has(Rule.RULE_TARGET.RIGHT):
 				var new_rule_action:RuleObjectAction
 				new_rule_action = RuleObjectAction.new()
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.RIGHT
-				new_rule_action.update = button.object_name
+				new_rule_action.update = cartridge.object_name
 				
 				var remaining_rule_targets_right_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_right_removed.pop_at(remaining_rule_targets_right_removed.find(Rule.RULE_TARGET.RIGHT))
@@ -202,17 +202,17 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 					new_action_sequence.add_action(new_rule_action)
 					right_action_sequences.append(new_action_sequence)
 
-				generate_rule_update_list(right_action_sequences.duplicate(true), next_buttons.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
+				generate_rule_update_list(right_action_sequences.duplicate(true), next_cartridges.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
 
-# Generate a future sequence where the current button, current rule, and RIGHT are chosen
+# Generate a future sequence where the current cartridge, current rule, and RIGHT are chosen
 			if remaining_rule_targets.has(Rule.RULE_TARGET.EFFECT):
 				var new_rule_action:RuleObjectAction
 				new_rule_action = RuleObjectAction.new()
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.EFFECT
-				new_rule_action.update = button.object_name
+				new_rule_action.update = cartridge.object_name
 				
 				var remaining_rule_targets_effect_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_effect_removed.pop_at(remaining_rule_targets_effect_removed.find(Rule.RULE_TARGET.EFFECT))
@@ -230,7 +230,7 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 					new_action_sequence.add_action(new_rule_action)
 					right_action_sequences.append(new_action_sequence)
 
-				generate_rule_update_list(right_action_sequences.duplicate(true), next_buttons.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
+				generate_rule_update_list(right_action_sequences.duplicate(true), next_cartridges.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
 
 ################################################################################

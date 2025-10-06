@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://dnftt4hbqswa"]
 
-[ext_resource type="PackedScene" uid="uid://ef5k8qsi1n2v" path="res://entities/wire/wire.tscn" id="1_pu0m1"]
 [ext_resource type="Script" uid="uid://cbnvbdhqk3ds6" path="res://game_scenes/encounter/encounter.gd" id="1_s1ku8"]
-[ext_resource type="PackedScene" uid="uid://kt2e6gm7ny3v" path="res://entities/player_buttons/player_button.tscn" id="2_s1ku8"]
+[ext_resource type="PackedScene" uid="uid://b402i38ah44ec" path="res://entities/cartridge/cartridge.tscn" id="2_fbhgj"]
 [ext_resource type="Resource" uid="uid://dcy8ipl26k8dx" path="res://game_scenes/encounter/encounter_configs/test_encounter.tres" id="3_1kcpe"]
 [ext_resource type="Texture2D" uid="uid://10rsr5wb2ecd" path="res://game_scenes/encounter/temp_background.png" id="4_rutn5"]
+[ext_resource type="PackedScene" uid="uid://b3cgosarmpt1o" path="res://entities/plug/Plug.tscn" id="5_bghur"]
 [ext_resource type="PackedScene" uid="uid://3aycb44fsqqk" path="res://game_scenes/encounter/rules_board.tscn" id="6_11x0d"]
 [ext_resource type="PackedScene" uid="uid://sq45r4t4q6cs" path="res://entities/participant/player/player.tscn" id="7_1kcpe"]
 [ext_resource type="PackedScene" uid="uid://b1l3o1il342tx" path="res://entities/participant/opponent/opponent.tscn" id="8_1kcpe"]
@@ -12,10 +12,10 @@
 
 [node name="Encounter" type="Node2D"]
 script = ExtResource("1_s1ku8")
-wire_scene = ExtResource("1_pu0m1")
-button_scene = ExtResource("2_s1ku8")
+cartridge_scene = ExtResource("2_fbhgj")
 rule_board_scene = ExtResource("6_11x0d")
 encounter_config = ExtResource("3_1kcpe")
+plug_scene = ExtResource("5_bghur")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(637, 361)
@@ -54,6 +54,25 @@ offset_right = 1125.0
 offset_bottom = 148.0
 theme_override_font_sizes/font_size = 12
 autowrap_mode = 2
+
+[node name="CartidgeSpawnPositions" type="Node2D" parent="."]
+
+[node name="Position1" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(227, 613)
+
+[node name="Position2" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(365, 615)
+
+[node name="Position3" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(499, 616)
+
+[node name="Position4" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(649, 619)
+
+[node name="Position5" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(818, 615)
+
+[node name="Plugs" type="Node2D" parent="."]
 
 [connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]
 [connection signal="pressed" from="EndRoundButton" to="." method="_on_next_round_button_pressed"]

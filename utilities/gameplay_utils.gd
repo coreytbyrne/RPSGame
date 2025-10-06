@@ -41,5 +41,5 @@ static func get_effect_text(left_object:OBJECT, effect:EFFECT, right_object:OBJE
 
 static func get_corresponding_effect_from_object(obj:OBJECT) -> EFFECT:
 	var object_name:String = get_object_name(obj).to_lower()
-	var button_config:ButtonConfig = load("res://entities/player_buttons/button_configs/%s_button.tres" % object_name)
+	var button_config:CartridgeConfig = load("res://entities/cartridge/configs/%s_cartridge.tres" % object_name)
 	return button_config.effect

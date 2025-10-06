@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://b402i38ah44ec"]
+
+[ext_resource type="Script" uid="uid://bjbyfel55gw1b" path="res://entities/cartridge/cartridge.gd" id="1_obbsb"]
+[ext_resource type="Resource" uid="uid://deesxaf4iww38" path="res://entities/cartridge/configs/paper_cartridge.tres" id="2_myfmj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_myfmj"]
+size = Vector2(25, 25)
+
+[node name="Cartridge" type="Node2D"]
+script = ExtResource("1_obbsb")
+config = ExtResource("2_myfmj")
+
+[node name="PlaceholderBackground" type="ColorRect" parent="."]
+offset_right = 99.0
+offset_bottom = 99.0
+mouse_filter = 2
+
+[node name="PlugSlot" type="Area2D" parent="."]
+position = Vector2(48, 18)
+
+[node name="PlaceholderWireVisual" type="ColorRect" parent="PlugSlot"]
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 13.0
+offset_bottom = 13.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlugSlot"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_myfmj")
+metadata/_edit_lock_ = true
+
+[node name="CartridgeLabel" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 34.0
+offset_right = 99.0
+offset_bottom = 99.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Placeholder"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="mouse_entered" from="PlugSlot" to="." method="_on_plug_slot_mouse_entered"]
+[connection signal="mouse_exited" from="PlugSlot" to="." method="_on_plug_slot_mouse_exited"]

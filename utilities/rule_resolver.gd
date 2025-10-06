@@ -52,41 +52,41 @@ func beats(winner:Participant, loser:Participant) -> void:
 func smashes(winner:Participant, loser:Participant) -> void:
 	print("%s smashed %s!" % [winner.participant_name, loser.participant_name])
 	
-	if loser is Player:
-		for wire:Wire in loser.wires.get_children():
-			if wire.connected_target == loser.played_object.target:
-				var button_ref:PlayerButton = wire.connected_button
-				button_ref.toggle_button_disable(true)
-				add_future(rounds_played+2, func():button_ref.toggle_button_disable(false);print("Button Restored"))
-	else:
-		loser.disable_button(loser.played_object)
-		add_future(rounds_played+2, func():loser.enable_button(loser.played_object);print("Opponent Button Restored"))
+	#if loser is Player:
+		#for wire:Wire in loser.wires.get_children():
+			#if wire.connected_target == loser.played_object.target:
+				#var button_ref:PlayerButton = wire.connected_button
+				#button_ref.toggle_button_disable(true)
+				#add_future(rounds_played+2, func():button_ref.toggle_button_disable(false);print("Button Restored"))
+	#else:
+		#loser.disable_button(loser.played_object)
+		#add_future(rounds_played+2, func():loser.enable_button(loser.played_object);print("Opponent Button Restored"))
 	
 
 func snips(winner:Participant, loser:Participant) -> void:
 	print("%s snipped %s!" % [winner.participant_name, loser.participant_name])
-	loser.wire_count_modifier -= 1
-	
-	# At the start of 2 rounds from now, restore the wire count modifier
-	# Ex: Currently round 0, Wire count effects round 1, and restored on round 2
-	add_future(rounds_played+2, func():loser.wire_count_modifier += 1;print("Wire Count Restored"))
+	#loser.wire_count_modifier -= 1
+	#
+	## At the start of 2 rounds from now, restore the wire count modifier
+	## Ex: Currently round 0, Wire count effects round 1, and restored on round 2
+	#add_future(rounds_played+2, func():loser.wire_count_modifier += 1;print("Wire Count Restored"))
 
 
 func copies(winner:Participant, loser:Participant) -> void:
 	print("%s copied the effect of %s!" % [winner.participant_name, loser.participant_name])
 	
-	var copy_target:GameplayUtils.OBJECT
-	var effect_to_copy:GameplayUtils.EFFECT
-	
-	if winner is Player:
-		copy_target = loser.played_object
-		
-	else:
-		copy_target = loser.played_object.target.assignment
-
-	# Copy doesn't do anyting if both are paper - need to break in that case to avoid an infinite loop
-	if copy_target == GameplayUtils.OBJECT.PAPER:
-		return
-
-	effect_to_copy = GameplayUtils.get_corresponding_effect_from_object(copy_target)
-	delegate_rule_resolve(winner, loser, effect_to_copy)
+	#var copy_target:GameplayUtils.OBJECT
+	#var effect_to_copy:GameplayUtils.EFFECT
+	#
+	#if winner is Player:
+		#copy_target = loser.played_object
+		#
+	#else:
+		#copy_target = loser.played_object.target.assignment
+#
+	## Copy doesn't do anyting if both are paper - need to break in that case to avoid an infinite loop
+	#if copy_target == GameplayUtils.OBJECT.PAPER:
+		#return
+#
+	#effect_to_copy = GameplayUtils.get_corresponding_effect_from_object(copy_target)
+	#delegate_rule_resolve(winner, loser, effect_to_copy)
