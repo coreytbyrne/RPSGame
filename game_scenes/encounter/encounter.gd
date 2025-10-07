@@ -11,8 +11,8 @@ class_name Encounter
 var remaining_plugs:int
 
 var active_plug:Plug
-var hovered_cartridge = null
-var hovered_plug_target = null
+var hovered_cartridge:Cartridge = null
+var hovered_plug_target:PlugTarget = null
 
 func _ready() -> void:
 	# Init Player details
@@ -37,6 +37,7 @@ func _ready() -> void:
 	rules_board.connect_encounter_to_rule_signals(self)
 	
 	# Connect to Played Object target
+	$PlayedObject.target.target_plug_slot_hovered.connect(update_hovered_target)
 	
 	# Setup Opponent dependencies/configs
 	$Opponent.rule_board_reference = rules_board
@@ -54,24 +55,36 @@ func update_hovered_target(plug_target:PlugTarget) -> void:
 
 
 func plug_in() -> void:
-	if active_plug == null and (player.remaining_plug_count + player.plug_count_modifier > 0):
-		var plug_node:Plug = plug_scene.instantiate()
-		$Plugs.add_child(plug_node)
+	var is_new_plug:bool = false
+	is_new_plug = ( active_plug == null and (player.remaining_plug_count + player.plug_count_modifier > 0) )
+
+	#if active_plug != null:
+	# Check if that cartridge is already occupied by a different plug
+	if hovered_cartridge != null and hovered_cartridge.connected_plug == null:
+		if is_new_plug:
+			var plug_node:Plug = plug_scene.instantiate()
+			$Plugs.add_child(plug_node)
+			
+			player.plugs.append(plug_node)
+			active_plug = plug_node
+			player.remaining_plug_count -= 1
 		
-		player.plugs.append(plug_node)
-		active_plug = plug_node
-		player.remaining_plug_count -= 1
-		
-	if active_plug != null:
-		# A Cartridge and a target cannot both be hovered at the same time
-		if hovered_cartridge != null:
-			active_plug.connect_cartidge(hovered_cartridge)
-		else:
-			active_plug.connect_target(hovered_plug_target)
-		
-		# Once both ends are connected, it should not longer be the active plug
-		if active_plug.is_circuit_complete:
-			active_plug = null
+		active_plug.connect_cartidge(hovered_cartridge)
+	# Check if that cartridge is already occupied by a different plug
+	elif hovered_plug_target != null and hovered_plug_target.connected_plug == null:
+		if is_new_plug:
+			var plug_node:Plug = plug_scene.instantiate()
+			$Plugs.add_child(plug_node)
+			
+			player.plugs.append(plug_node)
+			active_plug = plug_node
+			player.remaining_plug_count -= 1
+		active_plug.connect_target(hovered_plug_target)
+
+	
+	# Once both ends are connected, it should not longer be the active plug
+	if active_plug.is_circuit_complete:
+		active_plug = null
 	
 
 func unplug() -> void:
@@ -84,7 +97,9 @@ func unplug() -> void:
 			active_plug.disconnect_target()
 	else:
 		#TODO: Implement more elegant solution / swapping the plug set being used
-		pass
+		hovered_plug_target = null
+		active_plug.disconnect_cartridge()
+		active_plug.disconnect_target()
 
 #func create_wire() -> void:
 	#current_wire = wire_scene.instantiate()
@@ -204,8 +219,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		if hovered_cartridge != null || hovered_plug_target != null:
 			plug_in()
-		
-	
+		elif hovered_cartridge == null && hovered_plug_target == null && active_plug != null:
+			unplug()
 	if event.is_action_pressed("deselect"):
 		if hovered_cartridge != null || hovered_plug_target != null:
 			unplug()

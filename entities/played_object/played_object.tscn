@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bkev045ddgk2m"]
+
+[ext_resource type="Script" uid="uid://doandyx8jy22k" path="res://played_object.gd" id="1_83m2p"]
+[ext_resource type="PackedScene" uid="uid://chufnjnekqpus" path="res://entities/roller/roller.tscn" id="2_abdi8"]
+[ext_resource type="PackedScene" uid="uid://fij6f1fc1n3b" path="res://entities/plug_target/plug_target.tscn" id="3_3u7fn"]
+
+[node name="PlayedObject" type="Node2D"]
+script = ExtResource("1_83m2p")
+
+[node name="Roller" parent="." instance=ExtResource("2_abdi8")]
+
+[node name="PlugTarget" parent="." instance=ExtResource("3_3u7fn")]
+position = Vector2(0, 41)

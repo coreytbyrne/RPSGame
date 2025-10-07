@@ -66,7 +66,8 @@ func next_round() -> void:
 
 func stop_data_transfer() -> void:
 	is_circuit_complete = false
-	connected_target.incoming_data = null
+	if connected_target != null:
+		connected_target.incoming_data = null
 
 
 func disconnect_cartridge() -> void:
