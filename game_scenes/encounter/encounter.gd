@@ -55,101 +55,57 @@ func update_hovered_target(plug_target:PlugTarget) -> void:
 
 
 func plug_in() -> void:
+	
 	var is_new_plug:bool = false
 	is_new_plug = ( active_plug == null and (player.remaining_plug_count + player.plug_count_modifier > 0) )
-
-	#if active_plug != null:
-	# Check if that cartridge is already occupied by a different plug
-	if hovered_cartridge != null and hovered_cartridge.connected_plug == null:
-		if is_new_plug:
-			var plug_node:Plug = plug_scene.instantiate()
-			$Plugs.add_child(plug_node)
-			
-			player.plugs.append(plug_node)
-			active_plug = plug_node
-			player.remaining_plug_count -= 1
-		
-		active_plug.connect_cartidge(hovered_cartridge)
-	# Check if that cartridge is already occupied by a different plug
-	elif hovered_plug_target != null and hovered_plug_target.connected_plug == null:
-		if is_new_plug:
-			var plug_node:Plug = plug_scene.instantiate()
-			$Plugs.add_child(plug_node)
-			
-			player.plugs.append(plug_node)
-			active_plug = plug_node
-			player.remaining_plug_count -= 1
-		active_plug.connect_target(hovered_plug_target)
-
 	
-	# Once both ends are connected, it should not longer be the active plug
-	if active_plug.is_circuit_complete:
-		active_plug = null
+	if is_new_plug:
+		var plug_node:Plug = plug_scene.instantiate()
+		$Plugs.add_child(plug_node)
+		
+		player.plugs.append(plug_node)
+		active_plug = plug_node
+		player.remaining_plug_count -= 1
+
+	if active_plug != null:
+		# Check if that cartridge is already occupied by a different plug
+		if hovered_cartridge != null and hovered_cartridge.connected_plug == null:
+			active_plug.connect_cartidge(hovered_cartridge)
+		# Check if that cartridge is already occupied by a different plug
+		elif hovered_plug_target != null and hovered_plug_target.connected_plug == null:
+			active_plug.connect_target(hovered_plug_target)
+
+		# Once both ends are connected, it should not longer be the active plug
+		if active_plug.is_circuit_complete:
+			active_plug = null
 	
 
 func unplug() -> void:
 	if active_plug == null:
+		
 		if hovered_cartridge != null:
 			active_plug = hovered_cartridge.connected_plug
-			active_plug.disconnect_cartridge()
-		else:
+			if active_plug != null:
+				active_plug = active_plug.disconnect_cartridge()
+				if active_plug == null:
+					player.remaining_plug_count += 1
+					
+		if hovered_plug_target != null:
 			active_plug = hovered_plug_target.connected_plug
-			active_plug.disconnect_target()
+			if active_plug != null:
+				active_plug = active_plug.disconnect_target()
+				if active_plug == null:
+					player.remaining_plug_count += 1
+
 	else:
-		#TODO: Implement more elegant solution / swapping the plug set being used
-		hovered_plug_target = null
-		active_plug.disconnect_cartridge()
-		active_plug.disconnect_target()
-
-#func create_wire() -> void:
-	#current_wire = wire_scene.instantiate()
-	#current_wire.circuit_completed.connect(wire_circuit_completed)
-	#$Player/Wires.add_child(current_wire)
-#
-#
-#func wire_circuit_completed() -> void:
-	#current_wire = null
-
-
-#func update_current_wire() -> void:
-	#if hovered_cartridge != null:
-		## Create a new wire if you aren't currently drawing a wire and you have wires to spare
-		#if current_wire == null and remaining_wires > 0:
-			#remaining_wires -= 1
-			#create_wire()
-		#
-		## If you have a current wire being drawn, then update. 
-		#if current_wire != null:
-			#if hovered_cartridge is PlayerButton:
-				#current_wire.connect_cartridge(hovered_cartridge)
-			#elif hovered_cartridge is Target:
-				#current_wire.connect_target(hovered_cartridge)
-	#
-	#else:
-			#if current_wire != null:
-				#current_wire.disconnect_button()
-				#current_wire.queue_free()
-				#remaining_wires = clamp(remaining_wires + 1, 0, encounter_config.num_player_wires)
-#
-#func remove_wire() -> void:
-	## Don't cut wires while you're drawing a wire
-	#if hovered_button != null and current_wire == null:
-		#for wire:Wire in $Player/Wires.get_children():
-			#if wire.connected_button == hovered_button:
-				#current_wire = wire
-				#wire.disconnect_button()
-				#await SignalBus.rule_updated
-				#wire.resume_drawing_wire()
-			#elif wire.connected_target == hovered_button:
-				#current_wire = wire
-				#wire.disconnect_target()
-				#await SignalBus.rule_updated
-				#wire.resume_drawing_wire()
+		active_plug.destroy_plug()
+		active_plug = null
+		player.remaining_plug_count += 1
 
 
 func resolve_round() -> void:
 	# Get the objects that both players have played
-	var player_object:GameplayUtils.OBJECT = $Player/PlayedObject.get_played_object()
+	var player_object:GameplayUtils.OBJECT = $PlayedObject.played_object
 	var opponent_object:GameplayUtils.OBJECT = $Opponent.get_played_object()
 	
 	# Get the current rules
@@ -163,7 +119,8 @@ func resolve_round() -> void:
 		resolve_rules(player_object, opponent_object, applicable_rules)
 	
 	# Clear current played object
-	$Player/PlayedObject.clear_played_object()
+	#$Player/PlayedObject.clear_played_object()
+	$PlayedObject.played_object_updated(null)
 
 
 func get_applicable_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Array[RuleConfig]) -> Array[RuleConfig]:
@@ -217,12 +174,12 @@ func check_if_game_over() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
-		if hovered_cartridge != null || hovered_plug_target != null:
+		if hovered_cartridge != null or hovered_plug_target != null:
 			plug_in()
-		elif hovered_cartridge == null && hovered_plug_target == null && active_plug != null:
+		elif hovered_cartridge == null and hovered_plug_target == null and active_plug != null:
 			unplug()
 	if event.is_action_pressed("deselect"):
-		if hovered_cartridge != null || hovered_plug_target != null:
+		if (hovered_cartridge != null or hovered_plug_target != null) and active_plug == null:
 			unplug()
 
 
@@ -239,8 +196,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_next_round_button_pressed() -> void:
-	var player_actions_str:String = ""
-	var opponent_action_str:String = ""
+	#var player_actions_str:String = ""
+	#var opponent_action_str:String = ""
 	
 	# Ignore a "next round" button press if you're in the middle of drawing a wire
 	#if current_wire != null:
@@ -252,9 +209,11 @@ func _on_next_round_button_pressed() -> void:
 	
 	for action:Opponent.Action in opponent_action_sequence.get_actions():
 		if action is Opponent.PlayAction:
-			opponent_action_str += "%s played: %s\n" % [$Opponent.participant_name, GameplayUtils.get_object_name(action.obj)]
+			#opponent_action_str += "%s played: %s\n" % [$Opponent.participant_name, GameplayUtils.get_object_name(action.obj)]
+			$EnemyPlayedObject.played_object_updated(GameplayUtils.get_config_from_object(action.obj))
 		else:
-			opponent_action_str += "%s updated: %s\n" % [$Opponent.participant_name, action.to_string()]
+			pass
+			#opponent_action_str += "%s updated: %s\n" % [$Opponent.participant_name, action.to_string()]
 	
 	# Check for rule update conflicts
 	
@@ -264,10 +223,11 @@ func _on_next_round_button_pressed() -> void:
 		#wire.connected_target.commit_assignment()
 		#await SignalBus.rule_updated
 	
-	player_actions_str += "%s played %s\n" % [$Player.participant_name, GameplayUtils.get_object_name($Player.played_object.target.assignment)]
-	$LastRoundHistory.text = "%s\n%s\n\n" % [player_actions_str, opponent_action_str]
+	#player_actions_str += "%s played %s\n" % [$Player.participant_name, GameplayUtils.get_object_name($Player.played_object.target.assignment)]
+	#$LastRoundHistory.text = "%s\n%s\n\n" % [player_actions_str, opponent_action_str]
 	
-	$Opponent.add_to_player_history($Player/PlayedObject.get_played_object())
+	
+	$Opponent.add_to_player_history($PlayedObject.played_object)
 	
 	# Resolve the outcome of the cards played, given the new updates
 	resolve_round()

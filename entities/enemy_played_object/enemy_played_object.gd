@@ -1,13 +1,11 @@
 extends Node2D
-class_name PlayedObject
+class_name EnemyPlayedObject
 
-@onready var target:PlugTarget = $PlugTarget
 @onready var roller:Roller = $Roller
 var played_object:GameplayUtils.OBJECT
 
-
 func _ready() -> void:
-	target.data_updated.connect(played_object_updated)
+	played_object_updated(null)
 	played_object = GameplayUtils.OBJECT.NONE
 
 
@@ -21,6 +19,6 @@ func played_object_updated(data:CartridgeConfig) -> void:
 	else:
 		update_text = GameplayUtils.get_object_name(data.object)
 		played_object = data.object
+	
 	#if not roller.is_roller_display_matching(update_text):
 	roller.roll(update_text)
-	

@@ -25,13 +25,13 @@ func set_available_cartridges(cartridge_list:Array[CartridgeConfig]) -> void:
 
 func disable_cartridge(obj:GameplayUtils.OBJECT) -> void:
 	for cartridge:CartridgeConfig in available_cartridges:
-		if cartridge.object_name == obj:
+		if cartridge.object == obj:
 			disabled_cartridges.append(available_cartridges.pop_at(available_cartridges.find(cartridge)))
 
 
 func enable_cartridge(obj:GameplayUtils.OBJECT) -> void:
 	for cartridge:CartridgeConfig in disabled_cartridges:
-		if cartridge.object_name == obj:
+		if cartridge.object == obj:
 			available_cartridges.append(disabled_cartridges.pop_at(disabled_cartridges.find(cartridge)))
 
 
@@ -116,7 +116,7 @@ func generate_rules() -> Array[ActionSequence]:
 		
 	for cartridge:CartridgeConfig in available_cartridges:
 		var play_object:PlayAction = PlayAction.new()
-		play_object.obj = cartridge.object_name
+		play_object.obj = cartridge.object
 		
 		var action_sequence:ActionSequence = ActionSequence.new(1)
 		action_sequence.add_action(play_object)
@@ -157,7 +157,7 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.LEFT
-				new_rule_action.update = cartridge.object_name
+				new_rule_action.update = cartridge.object
 				
 				var remaining_rule_targets_left_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_left_removed.pop_at(remaining_rule_targets_left_removed.find(Rule.RULE_TARGET.LEFT))
@@ -184,7 +184,7 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.RIGHT
-				new_rule_action.update = cartridge.object_name
+				new_rule_action.update = cartridge.object
 				
 				var remaining_rule_targets_right_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_right_removed.pop_at(remaining_rule_targets_right_removed.find(Rule.RULE_TARGET.RIGHT))
@@ -212,7 +212,7 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.EFFECT
-				new_rule_action.update = cartridge.object_name
+				new_rule_action.update = cartridge.object
 				
 				var remaining_rule_targets_effect_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_effect_removed.pop_at(remaining_rule_targets_effect_removed.find(Rule.RULE_TARGET.EFFECT))

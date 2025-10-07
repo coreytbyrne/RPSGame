@@ -70,19 +70,43 @@ func stop_data_transfer() -> void:
 		connected_target.incoming_data = null
 
 
-func disconnect_cartridge() -> void:
+func destroy_plug() -> void:
+	stop_data_transfer()
+	connected_cartridge = null
+	connected_target = null
+	
+	cart_plug_sprite.visible = false
+	target_plug_sprite.visible = false
+	mouse_follow_sprite = null
+	queue_free()
+
+
+func disconnect_cartridge() -> Plug:
+	connected_cartridge.connected_plug = null
+	
 	connected_cartridge = null
 	cart_plug_sprite.visible = false
 	stop_data_transfer()
 	
 	if connected_target != null:
 		mouse_follow_sprite = cart_plug_sprite
+	else:
+		# Nothing is connected, destroy the plug
+		queue_free()
+		return null
+	return self
 
-
-func disconnect_target() -> void: 
+## Returns true if the plug is still valid, false if it has been destroyed
+func disconnect_target() -> Plug:
 	stop_data_transfer()
 	target_plug_sprite.visible = false
+	connected_target.connected_plug = null
 	connected_target = null
 	
 	if connected_cartridge != null:
 		mouse_follow_sprite = target_plug_sprite
+	else:
+		# Nothing is connected, destroy the plug
+		queue_free()
+		return null
+	return self

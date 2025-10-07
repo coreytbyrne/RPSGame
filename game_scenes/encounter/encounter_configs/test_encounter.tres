@@ -13,5 +13,6 @@
 [resource]
 script = ExtResource("2_nn4yx")
 player_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("2_y41la"), ExtResource("3_p0vx0"), ExtResource("4_p3r7q")])
+opponent_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("2_y41la"), ExtResource("3_p0vx0"), ExtResource("4_p3r7q")])
 rules = Array[ExtResource("5_ko5nk")]([ExtResource("6_v7cu4"), ExtResource("7_y41la"), ExtResource("8_p0vx0")])
 metadata/_custom_type_script = "uid://qhm0afqsyma5"

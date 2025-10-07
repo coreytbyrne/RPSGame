@@ -38,6 +38,10 @@ static func get_effect_text(left_object:OBJECT, effect:EFFECT, right_object:OBJE
 	else:
 		return ""
 
+static func get_config_from_object(obj:OBJECT) -> CartridgeConfig:
+	var object_name:String = get_object_name(obj).to_lower()
+	var cart_config:CartridgeConfig = load("res://entities/cartridge/configs/%s_cartridge.tres" % object_name)
+	return cart_config
 
 static func get_corresponding_effect_from_object(obj:OBJECT) -> EFFECT:
 	var object_name:String = get_object_name(obj).to_lower()
