@@ -1,38 +1,52 @@
-[gd_scene load_steps=4 format=3 uid="uid://57ifw7akmij1"]
+[gd_scene load_steps=7 format=3 uid="uid://57ifw7akmij1"]
 
-[ext_resource type="PackedScene" uid="uid://cor0yoq331lb2" path="res://entities/targets/object_target.tscn" id="1_6o08g"]
 [ext_resource type="Script" uid="uid://20mp2ubdxjf0" path="res://entities/rule/rule.gd" id="1_v7cnk"]
-[ext_resource type="PackedScene" uid="uid://8nv0iiu53ro4" path="res://entities/targets/effect_target.tscn" id="3_kn5j0"]
+[ext_resource type="Resource" uid="uid://cdgqxguivf58" path="res://entities/rule/rule_configs/rock_beats_scissors.tres" id="2_6ep3v"]
+[ext_resource type="PackedScene" uid="uid://fij6f1fc1n3b" path="res://entities/plug_target/plug_target.tscn" id="4_6ep3v"]
+[ext_resource type="PackedScene" uid="uid://chufnjnekqpus" path="res://entities/roller/roller.tscn" id="4_kn5j0"]
+[ext_resource type="Texture2D" uid="uid://c8vcpi7u0e3e3" path="res://entities/rule/assets/RuleConstantSlate.png" id="5_6ep3v"]
+[ext_resource type="Texture2D" uid="uid://dmy8u8t0gg1vo" path="res://icon.svg" id="6_qfgrd"]
 
 [node name="Rule" type="Node2D"]
 script = ExtResource("1_v7cnk")
+rule_config = ExtResource("2_6ep3v")
 
-[node name="ObjectTargetLeft" parent="." instance=ExtResource("1_6o08g")]
+[node name="LeftRoller" parent="." instance=ExtResource("4_kn5j0")]
+position = Vector2(62, 0)
 
-[node name="ObjectTargetRight" parent="." instance=ExtResource("1_6o08g")]
-position = Vector2(220, 0)
+[node name="EffectRoller" parent="." instance=ExtResource("4_kn5j0")]
+position = Vector2(194, 0)
 
-[node name="EffectTarget" parent="." instance=ExtResource("3_kn5j0")]
-position = Vector2(108, 0)
+[node name="RightRoller" parent="." instance=ExtResource("4_kn5j0")]
+position = Vector2(324, 0)
 
-[node name="RuleText" type="Label" parent="."]
-custom_minimum_size = Vector2(200, 50)
-offset_left = -10.0
-offset_top = -86.0
-offset_right = 236.0
-offset_bottom = -36.0
-text = "Rock Beats Paper"
+[node name="StaticRule" type="Sprite2D" parent="."]
+position = Vector2(194, 44)
+texture = ExtResource("5_6ep3v")
+
+[node name="Text" type="Label" parent="StaticRule"]
+offset_left = -46.0
+offset_top = -12.0
+offset_right = 46.0
+offset_bottom = 11.0
+theme_override_colors/font_color = Color(0.9843137, 0.9607843, 0.9372549, 1)
+theme_override_font_sizes/font_size = 12
+text = "Text"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="RuleConstant" type="RichTextLabel" parent="."]
-offset_left = -10.0
-offset_top = -37.0
-offset_right = 231.0
-offset_bottom = -14.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-bbcode_enabled = true
-text = "[i]Placeholder[/i]"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="LeftTarget" parent="." instance=ExtResource("4_6ep3v")]
+
+[node name="EffectTarget" parent="." instance=ExtResource("4_6ep3v")]
+position = Vector2(131, 0)
+
+[node name="RightTarget" parent="." instance=ExtResource("4_6ep3v")]
+position = Vector2(262, 0)
+
+[node name="RuleActive" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(18.892157, 0, 0, 1)
+position = Vector2(383.99997, 0)
+scale = Vector2(0.09226, 0.28516)
+texture = ExtResource("6_qfgrd")

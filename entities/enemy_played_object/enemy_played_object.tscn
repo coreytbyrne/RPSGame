@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw647tm05jqff"]
+
+[ext_resource type="Script" uid="uid://bplpsvnwsxnfq" path="res://entities/enemy_played_object/enemy_played_object.gd" id="1_w5lgn"]
+[ext_resource type="PackedScene" uid="uid://chufnjnekqpus" path="res://entities/roller/roller.tscn" id="1_xxhwh"]
+
+[node name="EnemyPlayedObject" type="Node2D"]
+script = ExtResource("1_w5lgn")
+
+[node name="Roller" parent="." instance=ExtResource("1_xxhwh")]

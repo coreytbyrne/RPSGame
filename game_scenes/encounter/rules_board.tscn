@@ -1,26 +1,31 @@
-[gd_scene load_steps=3 format=3 uid="uid://3aycb44fsqqk"]
+[gd_scene load_steps=7 format=3 uid="uid://3aycb44fsqqk"]
 
 [ext_resource type="Script" uid="uid://cc1e6g0jfdxtq" path="res://game_scenes/encounter/rules_board.gd" id="1_jnthe"]
 [ext_resource type="PackedScene" uid="uid://57ifw7akmij1" path="res://entities/rule/rule.tscn" id="2_qtvto"]
+[ext_resource type="Script" uid="uid://cfk5nrkdvl5ig" path="res://entities/rule/rule_configs/rule_configs.gd" id="3_ivdpk"]
+[ext_resource type="Resource" uid="uid://bmks6y6boqbnq" path="res://entities/rule/rule_configs/paper_beats_rock.tres" id="4_l7fxn"]
+[ext_resource type="Resource" uid="uid://cdgqxguivf58" path="res://entities/rule/rule_configs/rock_beats_scissors.tres" id="5_1ov7j"]
+[ext_resource type="Resource" uid="uid://batgj7s71f400" path="res://entities/rule/rule_configs/scissors_beats_paper.tres" id="6_lfj2f"]
 
 [node name="RulesBoard" type="Node2D"]
 script = ExtResource("1_jnthe")
 rule_scene = ExtResource("2_qtvto")
+rule_configs = Array[ExtResource("3_ivdpk")]([ExtResource("4_l7fxn"), ExtResource("5_1ov7j"), ExtResource("6_lfj2f")])
 
 [node name="RuleSpawnPositions" type="Node2D" parent="."]
 
 [node name="RuleSpawn1" type="Marker2D" parent="RuleSpawnPositions"]
 
 [node name="RuleSpawn2" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 109)
+position = Vector2(0, 100)
 
 [node name="RuleSpawn3" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 227)
+position = Vector2(0, 201)
 
 [node name="RuleSpawn4" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 331)
+position = Vector2(0, 302)
 
 [node name="RuleSpawn5" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 444)
+position = Vector2(0, 400)
 
 [node name="Rules" type="Node2D" parent="."]

@@ -15,19 +15,19 @@ metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 
 [sub_resource type="Resource" id="Resource_odsj0"]
 script = ExtResource("1_mkm0v")
-winning_preference = 4
+winning_preference = 1
 losing_preference = 4
 metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 
 [sub_resource type="Resource" id="Resource_u0kst"]
 script = ExtResource("1_mkm0v")
 winning_preference = 2
-losing_preference = 1
+losing_preference = 2
 metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 
 [sub_resource type="Resource" id="Resource_j5vjf"]
 script = ExtResource("1_mkm0v")
-winning_preference = 1
+winning_preference = 4
 metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 
 [resource]
@@ -39,4 +39,5 @@ preferences = Dictionary[int, ExtResource("1_mkm0v")]({
 3: SubResource("Resource_u0kst"),
 4: SubResource("Resource_j5vjf")
 })
+optimality = 0.8
 metadata/_custom_type_script = "uid://vlb3j2bnlpgq"

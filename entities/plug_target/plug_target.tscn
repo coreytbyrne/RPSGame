@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://fij6f1fc1n3b"]
+
+[ext_resource type="Script" uid="uid://cirs4syy6rr1" path="res://entities/plug_target/plug_target.gd" id="1_mpt51"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jwbup"]
+size = Vector2(25, 25)
+
+[node name="PlugTarget" type="Node2D"]
+script = ExtResource("1_mpt51")
+
+[node name="PlugSlot" type="Area2D" parent="."]
+
+[node name="PlaceholderWireVisual" type="ColorRect" parent="PlugSlot"]
+offset_left = -13.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 13.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlugSlot"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_jwbup")
+metadata/_edit_lock_ = true
+
+[connection signal="mouse_entered" from="PlugSlot" to="." method="_on_plug_slot_mouse_entered"]
+[connection signal="mouse_exited" from="PlugSlot" to="." method="_on_plug_slot_mouse_exited"]

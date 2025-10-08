@@ -1,32 +1,46 @@
-[gd_scene load_steps=10 format=3 uid="uid://dnftt4hbqswa"]
+[gd_scene load_steps=12 format=3 uid="uid://dnftt4hbqswa"]
 
-[ext_resource type="PackedScene" uid="uid://ef5k8qsi1n2v" path="res://entities/wire/wire.tscn" id="1_pu0m1"]
 [ext_resource type="Script" uid="uid://cbnvbdhqk3ds6" path="res://game_scenes/encounter/encounter.gd" id="1_s1ku8"]
-[ext_resource type="PackedScene" uid="uid://kt2e6gm7ny3v" path="res://entities/player_buttons/player_button.tscn" id="2_s1ku8"]
+[ext_resource type="PackedScene" uid="uid://b402i38ah44ec" path="res://entities/cartridge/cartridge.tscn" id="2_fbhgj"]
 [ext_resource type="Resource" uid="uid://dcy8ipl26k8dx" path="res://game_scenes/encounter/encounter_configs/test_encounter.tres" id="3_1kcpe"]
 [ext_resource type="Texture2D" uid="uid://10rsr5wb2ecd" path="res://game_scenes/encounter/temp_background.png" id="4_rutn5"]
+[ext_resource type="PackedScene" uid="uid://b3cgosarmpt1o" path="res://entities/plug/Plug.tscn" id="5_bghur"]
 [ext_resource type="PackedScene" uid="uid://3aycb44fsqqk" path="res://game_scenes/encounter/rules_board.tscn" id="6_11x0d"]
 [ext_resource type="PackedScene" uid="uid://sq45r4t4q6cs" path="res://entities/participant/player/player.tscn" id="7_1kcpe"]
 [ext_resource type="PackedScene" uid="uid://b1l3o1il342tx" path="res://entities/participant/opponent/opponent.tscn" id="8_1kcpe"]
 [ext_resource type="Resource" uid="uid://cjewkgo5pwd1g" path="res://entities/participant/opponent/opponent_preferences/test_opponent_preferences.tres" id="9_fbhgj"]
+[ext_resource type="PackedScene" uid="uid://bkev045ddgk2m" path="res://entities/played_object/played_object.tscn" id="10_bghur"]
+[ext_resource type="PackedScene" uid="uid://bw647tm05jqff" path="res://entities/enemy_played_object/enemy_played_object.tscn" id="11_wkw02"]
 
 [node name="Encounter" type="Node2D"]
 script = ExtResource("1_s1ku8")
-wire_scene = ExtResource("1_pu0m1")
-button_scene = ExtResource("2_s1ku8")
+cartridge_scene = ExtResource("2_fbhgj")
 rule_board_scene = ExtResource("6_11x0d")
 encounter_config = ExtResource("3_1kcpe")
+plug_scene = ExtResource("5_bghur")
 
 [node name="Background" type="Sprite2D" parent="."]
 position = Vector2(637, 361)
 texture = ExtResource("4_rutn5")
 
-[node name="ResetWiresButton" type="Button" parent="."]
+[node name="TutorialText" type="Label" parent="."]
+offset_left = 676.0
+offset_top = 549.0
+offset_right = 1113.0
+offset_bottom = 676.0
+theme_override_font_sizes/font_size = 16
+text = "\"Snips\" disables the loser's played cartridge for a round
+\"Crushes\" lowers the loser's usable plugs for a round
+\"Copies\" give the winner the loser's effect
+- \"Beat\" lowers the losers HP by 1
+***Remember: ANYTHING BEATS NOTHING***"
+
+[node name="ResetPlugsButton" type="Button" parent="."]
 offset_left = 151.0
 offset_top = 7.0
 offset_right = 250.0
 offset_bottom = 38.0
-text = "Reset Wires"
+text = "Reset Plugs"
 
 [node name="EndRoundButton" type="Button" parent="."]
 offset_left = 271.0
@@ -39,6 +53,7 @@ text = "End Round"
 position = Vector2(185, 134)
 
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
+position = Vector2(154, 51)
 health = 3
 participant_name = "Corey"
 
@@ -47,13 +62,30 @@ preferences = ExtResource("9_fbhgj")
 health = 3
 participant_name = "Fynn"
 
-[node name="LastRoundHistory" type="Label" parent="."]
-offset_left = 753.0
-offset_top = 6.0
-offset_right = 1125.0
-offset_bottom = 148.0
-theme_override_font_sizes/font_size = 12
-autowrap_mode = 2
+[node name="CartidgeSpawnPositions" type="Node2D" parent="."]
 
-[connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]
+[node name="Position1" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(227, 613)
+
+[node name="Position2" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(365, 615)
+
+[node name="Position3" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(499, 616)
+
+[node name="Position4" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(649, 619)
+
+[node name="Position5" type="Marker2D" parent="CartidgeSpawnPositions"]
+position = Vector2(818, 615)
+
+[node name="PlayedObject" parent="." instance=ExtResource("10_bghur")]
+position = Vector2(947, 292)
+
+[node name="EnemyPlayedObject" parent="." instance=ExtResource("11_wkw02")]
+position = Vector2(948, 196)
+
+[node name="Plugs" type="Node2D" parent="."]
+
+[connection signal="pressed" from="ResetPlugsButton" to="." method="_on_reset_plugs_button_pressed"]
 [connection signal="pressed" from="EndRoundButton" to="." method="_on_next_round_button_pressed"]
