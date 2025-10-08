@@ -21,4 +21,4 @@ func played_object_updated(data:CartridgeConfig) -> void:
 		played_object = data.object
 	
 	#if not roller.is_roller_display_matching(update_text):
-	roller.roll(update_text)
+	await roller.roll(update_text)

@@ -5,7 +5,10 @@ class_name Player
 	set(value):
 		default_plug_count = value
 		remaining_plug_count = value
-@export var remaining_plug_count:int
+@export var remaining_plug_count:int :
+	set(value):
+		$PlugCount.text = "Plugs: %d" % value
+		remaining_plug_count = value
 
 var plugs:Array[Plug]
 var cartridges:Array[Cartridge]

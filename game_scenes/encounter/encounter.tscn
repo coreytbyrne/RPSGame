@@ -23,12 +23,24 @@ plug_scene = ExtResource("5_bghur")
 position = Vector2(637, 361)
 texture = ExtResource("4_rutn5")
 
-[node name="ResetWiresButton" type="Button" parent="."]
+[node name="TutorialText" type="Label" parent="."]
+offset_left = 676.0
+offset_top = 549.0
+offset_right = 1113.0
+offset_bottom = 676.0
+theme_override_font_sizes/font_size = 16
+text = "\"Snips\" disables the loser's played cartridge for a round
+\"Crushes\" lowers the loser's usable plugs for a round
+\"Copies\" give the winner the loser's effect
+- \"Beat\" lowers the losers HP by 1
+***Remember: ANYTHING BEATS NOTHING***"
+
+[node name="ResetPlugsButton" type="Button" parent="."]
 offset_left = 151.0
 offset_top = 7.0
 offset_right = 250.0
 offset_bottom = 38.0
-text = "Reset Wires"
+text = "Reset Plugs"
 
 [node name="EndRoundButton" type="Button" parent="."]
 offset_left = 271.0
@@ -41,6 +53,7 @@ text = "End Round"
 position = Vector2(185, 134)
 
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
+position = Vector2(154, 51)
 health = 3
 participant_name = "Corey"
 
@@ -48,14 +61,6 @@ participant_name = "Corey"
 preferences = ExtResource("9_fbhgj")
 health = 3
 participant_name = "Fynn"
-
-[node name="LastRoundHistory" type="Label" parent="."]
-offset_left = 753.0
-offset_top = 6.0
-offset_right = 1125.0
-offset_bottom = 148.0
-theme_override_font_sizes/font_size = 12
-autowrap_mode = 2
 
 [node name="CartidgeSpawnPositions" type="Node2D" parent="."]
 
@@ -82,5 +87,5 @@ position = Vector2(948, 196)
 
 [node name="Plugs" type="Node2D" parent="."]
 
-[connection signal="pressed" from="ResetWiresButton" to="." method="_on_reset_wires_pressed"]
+[connection signal="pressed" from="ResetPlugsButton" to="." method="_on_reset_plugs_button_pressed"]
 [connection signal="pressed" from="EndRoundButton" to="." method="_on_next_round_button_pressed"]

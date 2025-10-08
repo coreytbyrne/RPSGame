@@ -16,6 +16,7 @@ func _ready() -> void:
 		rule.position = rule_spawn_positions[rule_count].position
 		
 		$Rules.add_child(rule)
+		#await rule.ready
 		# Connect to the Rules Signals. MUST BE DONE AFTER ADDING TO THE TREE
 		rule_count += 1
 
@@ -32,8 +33,12 @@ func get_current_rules() -> Array[RuleConfig]:
 	
 	for rule:Rule in $Rules.get_children():
 		rules.append(rule.get_current_rule())
-	
 	return rules
+
+
+func apply_changes_to_rules() -> void:
+	for rule:Rule in $Rules.get_children():
+		await rule.apply_rule_changes()
 
 
 func opponent_rule_update(rule_update:Opponent.Action) -> void:
@@ -42,3 +47,7 @@ func opponent_rule_update(rule_update:Opponent.Action) -> void:
 		rule_nodes[rule_update.rule_num].opponent_update(rule_update.update_target, rule_update.update)
 	else:
 		rule_nodes[rule_update.rule_num].opponent_update(Rule.RULE_TARGET.EFFECT, rule_update.update)
+
+
+func mark_rule_triggered(rule_num:int, is_active:bool) -> void:
+	$Rules.get_child(rule_num).rule_triggered_update(is_active)

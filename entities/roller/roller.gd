@@ -4,6 +4,7 @@ class_name Roller
 var current_text:String = ""
 var next_text:String = ""
 
+
 func _ready() -> void:
 	$NextText.text = next_text
 	$CurrentText.text = current_text
@@ -26,3 +27,5 @@ func roll(next:String) -> void:
 	$NextText.visible = false
 	$NextText.text = ""
 	$AnimationPlayer.play("RESET")
+	
+	

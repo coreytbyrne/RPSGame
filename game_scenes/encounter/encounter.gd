@@ -7,12 +7,15 @@ class_name Encounter
 @export var plug_scene:PackedScene
 
 @onready var player:Player = $Player
-
 var remaining_plugs:int
+
+var rule_board_ref:RulesBoard
 
 var active_plug:Plug
 var hovered_cartridge:Cartridge = null
 var hovered_plug_target:PlugTarget = null
+
+var disable_input:bool = false
 
 func _ready() -> void:
 	# Init Player details
@@ -32,8 +35,10 @@ func _ready() -> void:
 	rules_board.rule_configs = encounter_config.rules
 	
 	RuleResolver.rule_board_reference = rules_board
+	RuleResolver.encounter_reference = self
 	
 	$RuleBoardSpawnPosition.add_child(rules_board)
+	rule_board_ref = rules_board
 	rules_board.connect_encounter_to_rule_signals(self)
 	
 	# Connect to Played Object target
@@ -51,7 +56,6 @@ func update_hovered_cartidge(cartridge:Cartridge) -> void:
 
 func update_hovered_target(plug_target:PlugTarget) -> void:
 	hovered_plug_target = plug_target
-
 
 
 func plug_in() -> void:
@@ -82,7 +86,6 @@ func plug_in() -> void:
 
 func unplug() -> void:
 	if active_plug == null:
-		
 		if hovered_cartridge != null:
 			active_plug = hovered_cartridge.connected_plug
 			if active_plug != null:
@@ -103,32 +106,62 @@ func unplug() -> void:
 		player.remaining_plug_count += 1
 
 
+func clear_plugs() -> void:
+	for plug in $Plugs.get_children():
+		plug.queue_free()
+		player.remaining_plug_count += 1
+	
+	player.plugs.clear()
+
+	
+	
+
+
 func resolve_round() -> void:
 	# Get the objects that both players have played
 	var player_object:GameplayUtils.OBJECT = $PlayedObject.played_object
 	var opponent_object:GameplayUtils.OBJECT = $Opponent.get_played_object()
 	
+	# Check if either played NONE
+	await check_for_none_played(player_object, opponent_object)
+
+	
 	# Get the current rules
-	var rules:Array[RuleConfig] = $RuleBoardSpawnPosition.get_child(0).get_current_rules()
+	var rules:Array[RuleConfig] = rule_board_ref.get_current_rules()
 	
 	# Check what rules are applicable
-	var applicable_rules:Array[RuleConfig] = get_applicable_rules(player_object, opponent_object, rules)
+	var applicable_rules:Dictionary[int,RuleConfig] = get_applicable_rules(player_object, opponent_object, rules)
 	
 	# Resolve the applicable rules
 	if not applicable_rules.is_empty():
-		resolve_rules(player_object, opponent_object, applicable_rules)
+		await resolve_rules(player_object, opponent_object, applicable_rules)
 	
 	# Clear current played object
-	#$Player/PlayedObject.clear_played_object()
-	$PlayedObject.played_object_updated(null)
-
-
-func get_applicable_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Array[RuleConfig]) -> Array[RuleConfig]:
-	var applicable_rules:Array[RuleConfig]
 	
-	for rule:RuleConfig in rules:
-		var left_rule:GameplayUtils.OBJECT = rule.left_object
-		var right_rule:GameplayUtils.OBJECT = rule.right_object
+	await $EnemyPlayedObject.played_object_updated(null)
+	await $PlayedObject.played_object_updated(null)
+	
+func check_for_none_played(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT) -> void:
+
+	## Static rule of "Anything beats NOTHING"
+	if player_obj == GameplayUtils.OBJECT.NONE:
+		RuleResolver.delegate_rule_resolve($Opponent, $Player, GameplayUtils.EFFECT.BEATS)
+		await RuleResolver.rule_resolved
+		
+	if opponent_obj == GameplayUtils.OBJECT.NONE:
+		RuleResolver.delegate_rule_resolve($Player, $Opponent, GameplayUtils.EFFECT.BEATS)
+		await RuleResolver.rule_resolved
+
+
+
+
+func get_applicable_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Array[RuleConfig]) -> Dictionary[int,RuleConfig]:
+	var applicable_rules:Dictionary[int,RuleConfig]
+	
+	#for rule:RuleConfig in rules:
+	for count:int in range(rules.size()):
+		var left_rule:GameplayUtils.OBJECT = rules[count].left_object
+		var right_rule:GameplayUtils.OBJECT = rules[count].right_object
 		
 		var is_applicable:bool = (
 			 ( (player_obj == left_rule) and (opponent_obj == right_rule) ) or
@@ -136,34 +169,50 @@ func get_applicable_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayU
 			)
 		
 		if is_applicable:
-			applicable_rules.append(rule)
-	
+			applicable_rules[count] = rules[count]
+
 	return applicable_rules
 
 
-func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Array[RuleConfig]) -> void:
-	for rule:RuleConfig in rules:
-		print("Rule Triggered: %s\n" % GameplayUtils.get_effect_text(rule.left_object,rule.effect, rule.right_object))
+func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OBJECT,rules:Dictionary[int,RuleConfig]) -> void:
+	#for rule:RuleConfig in rules.values():
+	for rule_num in rules.keys():
+		rule_board_ref.mark_rule_triggered(rule_num, true)
+		
+		print("Rule Triggered: %s\n" % GameplayUtils.get_effect_text(rules[rule_num].left_object,rules[rule_num].effect, rules[rule_num].right_object))
 		# Check if it is the player or opponent that wins the rule
-		if rule.left_object != rule.right_object:
+		if rules[rule_num].left_object != rules[rule_num].right_object:
 			var winner:Participant
 			var loser:Participant
-			if player_obj == rule.left_object:
+			if player_obj == rules[rule_num].left_object:
 				winner = $Player
 				loser = $Opponent
 			else:
 				winner = $Opponent
 				loser = $Player
 			
-			RuleResolver.delegate_rule_resolve(winner, loser, rule.effect)
-			RuleResolver.delegate_rule_resolve(winner, loser, rule.constant_effect)
+
+			RuleResolver.delegate_rule_resolve(winner, loser, rules[rule_num].effect)
+			await RuleResolver.rule_resolved
+			RuleResolver.delegate_rule_resolve(winner, loser, rules[rule_num].constant_effect)
+			await RuleResolver.rule_resolved
 			
 		# If the objects are the same, the rule resolution should trigger for both participants.
 		else:
-			RuleResolver.delegate_rule_resolve($Player, $Opponent, rule.effect)
-			RuleResolver.delegate_rule_resolve($Player, $Opponent, rule.constant_effect)
-			RuleResolver.delegate_rule_resolve($Opponent, $Player, rule.effect)
-			RuleResolver.delegate_rule_resolve($Opponent, $Player, rule.constant_effect)
+			RuleResolver.delegate_rule_resolve($Player, $Opponent, rules[rule_num].effect)
+			await RuleResolver.rule_resolved
+			RuleResolver.delegate_rule_resolve($Player, $Opponent, rules[rule_num].constant_effect)
+			await RuleResolver.rule_resolved
+			RuleResolver.delegate_rule_resolve($Opponent, $Player, rules[rule_num].effect)
+			await RuleResolver.rule_resolved
+			RuleResolver.delegate_rule_resolve($Opponent, $Player, rules[rule_num].constant_effect)
+			await RuleResolver.rule_resolved
+		
+		#NOTE: This is here just so the player can see the activated rule in the interim
+		await get_tree().create_timer(2.0).timeout
+		rule_board_ref.mark_rule_triggered(rule_num, false)
+
+
 
 func check_if_game_over() -> void:
 	if $Player.health <= 0:
@@ -172,7 +221,17 @@ func check_if_game_over() -> void:
 		print("%s loses" % $Opponent.participant_name)
 
 
+func disable_interaction(is_disabled:bool) -> void:
+	disable_input = is_disabled
+	$ResetPlugsButton.disabled = is_disabled
+	$EndRoundButton.disabled = is_disabled
+	
+
+
 func _unhandled_input(event: InputEvent) -> void:
+	if disable_input:
+		return
+		
 	if event.is_action_pressed("select"):
 		if hovered_cartridge != null or hovered_plug_target != null:
 			plug_in()
@@ -183,54 +242,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			unplug()
 
 
-
-## TODO: This is for testing only. In practice, there would need to be a more elegant
-## option to remove a single wire at a time
-#func _on_reset_wires_pressed() -> void:
-	#for wire:Wire in $Player/Wires.get_children():
-		#wire.disconnect_button()
-		#wire.disconnect_target()
-		#wire.queue_free()
-	#
-	#remaining_wires = encounter_config.num_player_wires + $Player.wire_count_modifier
-
-
 func _on_next_round_button_pressed() -> void:
-	#var player_actions_str:String = ""
-	#var opponent_action_str:String = ""
-	
-	# Ignore a "next round" button press if you're in the middle of drawing a wire
-	#if current_wire != null:
-		#return
-	
+	disable_interaction(true)
+
 	# Opponent chooses their action
 	var opponent_action_sequence:Opponent.ActionSequence = $Opponent.choose_actions_to_perform()
 	$Opponent.apply_actions(opponent_action_sequence)
-	
-	for action:Opponent.Action in opponent_action_sequence.get_actions():
-		if action is Opponent.PlayAction:
-			#opponent_action_str += "%s played: %s\n" % [$Opponent.participant_name, GameplayUtils.get_object_name(action.obj)]
-			$EnemyPlayedObject.played_object_updated(GameplayUtils.get_config_from_object(action.obj))
-		else:
-			pass
-			#opponent_action_str += "%s updated: %s\n" % [$Opponent.participant_name, action.to_string()]
-	
-	# Check for rule update conflicts
-	
-	
-	# Commit the player changes
-	#for wire:Wire in $Player/Wires.get_children():
-		#wire.connected_target.commit_assignment()
-		#await SignalBus.rule_updated
-	
-	#player_actions_str += "%s played %s\n" % [$Player.participant_name, GameplayUtils.get_object_name($Player.played_object.target.assignment)]
-	#$LastRoundHistory.text = "%s\n%s\n\n" % [player_actions_str, opponent_action_str]
-	
+	await rule_board_ref.apply_changes_to_rules()
+	await $EnemyPlayedObject.played_object_updated(GameplayUtils.get_config_from_object($Opponent.played_object))
 	
 	$Opponent.add_to_player_history($PlayedObject.played_object)
 	
 	# Resolve the outcome of the cards played, given the new updates
-	resolve_round()
+	await resolve_round()
 	
 	# Transition to the next round
 	RuleResolver.next_round()
@@ -240,5 +264,15 @@ func _on_next_round_button_pressed() -> void:
 	
 	check_if_game_over()
 	
+	# Remove plugs for player
+	clear_plugs()
+	
+	disable_interaction(false)
 	#_on_reset_wires_pressed()
 	print("**************************************************************")
+
+
+func _on_reset_plugs_button_pressed() -> void:
+	for plug:Plug in $Plugs.get_children():
+		plug.destroy_plug()
+		player.remaining_plug_count += 1

@@ -38,11 +38,13 @@ func next_round() -> void:
 func disable_cartridge() -> void:
 	$CartridgeLabel.text = "DISABLED\n%s" % [GameplayUtils.get_object_name(config.object)]
 	is_disabled = true
+	$PlaceholderBackground.color = Color.CRIMSON
 
 
 func enable_cartridge() -> void:
 	$CartridgeLabel.text = "%s" % [GameplayUtils.get_object_name(config.object)]
 	is_disabled = false
+	$PlaceholderBackground.color = Color.WHITE
 
 
 func _on_plug_slot_mouse_entered() -> void:

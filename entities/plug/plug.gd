@@ -21,6 +21,9 @@ func _process(delta: float) -> void:
 
 
 func connect_cartidge(cartridge:Cartridge) -> void:
+	if cartridge.is_disabled:
+		return
+		
 	connected_cartridge = cartridge
 	connected_cartridge.connected_plug = self
 	

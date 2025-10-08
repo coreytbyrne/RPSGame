@@ -43,16 +43,16 @@ func choose_actions_to_perform() -> ActionSequence:
 	# Remove suboptimal actions
 	possible_actions = filter_suboptimal_actions(possible_actions)
 	
-	## NOTE: Temp file, just for testing
+	### NOTE: Temp file, just for testing
 	#var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
 	#for action_set in possible_actions:
 		#file.store_string(action_set.to_string())
-	
+	#
 	# Choose a random action
 	var chosen_action_sequence:ActionSequence
 	chosen_action_sequence = possible_actions[randi_range(0, possible_actions.size() - 1)]
 	print(chosen_action_sequence)
-	## NOTE: Temp, just for testing
+	### NOTE: Temp, just for testing
 	#file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
 	#file.close()
 
@@ -96,8 +96,8 @@ func filter_suboptimal_actions(actions:Array[ActionSequence]) -> Array[ActionSeq
 	var filtered_actions:Array[ActionSequence]
 	
 	filtered_actions = actions.filter(
-		(func(action:ActionSequence,filter_weight:float): return action.action_weight == filter_weight
-		).bind(best_weight))
+		(func(action:ActionSequence,filter_weight:float): return action.action_weight >= filter_weight
+		).bind(best_weight * preferences.optimality))
 		
 	return filtered_actions
 
