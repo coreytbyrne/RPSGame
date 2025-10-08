@@ -36,24 +36,24 @@ text = "\"Snips\" disables the loser's played cartridge for a round
 ***Remember: ANYTHING BEATS NOTHING***"
 
 [node name="ResetPlugsButton" type="Button" parent="."]
-offset_left = 151.0
-offset_top = 7.0
-offset_right = 250.0
-offset_bottom = 38.0
+offset_left = 331.0
+offset_top = 5.0
+offset_right = 430.0
+offset_bottom = 36.0
 text = "Reset Plugs"
 
 [node name="EndRoundButton" type="Button" parent="."]
-offset_left = 271.0
-offset_top = 6.0
-offset_right = 363.0
-offset_bottom = 37.0
+offset_left = 332.0
+offset_top = 47.0
+offset_right = 430.0
+offset_bottom = 78.0
 text = "End Round"
 
 [node name="RuleBoardSpawnPosition" type="Marker2D" parent="."]
 position = Vector2(185, 134)
 
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
-position = Vector2(154, 51)
+position = Vector2(153, 7)
 health = 3
 participant_name = "Corey"
 

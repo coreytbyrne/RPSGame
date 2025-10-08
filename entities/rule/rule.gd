@@ -11,7 +11,14 @@ class_name Rule
 @onready var effect_roller:Roller = $EffectRoller
 @onready var right_roller:Roller = $RightRoller
 
+@onready var rule_swap:CheckButton = $RuleSwapButton
+
 var rule_intent:Dictionary[RULE_TARGET, RuleUpdateIntent]
+
+var is_new_round:bool = false
+var swap_change:int = 100
+
+signal rule_swapped(swap_value_change:int)
 
 enum RULE_CHANGE_TYPE {UPDATE,COMMIT,REVERT}
 enum RULE_TARGET {LEFT, RIGHT, EFFECT}
@@ -40,6 +47,12 @@ func _ready() -> void:
 	right_target.data_updated.connect(player_rule_intent_update.bind(RULE_TARGET.RIGHT))
 	
 
+func toggle_rule_swap_disable(is_disable:bool) -> void:
+	# If the rule swap is toggled on, you don't want to prevent the player from
+	# toggling it off
+	if not $RuleSwapButton.button_pressed:
+		$RuleSwapButton.disabled = is_disable
+
 
 func apply_rule_changes() -> void:
 	await update_rolls_for_opponent_actions()
@@ -52,6 +65,10 @@ func apply_rule_changes() -> void:
 	
 	rule_intent[RULE_TARGET.RIGHT].new_round()
 	rule_config.right_object = rule_intent[RULE_TARGET.RIGHT].round_start_rule
+	
+	is_new_round = true
+	$RuleSwapButton.button_pressed = false
+	is_new_round = false
 
 
 func player_rule_intent_update(update:CartridgeConfig, rule_target:RULE_TARGET) -> void:
@@ -117,11 +134,54 @@ func get_current_rule() -> RuleConfig:
 	current_rule.right_object = rule_intent[RULE_TARGET.RIGHT].round_start_rule
 	current_rule.constant_effect = rule_config.constant_effect
 	
+	rule_config = current_rule
 	return current_rule
 
 
 func rule_triggered_update(is_triggered:bool) -> void:
 	$RuleActive.visible = is_triggered
+
+
+func _on_rule_swap_button_toggled(toggled_on: bool) -> void:
+	if is_new_round:
+		return
+	
+	
+	var left_obj:GameplayUtils.OBJECT = rule_intent[RULE_TARGET.LEFT].round_start_rule
+	var right_obj:GameplayUtils.OBJECT = rule_intent[RULE_TARGET.RIGHT].round_start_rule
+
+
+	if toggled_on:	
+		# Apply the swap for the base objects, then apply player changes
+		# If the slot already has an effect, keep that
+		if $LeftTarget.connected_plug == null:
+			update_roller(RULE_TARGET.LEFT, GameplayUtils.get_object_name(right_obj))
+			rule_intent[RULE_TARGET.LEFT].player_update_rule = right_obj
+		#else:
+		rule_intent[RULE_TARGET.LEFT].round_start_rule = right_obj
+
+		if $RightTarget.connected_plug == null:
+			update_roller(RULE_TARGET.RIGHT, GameplayUtils.get_object_name(left_obj))
+			rule_intent[RULE_TARGET.RIGHT].player_update_rule = left_obj
+		#else:
+		rule_intent[RULE_TARGET.RIGHT].round_start_rule = left_obj
+		rule_swapped.emit(-swap_change)
+	else:
+
+		# If they are the same, the that means a plug is not currently applied
+		rule_intent[RULE_TARGET.LEFT].round_start_rule = right_obj
+		rule_intent[RULE_TARGET.RIGHT].round_start_rule = left_obj
+		
+		if $LeftTarget.connected_plug == null:
+			rule_intent[RULE_TARGET.LEFT].player_update_rule = GameplayUtils.OBJECT.NONE
+			update_roller(RULE_TARGET.LEFT, GameplayUtils.get_object_name(right_obj))
+		
+
+		if $RightTarget.connected_plug == null:
+			rule_intent[RULE_TARGET.RIGHT].player_update_rule = GameplayUtils.OBJECT.NONE
+			update_roller(RULE_TARGET.RIGHT, GameplayUtils.get_object_name(left_obj))
+		
+		rule_swapped.emit(swap_change)
 
 
 ####################### Internal Classes #######################

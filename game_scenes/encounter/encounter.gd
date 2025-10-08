@@ -40,6 +40,7 @@ func _ready() -> void:
 	$RuleBoardSpawnPosition.add_child(rules_board)
 	rule_board_ref = rules_board
 	rules_board.connect_encounter_to_rule_signals(self)
+	rules_board.connect_player_to_rule_signals(player)
 	
 	# Connect to Played Object target
 	$PlayedObject.target.target_plug_slot_hovered.connect(update_hovered_target)
@@ -48,6 +49,8 @@ func _ready() -> void:
 	$Opponent.rule_board_reference = rules_board
 	$Opponent.set_available_cartridges(encounter_config.opponent_cartridges)
 	$Opponent.default_plug_count = encounter_config.num_opponent_plugs
+	
+
 
 
 func update_hovered_cartidge(cartridge:Cartridge) -> void:
@@ -266,6 +269,7 @@ func _on_next_round_button_pressed() -> void:
 	
 	# Remove plugs for player
 	clear_plugs()
+	player.recharge_swap()
 	
 	disable_interaction(false)
 	#_on_reset_wires_pressed()
