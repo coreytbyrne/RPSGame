@@ -93,9 +93,28 @@ func opponent_update(rule_target:RULE_TARGET, update) -> void:
 	rule_intent[rule_target].opponent_update_rule = update
 
 
+func opponent_swap() -> void:
+	var updated_left:GameplayUtils.OBJECT
+	var updated_right:GameplayUtils.OBJECT
+	
+	if rule_intent[RULE_TARGET.LEFT].player_update_rule == GameplayUtils.OBJECT.NONE:
+		updated_right = rule_intent[RULE_TARGET.LEFT].round_start_rule
+	else:
+		updated_right = rule_intent[RULE_TARGET.LEFT].player_update_rule
+	if rule_intent[RULE_TARGET.RIGHT].player_update_rule == GameplayUtils.OBJECT.NONE:
+		updated_left = rule_intent[RULE_TARGET.RIGHT].round_start_rule
+	else:
+		updated_left = rule_intent[RULE_TARGET.RIGHT].player_update_rule
+	
+	rule_intent[RULE_TARGET.LEFT].opponent_update_rule = updated_left
+	rule_intent[RULE_TARGET.LEFT].is_opponent_swap = true
+	
+	rule_intent[RULE_TARGET.RIGHT].opponent_update_rule = updated_right
+	rule_intent[RULE_TARGET.RIGHT].is_opponent_swap = true
+
+
 func update_rolls_for_opponent_actions() -> void:
 	for rule_type:RULE_TARGET in rule_intent.keys():
-		#if rule_intent[rule_type].opponent_update_rule != null:
 		if not rule_intent[rule_type].is_rule_conflict():
 			if rule_type == RULE_TARGET.EFFECT and rule_intent[rule_type].opponent_update_rule != GameplayUtils.EFFECT.NONE:
 				await update_roller(rule_type, GameplayUtils.get_effect_name(rule_intent[rule_type].opponent_update_rule))
@@ -105,6 +124,63 @@ func update_rolls_for_opponent_actions() -> void:
 		else:
 			# If there's a rule conflict, reset the rule to what it was at the start of the round
 			await roller_round_reset(rule_type)
+		
+		###TODO: Fix this, doesn't work properly right now. Need to resolve situations where both the player and opponent try to apply a swap
+		### Maybe this isn't a good spot to do this
+		## There is a rule conflict. Check if that is the result of a swap
+		#elif rule_type == RULE_TARGET.LEFT:
+			#if rule_intent[rule_type].is_player_swap and rule_intent[rule_type].is_opponent_swap:
+				#if $LeftTarget.connected_plug == null:
+					## Let the opponent play a rule update to a location that the player doesn't have a plug
+					## but has swapped. Swaps aren't "blocking"
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[RULE_TARGET.RIGHT].round_start_rule))
+				#else:
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].player_update_rule))
+			#
+			#if rule_intent[rule_type].is_player_swap:
+				#if $LeftTarget.connected_plug == null:
+					## Let the opponent play a rule update to a location that the player doesn't have a plug
+					## but has swapped. Swaps aren't "blocking"
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].opponent_update_rule))
+				#else:
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].round_start_rule))
+#
+			#if rule_intent[rule_type].is_opponent_swap:
+				#if $LeftTarget.connected_plug == null:
+					## Let the opponent play a rule update to a location that the player doesn't have a plug
+					## but has swapped. Swaps aren't "blocking"
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].player_update_rule))
+				#else:
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].round_start_rule))
+					#
+		#elif rule_type == RULE_TARGET.RIGHT:
+			#if rule_intent[rule_type].is_player_swap and rule_intent[rule_type].is_opponent_swap:
+				#if $RightTarget.connected_plug == null:
+					## Let the opponent play a rule update to a location that the player doesn't have a plug
+					## but has swapped. Swaps aren't "blocking"
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[RULE_TARGET.LEFT].round_start_rule))
+				#else:
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].player_update_rule))
+			#
+			#if rule_intent[rule_type].is_player_swap:
+				#if $RightTarget.connected_plug == null:
+					## Let the opponent play a rule update to a location that the player doesn't have a plug
+					## but has swapped. Swaps aren't "blocking"
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].opponent_update_rule))
+				#else:
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].round_start_rule))
+#
+			#if rule_intent[rule_type].is_opponent_swap:
+				#if $RightTarget.connected_plug == null:
+					## Let the opponent play a rule update to a location that the player doesn't have a plug
+					## but has swapped. Swaps aren't "blocking"
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].player_update_rule))
+				#else:
+					#await update_roller(rule_type, GameplayUtils.get_object_name(rule_intent[rule_type].round_start_rule))
+			#
+		#elif rule_type == RULE_TARGET.EFFECT:
+			# If there's a rule conflict, reset the rule to what it was at the start of the round
+			#await roller_round_reset(rule_type)
 
 
 func roller_round_reset(associated_roller:RULE_TARGET) -> void:
@@ -157,14 +233,16 @@ func _on_rule_swap_button_toggled(toggled_on: bool) -> void:
 		if $LeftTarget.connected_plug == null:
 			update_roller(RULE_TARGET.LEFT, GameplayUtils.get_object_name(right_obj))
 			rule_intent[RULE_TARGET.LEFT].player_update_rule = right_obj
-		#else:
+			
 		rule_intent[RULE_TARGET.LEFT].round_start_rule = right_obj
+		rule_intent[RULE_TARGET.LEFT].is_player_swap = true
 
 		if $RightTarget.connected_plug == null:
 			update_roller(RULE_TARGET.RIGHT, GameplayUtils.get_object_name(left_obj))
 			rule_intent[RULE_TARGET.RIGHT].player_update_rule = left_obj
 		#else:
 		rule_intent[RULE_TARGET.RIGHT].round_start_rule = left_obj
+		rule_intent[RULE_TARGET.RIGHT].is_player_swap = true
 		rule_swapped.emit(-swap_change)
 	else:
 
@@ -174,11 +252,13 @@ func _on_rule_swap_button_toggled(toggled_on: bool) -> void:
 		
 		if $LeftTarget.connected_plug == null:
 			rule_intent[RULE_TARGET.LEFT].player_update_rule = GameplayUtils.OBJECT.NONE
+			rule_intent[RULE_TARGET.LEFT].is_player_swap = false
 			update_roller(RULE_TARGET.LEFT, GameplayUtils.get_object_name(right_obj))
 		
 
 		if $RightTarget.connected_plug == null:
 			rule_intent[RULE_TARGET.RIGHT].player_update_rule = GameplayUtils.OBJECT.NONE
+			rule_intent[RULE_TARGET.RIGHT].is_player_swap = false
 			update_roller(RULE_TARGET.RIGHT, GameplayUtils.get_object_name(left_obj))
 		
 		rule_swapped.emit(swap_change)
@@ -194,6 +274,8 @@ class RuleObjectIntent extends RuleUpdateIntent:
 	var round_start_rule:GameplayUtils.OBJECT
 	var player_update_rule:GameplayUtils.OBJECT
 	var opponent_update_rule:GameplayUtils.OBJECT
+	var is_player_swap:bool = false
+	var is_opponent_swap:bool = false
 	
 	func _init(init_rule:GameplayUtils.OBJECT) -> void:
 		initial_rule = init_rule
@@ -210,7 +292,7 @@ class RuleObjectIntent extends RuleUpdateIntent:
 		opponent_update_rule = GameplayUtils.OBJECT.NONE
 	
 	func is_rule_conflict() -> bool:
-		return ( (player_update_rule != GameplayUtils.OBJECT.NONE) and (opponent_update_rule != GameplayUtils.OBJECT.NONE) )
+		return ( (player_update_rule != GameplayUtils.OBJECT.NONE) and (opponent_update_rule != GameplayUtils.OBJECT.NONE))
 
 	func reset_player_rule() -> void:
 		player_update_rule = GameplayUtils.OBJECT.NONE

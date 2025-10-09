@@ -1,10 +1,15 @@
 extends Participant
 class_name Opponent
 
+
 @export var preferences:OpponentPreferences
 @export var played_object:GameplayUtils.OBJECT
 @export var player_history:Dictionary[GameplayUtils.OBJECT, int]
 
+@export var swap_charge:int = 100
+@export var swap_recharge_rate:int = 25
+@export var swap_threshold:int = 100
+var swap_recharge_modifer:int = 0
 
 var cartridges:Array[CartridgeConfig]
 var available_cartridges:Array[CartridgeConfig]
@@ -37,24 +42,27 @@ func enable_cartridge(obj:GameplayUtils.OBJECT) -> void:
 
 func choose_actions_to_perform() -> ActionSequence:
 	var possible_actions:Array[ActionSequence] = generate_rules()
+	append_swaps_to_rule_updates(possible_actions)
+	
+	### NOTE: Temp file, just for testing
+	var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
+	for action_set in possible_actions:
+		file.store_string(action_set.to_string())
 	
 	# Sort actions
 	evaluate_actions(possible_actions)
 	# Remove suboptimal actions
 	possible_actions = filter_suboptimal_actions(possible_actions)
 	
-	### NOTE: Temp file, just for testing
-	#var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
-	#for action_set in possible_actions:
-		#file.store_string(action_set.to_string())
-	#
+
+	
 	# Choose a random action
 	var chosen_action_sequence:ActionSequence
 	chosen_action_sequence = possible_actions[randi_range(0, possible_actions.size() - 1)]
 	print(chosen_action_sequence)
 	### NOTE: Temp, just for testing
-	#file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
-	#file.close()
+	file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
+	file.close()
 
 	return chosen_action_sequence
 
@@ -62,12 +70,14 @@ func choose_actions_to_perform() -> ActionSequence:
 func apply_actions(chosen_action_sequence:ActionSequence) -> void:
 	var actions:Array[Action] = chosen_action_sequence.get_actions()
 	for action:Action in actions:
-		
 		# Play cards
 		if action is PlayAction:
 			played_object = action.obj
-		else:
-			rule_board_reference.opponent_rule_update(action)
+			continue
+		elif action is RuleSwapAction:
+			swap_charge -= swap_threshold
+			
+		rule_board_reference.opponent_rule_update(action)
 
 
 func add_to_player_history(player_played_obj:GameplayUtils.OBJECT) -> void:
@@ -233,6 +243,31 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 				generate_rule_update_list(right_action_sequences.duplicate(true), next_cartridges.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
 
+func append_swaps_to_rule_updates(action_sequence_list:Array[ActionSequence]) -> void:
+	# If the swap charge isn't high enough, then pass
+	if swap_charge < swap_threshold:
+		return
+	
+	var swap_sequences:Array[ActionSequence]
+	var rules:Array[RuleConfig] = get_current_rules()
+	
+	for action_sequence:ActionSequence in action_sequence_list:
+		for rule_num:int in range(rules.size()):
+			var swap_action:RuleSwapAction = RuleSwapAction.new()
+			swap_action.rule = rules[rule_num]
+			swap_action.rule_num = rule_num
+			
+			var new_sequence:ActionSequence = action_sequence.new_extended_sequence()
+			new_sequence.add_action(swap_action)
+			swap_sequences.append(new_sequence)
+
+	action_sequence_list.append_array(swap_sequences)
+
+
+func recharge_swap() -> void:
+	swap_charge += swap_recharge_rate + swap_recharge_modifer
+
+
 ################################################################################
 ## Nested classes for keeping track of actions that the AI may use. 		  ##
 ## Local only to this class													  ##
@@ -274,6 +309,9 @@ class ActionSequence:
 					rule_ref[action.rule_num].right_object = action.update
 			elif action is RuleEffectAction:
 				rule_ref[action.rule_num].effect = action.update
+			elif action is RuleSwapAction:
+				rule_ref[action.rule_num].left_object = action.rule.right_object
+				rule_ref[action.rule_num].right_object = action.rule.left_object
 	
 	func evaluate_action(rule_ref:Array[RuleConfig], prefs:OpponentPreferences, player_history:Dictionary[GameplayUtils.OBJECT, int]) -> void:
 		# Duplicate Deep because we don't want to keep overwriting the actual rule resource being used
@@ -397,6 +435,22 @@ class RuleEffectAction extends Action:
 	func _to_string() -> String:
 		var obj_name:String = GameplayUtils.get_effect_name(update)
 		return "Effect:%s | Rule Num:%d" % [obj_name, rule_num]
+
+
+class RuleSwapAction extends Action:
+	var rule:RuleConfig
+	var rule_num:int
+	
+	func apply_action() -> void: 
+		var left_action:GameplayUtils.OBJECT = rule.left_object
+		var right_action:GameplayUtils.OBJECT = rule.right_object
+		
+		rule.left_object = right_action
+		rule.right_object = left_action
+	
+	func _to_string() -> String:
+		return "Rule Num:%d swapped" % rule_num
+
 
 class PlayAction extends Action:
 	var obj:GameplayUtils.OBJECT

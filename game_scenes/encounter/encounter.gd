@@ -270,6 +270,7 @@ func _on_next_round_button_pressed() -> void:
 	# Remove plugs for player
 	clear_plugs()
 	player.recharge_swap()
+	$Opponent.recharge_swap()
 	
 	disable_interaction(false)
 	#_on_reset_wires_pressed()

@@ -54,6 +54,7 @@ position = Vector2(185, 134)
 
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
 position = Vector2(153, 7)
+swap_charge = 300
 health = 3
 participant_name = "Corey"
 

@@ -63,8 +63,10 @@ func opponent_rule_update(rule_update:Opponent.Action) -> void:
 	var rule_nodes:Array = $Rules.get_children()
 	if rule_update is Opponent.RuleObjectAction:
 		rule_nodes[rule_update.rule_num].opponent_update(rule_update.update_target, rule_update.update)
-	else:
+	elif rule_update is Opponent.RuleEffectAction:
 		rule_nodes[rule_update.rule_num].opponent_update(Rule.RULE_TARGET.EFFECT, rule_update.update)
+	elif rule_update is Opponent.RuleSwapAction:
+		rule_nodes[rule_update.rule_num].opponent_swap()
 
 
 func mark_rule_triggered(rule_num:int, is_active:bool) -> void:

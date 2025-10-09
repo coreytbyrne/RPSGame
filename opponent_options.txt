@@ -1,0 +1,848 @@
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Object:Scissors | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Rock | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:1 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:LEFT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:2 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:0 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:1 swapped}
+Sequence Weight: 0.000000.
+Action Number: 0. Action{Play Scissors}
+Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
+Action Number: 2. Action{Rule Num:2 swapped}
+
+
+ACTION SELECTED: Sequence Weight: 20.250000.
+Action Number: 0. Action{Play Paper}
+Action Number: 1. Action{Rule Num:0 swapped}
