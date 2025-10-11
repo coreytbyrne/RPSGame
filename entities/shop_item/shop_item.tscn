@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch0fig4fjmbdv"]
+
+[ext_resource type="Script" uid="uid://ciaxt40y1rrj0" path="res://shop_item.gd" id="1_bdvlq"]
+
+[node name="ShopItem" type="Button"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1085.0
+offset_bottom = -628.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "[Item Name]"
+script = ExtResource("1_bdvlq")
+item_name = "Test Item"
+item_price = 0.1
+
+[node name="PriceTag" type="Label" parent="."]
+layout_mode = 0
+offset_top = 69.0
+offset_right = 190.0
+offset_bottom = 92.0
+text = "$0.99"
+horizontal_alignment = 2

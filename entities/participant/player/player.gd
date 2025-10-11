@@ -5,10 +5,11 @@ class_name Player
 	set(value):
 		default_plug_count = value
 		remaining_plug_count = value
+		
 @export var remaining_plug_count:int :
 	set(value):
-		$PlugCount.text = "Plugs: %d" % value
 		remaining_plug_count = value
+		update_plug_label()
 
 @export var swap_charge:int = 100:
 	set(value):
@@ -25,6 +26,8 @@ signal swap_charge_updated(swap_charge:int)
 func _ready() -> void:
 	$SwapCharge.text = "Swap Charge: %d" % swap_charge
 
+func update_plug_label() -> void:
+	$PlugCount.text = "Plugs: %d" % [remaining_plug_count + plug_count_modifier]
 
 func update_swap_charge(swap_change:int) -> void:
 	swap_charge += swap_change

@@ -47,8 +47,6 @@ func _ready() -> void:
 	
 
 
-	
-
 func toggle_rule_swap_disable(is_disable:bool) -> void:
 	# If the rule swap is toggled on, you don't want to prevent the player from
 	# toggling it off

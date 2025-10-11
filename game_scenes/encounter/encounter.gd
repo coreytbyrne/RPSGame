@@ -182,7 +182,7 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 	for rule_num in rules.keys():
 		rule_board_ref.mark_rule_triggered(rule_num, true)
 		
-		print("Rule Triggered: %s\n" % GameplayUtils.get_effect_text(rules[rule_num].left_object,rules[rule_num].effect, rules[rule_num].right_object))
+		#print("Rule Triggered: %s\n" % GameplayUtils.get_effect_text(rules[rule_num].left_object,rules[rule_num].effect, rules[rule_num].right_object))
 		# Check if it is the player or opponent that wins the rule
 		if rules[rule_num].left_object != rules[rule_num].right_object:
 			var winner:Participant
