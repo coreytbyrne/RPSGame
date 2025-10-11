@@ -9,3 +9,5 @@ extends Node2D
 @export var participant_name:String
 
 var plug_count_modifier:int = 0
+
+enum TYPE {PLAYER, OPPONENT}

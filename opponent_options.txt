@@ -843,6 +843,7 @@ Action Number: 1. Action{Object:Paper | Rule Num:2 | Target:EFFECT}
 Action Number: 2. Action{Rule Num:2 swapped}
 
 
-ACTION SELECTED: Sequence Weight: 20.250000.
-Action Number: 0. Action{Play Paper}
-Action Number: 1. Action{Rule Num:0 swapped}
+ACTION SELECTED: Sequence Weight: 22.500000.
+Action Number: 0. Action{Play Rock}
+Action Number: 1. Action{Object:Paper | Rule Num:0 | Target:RIGHT}
+Action Number: 2. Action{Rule Num:0 swapped}
