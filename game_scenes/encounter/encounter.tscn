@@ -24,6 +24,7 @@ position = Vector2(637, 361)
 texture = ExtResource("4_rutn5")
 
 [node name="TutorialText" type="Label" parent="."]
+visible = false
 offset_left = 676.0
 offset_top = 549.0
 offset_right = 1113.0
@@ -74,10 +75,10 @@ position = Vector2(365, 615)
 position = Vector2(499, 616)
 
 [node name="Position4" type="Marker2D" parent="CartidgeSpawnPositions"]
-position = Vector2(649, 619)
+position = Vector2(639, 611)
 
 [node name="Position5" type="Marker2D" parent="CartidgeSpawnPositions"]
-position = Vector2(818, 615)
+position = Vector2(785, 614)
 
 [node name="PlayedObject" parent="." instance=ExtResource("10_bghur")]
 position = Vector2(947, 292)

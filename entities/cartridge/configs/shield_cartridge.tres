@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="CartridgeConfig" load_steps=2 format=3 uid="uid://h7e67t3yvwi3"]
+
+[ext_resource type="Script" uid="uid://bjdowbdjn3vcg" path="res://entities/cartridge/cartridge_config_base.gd" id="1_sir8m"]
+
+[resource]
+script = ExtResource("1_sir8m")
+object = 6
+effect = 7
+metadata/_custom_type_script = "uid://bjdowbdjn3vcg"

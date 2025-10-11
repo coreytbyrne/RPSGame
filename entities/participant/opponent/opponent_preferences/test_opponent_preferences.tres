@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="OpponentPreferences" load_steps=8 format=3 uid="uid://cjewkgo5pwd1g"]
+[gd_resource type="Resource" script_class="OpponentPreferences" load_steps=12 format=3 uid="uid://cjewkgo5pwd1g"]
 
 [ext_resource type="Script" uid="uid://b6o5xkxolvn1y" path="res://entities/participant/opponent/opponent_preferences/effect_preference_base.gd" id="1_mkm0v"]
 [ext_resource type="Script" uid="uid://vlb3j2bnlpgq" path="res://entities/participant/opponent/opponent_preferences/opponent_preferences_base.gd" id="2_odsj0"]
@@ -30,6 +30,29 @@ script = ExtResource("1_mkm0v")
 winning_preference = 4
 metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 
+[sub_resource type="Resource" id="Resource_d0e20"]
+script = ExtResource("1_mkm0v")
+winning_preference = 2
+losing_preference = 4
+metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
+
+[sub_resource type="Resource" id="Resource_5mo3a"]
+script = ExtResource("1_mkm0v")
+winning_preference = 2
+losing_preference = 2
+metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
+
+[sub_resource type="Resource" id="Resource_75xsm"]
+script = ExtResource("1_mkm0v")
+winning_preference = 3
+metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
+
+[sub_resource type="Resource" id="Resource_rq82m"]
+script = ExtResource("1_mkm0v")
+winning_preference = 1
+losing_preference = 1
+metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
+
 [resource]
 script = ExtResource("2_odsj0")
 preferences = Dictionary[int, ExtResource("1_mkm0v")]({
@@ -37,7 +60,11 @@ preferences = Dictionary[int, ExtResource("1_mkm0v")]({
 1: SubResource("Resource_mkm0v"),
 2: SubResource("Resource_odsj0"),
 3: SubResource("Resource_u0kst"),
-4: SubResource("Resource_j5vjf")
+4: SubResource("Resource_j5vjf"),
+5: SubResource("Resource_d0e20"),
+6: SubResource("Resource_5mo3a"),
+7: SubResource("Resource_75xsm"),
+8: SubResource("Resource_rq82m")
 })
 optimality = 0.8
 metadata/_custom_type_script = "uid://vlb3j2bnlpgq"
