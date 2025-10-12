@@ -32,13 +32,12 @@ metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 
 [sub_resource type="Resource" id="Resource_d0e20"]
 script = ExtResource("1_mkm0v")
-winning_preference = 2
-losing_preference = 4
+winning_preference = 4
 metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 
 [sub_resource type="Resource" id="Resource_5mo3a"]
 script = ExtResource("1_mkm0v")
-winning_preference = 2
+winning_preference = 4
 losing_preference = 2
 metadata/_custom_type_script = "uid://b6o5xkxolvn1y"
 

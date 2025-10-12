@@ -56,7 +56,7 @@ position = Vector2(185, 134)
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
 position = Vector2(153, 7)
 health = 3
-participant_name = "Corey"
+participant_name = "Rebecca"
 
 [node name="Opponent" parent="." instance=ExtResource("8_1kcpe")]
 preferences = ExtResource("9_fbhgj")

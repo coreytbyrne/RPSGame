@@ -187,6 +187,9 @@ class RuleObjectIntent extends RuleUpdateIntent:
 		_player_update_rule = GameplayUtils.OBJECT.NONE
 		_opponent_update_rule = GameplayUtils.OBJECT.NONE
 		_swap_update_rule = GameplayUtils.OBJECT.NONE
+		
+		_is_player_swap = false
+		_is_opponent_swap = false
 	
 	func rule_swap(participant_type:Participant.TYPE, other_rule:RuleObjectIntent) -> void:
 		if participant_type == Participant.TYPE.PLAYER:

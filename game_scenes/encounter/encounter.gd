@@ -212,7 +212,7 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 			await RuleResolver.rule_resolved
 		
 		#NOTE: This is here just so the player can see the activated rule in the interim
-		await get_tree().create_timer(2.0).timeout
+		await get_tree().create_timer(5.0).timeout
 		rule_board_ref.mark_rule_triggered(rule_num, false)
 
 
@@ -228,7 +228,6 @@ func disable_interaction(is_disabled:bool) -> void:
 	disable_input = is_disabled
 	$ResetPlugsButton.disabled = is_disabled
 	$EndRoundButton.disabled = is_disabled
-	
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -236,12 +235,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	if event.is_action_pressed("select"):
-		if hovered_cartridge != null or hovered_plug_target != null:
-			plug_in()
+		if hovered_cartridge != null:
+			if hovered_cartridge.connected_plug == null:
+				plug_in()
+			elif hovered_cartridge.connected_plug != null and active_plug == null:
+				unplug()
+		
+		elif hovered_plug_target != null:
+			if hovered_plug_target.connected_plug == null:
+				plug_in()
+			elif hovered_plug_target.connected_plug != null and active_plug == null:
+				unplug()
+		
 		elif hovered_cartridge == null and hovered_plug_target == null and active_plug != null:
-			unplug()
-	if event.is_action_pressed("deselect"):
-		if (hovered_cartridge != null or hovered_plug_target != null) and active_plug == null:
 			unplug()
 
 

@@ -217,12 +217,11 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 
 # Generate a future sequence where the current cartridge, current rule, and RIGHT are chosen
 			if remaining_rule_targets.has(Rule.RULE_TARGET.EFFECT):
-				var new_rule_action:RuleObjectAction
-				new_rule_action = RuleObjectAction.new()
+				var new_rule_action:RuleEffectAction
+				new_rule_action = RuleEffectAction.new()
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
-				new_rule_action.update_target = Rule.RULE_TARGET.EFFECT
-				new_rule_action.update = cartridge.object
+				new_rule_action.update = cartridge.effect
 				
 				var remaining_rule_targets_effect_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_effect_removed.pop_at(remaining_rule_targets_effect_removed.find(Rule.RULE_TARGET.EFFECT))
