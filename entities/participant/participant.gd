@@ -8,4 +8,9 @@ extends Node2D
 		health = value
 @export var participant_name:String
 
+# Variables for tracking specific effects
 var plug_count_modifier:int = 0
+var is_shielded:bool = false
+var has_reverse:bool = false
+
+enum TYPE {PLAYER, OPPONENT}

@@ -40,6 +40,7 @@ func _ready() -> void:
 	$RuleBoardSpawnPosition.add_child(rules_board)
 	rule_board_ref = rules_board
 	rules_board.connect_encounter_to_rule_signals(self)
+	rules_board.connect_player_to_rule_signals(player)
 	
 	# Connect to Played Object target
 	$PlayedObject.target.target_plug_slot_hovered.connect(update_hovered_target)
@@ -48,6 +49,8 @@ func _ready() -> void:
 	$Opponent.rule_board_reference = rules_board
 	$Opponent.set_available_cartridges(encounter_config.opponent_cartridges)
 	$Opponent.default_plug_count = encounter_config.num_opponent_plugs
+	
+
 
 
 func update_hovered_cartidge(cartridge:Cartridge) -> void:
@@ -179,7 +182,7 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 	for rule_num in rules.keys():
 		rule_board_ref.mark_rule_triggered(rule_num, true)
 		
-		print("Rule Triggered: %s\n" % GameplayUtils.get_effect_text(rules[rule_num].left_object,rules[rule_num].effect, rules[rule_num].right_object))
+		#print("Rule Triggered: %s\n" % GameplayUtils.get_effect_text(rules[rule_num].left_object,rules[rule_num].effect, rules[rule_num].right_object))
 		# Check if it is the player or opponent that wins the rule
 		if rules[rule_num].left_object != rules[rule_num].right_object:
 			var winner:Participant
@@ -209,7 +212,7 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 			await RuleResolver.rule_resolved
 		
 		#NOTE: This is here just so the player can see the activated rule in the interim
-		await get_tree().create_timer(2.0).timeout
+		await get_tree().create_timer(5.0).timeout
 		rule_board_ref.mark_rule_triggered(rule_num, false)
 
 
@@ -225,7 +228,6 @@ func disable_interaction(is_disabled:bool) -> void:
 	disable_input = is_disabled
 	$ResetPlugsButton.disabled = is_disabled
 	$EndRoundButton.disabled = is_disabled
-	
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -233,12 +235,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	if event.is_action_pressed("select"):
-		if hovered_cartridge != null or hovered_plug_target != null:
-			plug_in()
+		if hovered_cartridge != null:
+			if hovered_cartridge.connected_plug == null:
+				plug_in()
+			elif hovered_cartridge.connected_plug != null and active_plug == null:
+				unplug()
+		
+		elif hovered_plug_target != null:
+			if hovered_plug_target.connected_plug == null:
+				plug_in()
+			elif hovered_plug_target.connected_plug != null and active_plug == null:
+				unplug()
+		
 		elif hovered_cartridge == null and hovered_plug_target == null and active_plug != null:
-			unplug()
-	if event.is_action_pressed("deselect"):
-		if (hovered_cartridge != null or hovered_plug_target != null) and active_plug == null:
 			unplug()
 
 
@@ -266,6 +275,8 @@ func _on_next_round_button_pressed() -> void:
 	
 	# Remove plugs for player
 	clear_plugs()
+	player.recharge_swap()
+	$Opponent.recharge_swap()
 	
 	disable_interaction(false)
 	#_on_reset_wires_pressed()

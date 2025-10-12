@@ -28,4 +28,6 @@ func roll(next:String) -> void:
 	$NextText.text = ""
 	$AnimationPlayer.play("RESET")
 	
+	current_text = next
+	
 	
