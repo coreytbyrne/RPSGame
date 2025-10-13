@@ -19,15 +19,17 @@ class_name Player
 var swap_recharge_modifer:int = 0
 
 var plugs:Array[Plug]
-var cartridges:Array[Cartridge]
+var transmitters:Array[Transmitter]
 
 signal swap_charge_updated(swap_charge:int)
 
 func _ready() -> void:
 	$SwapCharge.text = "Swap Charge: %d" % swap_charge
 
+
 func update_plug_label() -> void:
 	$PlugCount.text = "Plugs: %d" % [remaining_plug_count + plug_count_modifier]
+
 
 func update_swap_charge(swap_change:int) -> void:
 	swap_charge += swap_change

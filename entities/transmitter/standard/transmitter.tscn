@@ -1,12 +1,12 @@
 [gd_scene load_steps=4 format=3 uid="uid://b402i38ah44ec"]
 
-[ext_resource type="Script" uid="uid://bjbyfel55gw1b" path="res://entities/cartridge/cartridge.gd" id="1_obbsb"]
+[ext_resource type="Script" uid="uid://bjbyfel55gw1b" path="res://entities/transmitter/standard/transmitter.gd" id="1_obbsb"]
 [ext_resource type="Resource" uid="uid://deesxaf4iww38" path="res://entities/cartridge/configs/paper_cartridge.tres" id="2_myfmj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_myfmj"]
 size = Vector2(25, 25)
 
-[node name="Cartridge" type="Node2D"]
+[node name="Transmitter" type="Node2D"]
 script = ExtResource("1_obbsb")
 config = ExtResource("2_myfmj")
 
@@ -18,7 +18,7 @@ mouse_filter = 2
 [node name="PlugSlot" type="Area2D" parent="."]
 position = Vector2(48, 18)
 
-[node name="PlaceholderWireVisual" type="ColorRect" parent="PlugSlot"]
+[node name="PlaceholderPlugVisual" type="ColorRect" parent="PlugSlot"]
 offset_left = -12.0
 offset_top = -12.0
 offset_right = 13.0
@@ -32,7 +32,7 @@ position = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_myfmj")
 metadata/_edit_lock_ = true
 
-[node name="CartridgeLabel" type="Label" parent="."]
+[node name="TransmitterLabel" type="Label" parent="."]
 offset_left = 1.0
 offset_top = 34.0
 offset_right = 99.0

@@ -1,7 +1,8 @@
 extends Node
-class_name Cartridge
+class_name Transmitter
 
 @export var config:CartridgeConfig
+
 
 var connected_plug:Plug
 var is_disabled:bool = false
@@ -9,23 +10,23 @@ var cooldown:int = 0
 var cooldown_count:int:
 	set(value):
 		if value > 0:
-			disable_cartridge()
+			disable_transmitter()
 		else:
-			enable_cartridge()
+			enable_transmitter()
 			value = 0
 		cooldown_count = value
 
 var plug_sprite_position:Vector2
 
-signal cart_plug_slot_hovered(cart:Cartridge)
+signal transmitter_plug_slot_hovered(cart:Transmitter)
 
 func _ready() -> void:
-	$CartridgeLabel.text = GameplayUtils.get_object_name(config.object)
+	$TransmitterLabel.text = GameplayUtils.get_object_name(config.object)
 	cooldown = config.base_cooldown
 	plug_sprite_position = $PlugSlot.global_position
 
 
-func cartridge_used() -> void:
+func transmitter_used() -> void:
 	if cooldown > 0:
 		cooldown_count = cooldown
 
@@ -35,21 +36,21 @@ func next_round() -> void:
 		cooldown_count -= 1
 
 
-func disable_cartridge() -> void:
-	$CartridgeLabel.text = "DISABLED\n%s" % [GameplayUtils.get_object_name(config.object)]
+func disable_transmitter() -> void:
+	$TransmitterLabel.text = "DISABLED\n%s" % [GameplayUtils.get_object_name(config.object)]
 	is_disabled = true
 	$PlaceholderBackground.color = Color.CRIMSON
 
 
-func enable_cartridge() -> void:
-	$CartridgeLabel.text = "%s" % [GameplayUtils.get_object_name(config.object)]
+func enable_transmitter() -> void:
+	$TransmitterLabel.text = "%s" % [GameplayUtils.get_object_name(config.object)]
 	is_disabled = false
 	$PlaceholderBackground.color = Color.WHITE
 
 
 func _on_plug_slot_mouse_entered() -> void:
-	cart_plug_slot_hovered.emit(self)
+	transmitter_plug_slot_hovered.emit(self)
 
 
 func _on_plug_slot_mouse_exited() -> void:
-	cart_plug_slot_hovered.emit(null)
+	transmitter_plug_slot_hovered.emit(null)

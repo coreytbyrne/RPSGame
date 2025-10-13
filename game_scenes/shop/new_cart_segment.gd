@@ -1,0 +1,2 @@
+extends ShopSegment
+class_name NewCartSegment

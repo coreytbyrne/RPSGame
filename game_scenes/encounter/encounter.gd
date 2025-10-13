@@ -1,7 +1,8 @@
 extends Node2D
 class_name Encounter
 
-@export var cartridge_scene:PackedScene
+@export var transmitter_scene:PackedScene
+@export var disposable_transmitter_scene:PackedScene
 @export var rule_board_scene:PackedScene
 @export var encounter_config:EncounterConfig
 @export var plug_scene:PackedScene
@@ -12,7 +13,7 @@ var remaining_plugs:int
 var rule_board_ref:RulesBoard
 
 var active_plug:Plug
-var hovered_cartridge:Cartridge = null
+var hovered_transmitter:Transmitter = null
 var hovered_plug_target:PlugTarget = null
 
 var disable_input:bool = false
@@ -22,13 +23,25 @@ func _ready() -> void:
 	player.default_plug_count = encounter_config.num_player_plugs
 	
 	for count:int in encounter_config.player_cartridges.size():
-		var cartridge_node:Cartridge = cartridge_scene.instantiate()
-		var spawn_position:Marker2D = $CartidgeSpawnPositions.get_child(count)
+		var transmitter_node:Transmitter = transmitter_scene.instantiate()
+		var spawn_position:Marker2D = $TransmitterSpawnPositions.get_child(count)
 		
-		cartridge_node.config = encounter_config.player_cartridges[count]
-		cartridge_node.cart_plug_slot_hovered.connect(update_hovered_cartidge)
-		spawn_position.add_child(cartridge_node)
-		player.cartridges.append(cartridge_node)
+		transmitter_node.config = encounter_config.player_cartridges[count]
+		transmitter_node.transmitter_plug_slot_hovered.connect(update_hovered_transmitter)
+		spawn_position.add_child(transmitter_node)
+		player.transmitters.append(transmitter_node)
+	
+	var disposable_count:int = 0
+	for disposable:CartridgeConfig in encounter_config.player_disposable_transmitters.keys():
+		var disposable_node:DisposableTransmitter = disposable_transmitter_scene.instantiate()
+		var spawn_position:Marker2D = $ItemSpawnPositions.get_child(disposable_count)
+		
+		disposable_node.config = disposable.duplicate()
+		disposable_node.transmitter_plug_slot_hovered.connect(update_hovered_transmitter)
+		disposable_node.num_uses = encounter_config.player_disposable_transmitters[disposable]
+		spawn_position.add_child(disposable_node)
+		disposable_count += 1
+		#player.transmitters.append(disposable_node)
 	
 	# Create the Rules Board and give the Resolver a reference to it
 	var rules_board:RulesBoard = rule_board_scene.instantiate()
@@ -47,14 +60,16 @@ func _ready() -> void:
 	
 	# Setup Opponent dependencies/configs
 	$Opponent.rule_board_reference = rules_board
-	$Opponent.set_available_cartridges(encounter_config.opponent_cartridges)
+	$Opponent.set_available_transmitters(encounter_config.opponent_cartridges)
+	$Opponent.set_disposable_transmitters(encounter_config.opponent_disposable_cartridges)
 	$Opponent.default_plug_count = encounter_config.num_opponent_plugs
+	$Opponent.player_history = player.play_history
 	
 
 
 
-func update_hovered_cartidge(cartridge:Cartridge) -> void:
-	hovered_cartridge = cartridge
+func update_hovered_transmitter(transmitter:Transmitter) -> void:
+	hovered_transmitter = transmitter
 
 
 func update_hovered_target(plug_target:PlugTarget) -> void:
@@ -75,10 +90,10 @@ func plug_in() -> void:
 		player.remaining_plug_count -= 1
 
 	if active_plug != null:
-		# Check if that cartridge is already occupied by a different plug
-		if hovered_cartridge != null and hovered_cartridge.connected_plug == null:
-			active_plug.connect_cartidge(hovered_cartridge)
-		# Check if that cartridge is already occupied by a different plug
+		# Check if that transmitter is already occupied by a different plug
+		if hovered_transmitter != null and hovered_transmitter.connected_plug == null:
+			active_plug.connect_transmitter(hovered_transmitter)
+		# Check if that transmitter is already occupied by a different plug
 		elif hovered_plug_target != null and hovered_plug_target.connected_plug == null:
 			active_plug.connect_target(hovered_plug_target)
 
@@ -89,10 +104,10 @@ func plug_in() -> void:
 
 func unplug() -> void:
 	if active_plug == null:
-		if hovered_cartridge != null:
-			active_plug = hovered_cartridge.connected_plug
+		if hovered_transmitter != null:
+			active_plug = hovered_transmitter.connected_plug
 			if active_plug != null:
-				active_plug = active_plug.disconnect_cartridge()
+				active_plug = active_plug.disconnect_transmitter()
 				if active_plug == null:
 					player.remaining_plug_count += 1
 					
@@ -111,6 +126,8 @@ func unplug() -> void:
 
 func clear_plugs() -> void:
 	for plug in $Plugs.get_children():
+		player.add_to_play_history(plug.connected_transmitter.config.object)
+		plug.next_round()
 		plug.queue_free()
 		player.remaining_plug_count += 1
 	
@@ -218,9 +235,9 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 
 
 func check_if_game_over() -> void:
-	if $Player.health <= 0:
+	if $Player.dosage >= $Player.max_dosage:
 		print("%s loses" % $Player.participant_name)
-	if $Opponent.health <= 0:
+	if $Opponent.dosage >= $Opponent.max_dosage:
 		print("%s loses" % $Opponent.participant_name)
 
 
@@ -235,10 +252,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 		
 	if event.is_action_pressed("select"):
-		if hovered_cartridge != null:
-			if hovered_cartridge.connected_plug == null:
+		if hovered_transmitter != null:
+			if hovered_transmitter.connected_plug == null:
 				plug_in()
-			elif hovered_cartridge.connected_plug != null and active_plug == null:
+			elif hovered_transmitter.connected_plug != null and active_plug == null:
 				unplug()
 		
 		elif hovered_plug_target != null:
@@ -247,7 +264,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			elif hovered_plug_target.connected_plug != null and active_plug == null:
 				unplug()
 		
-		elif hovered_cartridge == null and hovered_plug_target == null and active_plug != null:
+		elif hovered_transmitter == null and hovered_plug_target == null and active_plug != null:
 			unplug()
 
 
@@ -260,7 +277,7 @@ func _on_next_round_button_pressed() -> void:
 	await rule_board_ref.apply_changes_to_rules()
 	await $EnemyPlayedObject.played_object_updated(GameplayUtils.get_config_from_object($Opponent.played_object))
 	
-	$Opponent.add_to_player_history($PlayedObject.played_object)
+	#$Opponent.add_to_player_history($PlayedObject.played_object)
 	
 	# Resolve the outcome of the cards played, given the new updates
 	await resolve_round()

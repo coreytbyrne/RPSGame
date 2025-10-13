@@ -11,9 +11,10 @@ class_name Opponent
 @export var swap_threshold:int = 100
 var swap_recharge_modifer:int = 0
 
-var cartridges:Array[CartridgeConfig]
-var available_cartridges:Array[CartridgeConfig]
-var disabled_cartridges:Array[CartridgeConfig]
+var transmitters:Array[CartridgeConfig]
+var disposable_transmitters:Dictionary[CartridgeConfig, int]
+var available_transmitters:Array[CartridgeConfig]
+var disabled_transmitters:Array[CartridgeConfig]
 
 var default_plug_count:int :
 	set(value):
@@ -23,31 +24,40 @@ var current_plug_count:int
 var rule_board_reference:RulesBoard
 
 
-func set_available_cartridges(cartridge_list:Array[CartridgeConfig]) -> void:
-	available_cartridges = cartridge_list
-	cartridges = cartridge_list
+func set_available_transmitters(transmitter_list:Array[CartridgeConfig]) -> void:
+	available_transmitters = transmitter_list
+	transmitters = transmitter_list
 
 
-func disable_cartridge(obj:GameplayUtils.OBJECT) -> void:
-	for cartridge:CartridgeConfig in available_cartridges:
-		if cartridge.object == obj:
-			disabled_cartridges.append(available_cartridges.pop_at(available_cartridges.find(cartridge)))
+func set_disposable_transmitters(disposables:Dictionary[CartridgeConfig, int]) -> void:
+	#disposable_transmitters = disposables
+	for transmitter:CartridgeConfig in disposables.keys():
+		var unique_config:CartridgeConfig = transmitter.duplicate()
+		available_transmitters.append(unique_config)
+		disposable_transmitters[unique_config] =  disposables[transmitter]
 
 
-func enable_cartridge(obj:GameplayUtils.OBJECT) -> void:
-	for cartridge:CartridgeConfig in disabled_cartridges:
-		if cartridge.object == obj:
-			available_cartridges.append(disabled_cartridges.pop_at(disabled_cartridges.find(cartridge)))
+
+func disable_transmitter(obj:GameplayUtils.OBJECT) -> void:
+	for transmitter:CartridgeConfig in available_transmitters:
+		if transmitter.object == obj:
+			disabled_transmitters.append(available_transmitters.pop_at(available_transmitters.find(transmitter)))
+
+
+func enable_transmitter(obj:GameplayUtils.OBJECT) -> void:
+	for transmitter:CartridgeConfig in disabled_transmitters:
+		if transmitter.object == obj:
+			available_transmitters.append(disabled_transmitters.pop_at(disabled_transmitters.find(transmitter)))
 
 
 func choose_actions_to_perform() -> ActionSequence:
 	var possible_actions:Array[ActionSequence] = generate_rules()
 	append_swaps_to_rule_updates(possible_actions)
 	
-	### NOTE: Temp file, just for testing
-	var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
-	for action_set in possible_actions:
-		file.store_string(action_set.to_string())
+	#### NOTE: Temp file, just for testing
+	#var file = FileAccess.open("res://opponent_options.txt", FileAccess.WRITE)
+	#for action_set in possible_actions:
+		#file.store_string(action_set.to_string())
 	
 	# Sort actions
 	evaluate_actions(possible_actions)
@@ -60,29 +70,46 @@ func choose_actions_to_perform() -> ActionSequence:
 	var chosen_action_sequence:ActionSequence
 	chosen_action_sequence = possible_actions[randi_range(0, possible_actions.size() - 1)]
 	print(chosen_action_sequence)
-	### NOTE: Temp, just for testing
-	file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
-	file.close()
-
+	#### NOTE: Temp, just for testing
+	#file.store_string("\n\nACTION SELECTED: %s" %chosen_action_sequence.to_string())
+	#file.close()
+	
 	return chosen_action_sequence
 
 
 func apply_actions(chosen_action_sequence:ActionSequence) -> void:
 	var actions:Array[Action] = chosen_action_sequence.get_actions()
 	for action:Action in actions:
-		# Play cards
+		check_for_disposable_transmitter_use(action)
+		
 		if action is PlayAction:
 			played_object = action.obj
 			continue
 		elif action is RuleSwapAction:
 			swap_charge -= swap_threshold
-			
+
 		rule_board_reference.opponent_rule_update(action)
+		
+		
+
+func check_for_disposable_transmitter_use(action:Action) -> void:
+	if action.associated_transmitter == null:
+		return
+		
+	# Check if the transmitter used is disposable
+	if action.associated_transmitter in disposable_transmitters:
+		disposable_transmitters[action.associated_transmitter] -= 1
+		
+		# Remove the transmitter from the available actions
+		if disposable_transmitters[action.associated_transmitter] <= 0:
+			var disposable_ind:int = available_transmitters.find(action.associated_transmitter)
+			available_transmitters.pop_at(disposable_ind)
+			disposable_transmitters.erase(action.associated_transmitter)
 
 
-func add_to_player_history(player_played_obj:GameplayUtils.OBJECT) -> void:
-	var current_count:int = player_history.get_or_add(player_played_obj, 0)
-	player_history[player_played_obj] = current_count + 1
+#func add_to_player_history(player_played_obj:GameplayUtils.OBJECT) -> void:
+	#var current_count:int = player_history.get_or_add(player_played_obj, 0)
+	#player_history[player_played_obj] = current_count + 1
 
 
 func get_played_object() -> GameplayUtils.OBJECT:
@@ -116,7 +143,7 @@ func generate_rules() -> Array[ActionSequence]:
 	var all_actions:Array[ActionSequence]
 	var rule_list:Dictionary[int, Array]
 	
-	if (current_plug_count + plug_count_modifier <= 0) or (available_cartridges.size() <= 0 ):
+	if (current_plug_count + plug_count_modifier <= 0) or (available_transmitters.size() <= 0 ):
 		var play_object:PlayAction = PlayAction.new()
 		play_object.obj = GameplayUtils.OBJECT.NONE
 
@@ -124,23 +151,24 @@ func generate_rules() -> Array[ActionSequence]:
 		action_sequence.add_action(play_object)
 		return [action_sequence]
 		
-	for cartridge:CartridgeConfig in available_cartridges:
+	for transmitter:CartridgeConfig in available_transmitters:
 		var play_object:PlayAction = PlayAction.new()
-		play_object.obj = cartridge.object
+		play_object.associated_transmitter = transmitter
+		play_object.obj = transmitter.object
 		
 		var action_sequence:ActionSequence = ActionSequence.new(1)
 		action_sequence.add_action(play_object)
 		
 		# Determine Action length	
-		var num_actions:int = mini(current_plug_count - 1 + plug_count_modifier, available_cartridges.size() - 1)
-		var remaining_cartridges:Array[CartridgeConfig] = available_cartridges.duplicate()
-		remaining_cartridges.pop_at(remaining_cartridges.find(cartridge))
+		var num_actions:int = mini(current_plug_count - 1 + plug_count_modifier, available_transmitters.size() - 1)
+		var remaining_transmitters:Array[CartridgeConfig] = available_transmitters.duplicate()
+		remaining_transmitters.pop_at(remaining_transmitters.find(transmitter))
 		
 		for rule_num:int in range(get_current_rules().size()):
 			rule_list[rule_num] = [Rule.RULE_TARGET.LEFT, Rule.RULE_TARGET.RIGHT, Rule.RULE_TARGET.EFFECT]
 			
 		var temp_sequence:Array[ActionSequence]
-		generate_rule_update_list([action_sequence], remaining_cartridges, rule_list, num_actions, temp_sequence)
+		generate_rule_update_list([action_sequence], remaining_transmitters, rule_list, num_actions, temp_sequence)
 		
 		all_actions.append_array(temp_sequence)
 		
@@ -148,26 +176,27 @@ func generate_rules() -> Array[ActionSequence]:
 	return all_actions
 
 
-func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remaining_cartridges:Array[CartridgeConfig], remaining_rules:Dictionary[int,Array], actions_to_add:int, end_list:Array[ActionSequence]) -> void:
+func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remaining_transmitters:Array[CartridgeConfig], remaining_rules:Dictionary[int,Array], actions_to_add:int, end_list:Array[ActionSequence]) -> void:
 	end_list.append_array(action_sequence_list)
 	
 	if actions_to_add <= 0:
 		return
 	
-	for cartridge:CartridgeConfig in remaining_cartridges:
+	for transmitter:CartridgeConfig in remaining_transmitters:
 		for rule_num:int in remaining_rules.keys():
 			var remaining_rule_targets:Array = remaining_rules[rule_num]
-			var next_cartridges:Array[CartridgeConfig] = remaining_cartridges.duplicate()
-			next_cartridges.pop_at(remaining_cartridges.find(cartridge))
+			var next_transmitters:Array[CartridgeConfig] = remaining_transmitters.duplicate()
+			next_transmitters.pop_at(remaining_transmitters.find(transmitter))
 			
-			# Generate a future sequence where the current cartridge, current rule, and LEFT are chosen
+			# Generate a future sequence where the current transmitter, current rule, and LEFT are chosen
 			if remaining_rule_targets.has(Rule.RULE_TARGET.LEFT):
 				var new_rule_action:RuleObjectAction
 				new_rule_action = RuleObjectAction.new()
+				new_rule_action.associated_transmitter = transmitter
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.LEFT
-				new_rule_action.update = cartridge.object
+				new_rule_action.update = transmitter.object
 				
 				var remaining_rule_targets_left_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_left_removed.pop_at(remaining_rule_targets_left_removed.find(Rule.RULE_TARGET.LEFT))
@@ -185,16 +214,17 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 					new_action_sequence.add_action(new_rule_action)
 					left_action_sequences.append(new_action_sequence)
 				
-				generate_rule_update_list(left_action_sequences.duplicate(true), next_cartridges.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
+				generate_rule_update_list(left_action_sequences.duplicate(true), next_transmitters.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
-# Generate a future sequence where the current cartridge, current rule, and RIGHT are chosen
+# Generate a future sequence where the current transmitter, current rule, and RIGHT are chosen
 			if remaining_rule_targets.has(Rule.RULE_TARGET.RIGHT):
 				var new_rule_action:RuleObjectAction
 				new_rule_action = RuleObjectAction.new()
+				new_rule_action.associated_transmitter = transmitter
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
 				new_rule_action.update_target = Rule.RULE_TARGET.RIGHT
-				new_rule_action.update = cartridge.object
+				new_rule_action.update = transmitter.object
 				
 				var remaining_rule_targets_right_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_right_removed.pop_at(remaining_rule_targets_right_removed.find(Rule.RULE_TARGET.RIGHT))
@@ -212,16 +242,17 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 					new_action_sequence.add_action(new_rule_action)
 					right_action_sequences.append(new_action_sequence)
 
-				generate_rule_update_list(right_action_sequences.duplicate(true), next_cartridges.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
+				generate_rule_update_list(right_action_sequences.duplicate(true), next_transmitters.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
 
-# Generate a future sequence where the current cartridge, current rule, and RIGHT are chosen
+# Generate a future sequence where the current transmitter, current rule, and RIGHT are chosen
 			if remaining_rule_targets.has(Rule.RULE_TARGET.EFFECT):
 				var new_rule_action:RuleEffectAction
 				new_rule_action = RuleEffectAction.new()
+				new_rule_action.associated_transmitter = transmitter
 				new_rule_action.rule = get_current_rules()[rule_num]
 				new_rule_action.rule_num = rule_num
-				new_rule_action.update = cartridge.effect
+				new_rule_action.update = transmitter.effect
 				
 				var remaining_rule_targets_effect_removed:Array = remaining_rule_targets.duplicate()
 				remaining_rule_targets_effect_removed.pop_at(remaining_rule_targets_effect_removed.find(Rule.RULE_TARGET.EFFECT))
@@ -239,7 +270,7 @@ func generate_rule_update_list(action_sequence_list:Array[ActionSequence], remai
 					new_action_sequence.add_action(new_rule_action)
 					right_action_sequences.append(new_action_sequence)
 
-				generate_rule_update_list(right_action_sequences.duplicate(true), next_cartridges.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
+				generate_rule_update_list(right_action_sequences.duplicate(true), next_transmitters.duplicate(true), updated_rules.duplicate(true), actions_to_add - 1, end_list)
 
 
 func append_swaps_to_rule_updates(action_sequence_list:Array[ActionSequence]) -> void:
@@ -272,7 +303,8 @@ func recharge_swap() -> void:
 ## Local only to this class													  ##
 ################################################################################
 class Action:
-	pass
+	var associated_transmitter:CartridgeConfig
+
 
 class ActionSequence:
 	var max_sequence_size:int
@@ -330,7 +362,7 @@ class ActionSequence:
 			# Winning Position
 			if rule.left_object == obj_played:
 				if player_history.has(rule.right_object):
-					player_odds = (player_history[rule.right_object]/ player_odds_denom)
+					player_odds += (player_history[rule.right_object]/ player_odds_denom)
 				
 				match(effect_prefs.winning_preference):
 					EffectPreference.PREFERENCE.FIVE:
@@ -364,7 +396,7 @@ class ActionSequence:
 			# Losing Position
 			elif rule.right_object == obj_played:
 				if player_history.has(rule.left_object):
-					player_odds = (player_history[rule.left_object]/ player_odds_denom)
+					player_odds += (player_history[rule.left_object]/ player_odds_denom)
 					
 				match(effect_prefs.losing_preference):
 					EffectPreference.PREFERENCE.FIVE:
@@ -395,7 +427,7 @@ class ActionSequence:
 							rule_weight = rule_weight - (prefs.one_weight/2)
 				
 				
-				rule_weight *= player_odds
+				rule_weight /= player_odds
 				
 		action_weight = snappedf(rule_weight, .001)
 

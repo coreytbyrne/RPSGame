@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://dnftt4hbqswa"]
+[gd_scene load_steps=13 format=3 uid="uid://dnftt4hbqswa"]
 
 [ext_resource type="Script" uid="uid://cbnvbdhqk3ds6" path="res://game_scenes/encounter/encounter.gd" id="1_s1ku8"]
-[ext_resource type="PackedScene" uid="uid://b402i38ah44ec" path="res://entities/cartridge/cartridge.tscn" id="2_fbhgj"]
+[ext_resource type="PackedScene" uid="uid://b402i38ah44ec" path="res://entities/transmitter/standard/transmitter.tscn" id="2_fbhgj"]
+[ext_resource type="PackedScene" uid="uid://dwr5bcjfitei6" path="res://entities/transmitter/disposable/disposable_transmitter.tscn" id="2_wkw02"]
 [ext_resource type="Resource" uid="uid://dcy8ipl26k8dx" path="res://game_scenes/encounter/encounter_configs/test_encounter.tres" id="3_1kcpe"]
 [ext_resource type="Texture2D" uid="uid://10rsr5wb2ecd" path="res://game_scenes/encounter/temp_background.png" id="4_rutn5"]
 [ext_resource type="PackedScene" uid="uid://b3cgosarmpt1o" path="res://entities/plug/Plug.tscn" id="5_bghur"]
@@ -14,7 +15,8 @@
 
 [node name="Encounter" type="Node2D"]
 script = ExtResource("1_s1ku8")
-cartridge_scene = ExtResource("2_fbhgj")
+transmitter_scene = ExtResource("2_fbhgj")
+disposable_transmitter_scene = ExtResource("2_wkw02")
 rule_board_scene = ExtResource("6_11x0d")
 encounter_config = ExtResource("3_1kcpe")
 plug_scene = ExtResource("5_bghur")
@@ -55,30 +57,42 @@ position = Vector2(185, 134)
 
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
 position = Vector2(153, 7)
-health = 3
 participant_name = "Rebecca"
 
 [node name="Opponent" parent="." instance=ExtResource("8_1kcpe")]
 preferences = ExtResource("9_fbhgj")
-health = 3
 participant_name = "Fynn"
 
-[node name="CartidgeSpawnPositions" type="Node2D" parent="."]
+[node name="TransmitterSpawnPositions" type="Node2D" parent="."]
 
-[node name="Position1" type="Marker2D" parent="CartidgeSpawnPositions"]
-position = Vector2(227, 613)
+[node name="Position1" type="Marker2D" parent="TransmitterSpawnPositions"]
+position = Vector2(506, 610)
 
-[node name="Position2" type="Marker2D" parent="CartidgeSpawnPositions"]
-position = Vector2(365, 615)
+[node name="Position2" type="Marker2D" parent="TransmitterSpawnPositions"]
+position = Vector2(644, 612)
 
-[node name="Position3" type="Marker2D" parent="CartidgeSpawnPositions"]
-position = Vector2(499, 616)
+[node name="Position3" type="Marker2D" parent="TransmitterSpawnPositions"]
+position = Vector2(778, 613)
 
-[node name="Position4" type="Marker2D" parent="CartidgeSpawnPositions"]
-position = Vector2(639, 611)
+[node name="Position4" type="Marker2D" parent="TransmitterSpawnPositions"]
+position = Vector2(918, 608)
 
-[node name="Position5" type="Marker2D" parent="CartidgeSpawnPositions"]
-position = Vector2(785, 614)
+[node name="Position5" type="Marker2D" parent="TransmitterSpawnPositions"]
+position = Vector2(1064, 611)
+
+[node name="ItemSpawnPositions" type="Node2D" parent="."]
+
+[node name="Position1" type="Marker2D" parent="ItemSpawnPositions"]
+position = Vector2(182, 544)
+
+[node name="Position2" type="Marker2D" parent="ItemSpawnPositions"]
+position = Vector2(307, 548)
+
+[node name="Position3" type="Marker2D" parent="ItemSpawnPositions"]
+position = Vector2(165, 646)
+
+[node name="Position4" type="Marker2D" parent="ItemSpawnPositions"]
+position = Vector2(298, 647)
 
 [node name="PlayedObject" parent="." instance=ExtResource("10_bghur")]
 position = Vector2(947, 292)

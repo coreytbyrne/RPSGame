@@ -82,8 +82,8 @@ func delegate_rule_resolve(winner:Participant, loser:Participant, effect:Gamepla
 	(func(): rule_resolved.emit()).call_deferred()
 
 func beats(winner:Participant, loser:Participant) -> void:
-	loser.health -= 1
-	print("%s down to %d health!" % [loser.participant_name, loser.health])
+	loser.dosage += 1
+	print("%s's dosage increased! They're now at %d/%d!" % [loser.participant_name, loser.dosage, loser.max_dosage])
 
 
 func smashes(winner:Participant, loser:Participant) -> void:
@@ -96,17 +96,17 @@ func smashes(winner:Participant, loser:Participant) -> void:
 
 
 func snips(winner:Participant, loser:Participant) -> void:
-	print("%s snipped %s's played cartridge!" % [winner.participant_name, loser.participant_name])
+	print("%s snipped %s's played transmitter!" % [winner.participant_name, loser.participant_name])
 	
 	if loser is Player:
 		for plug:Plug in loser.plugs:
 			if plug.connected_target == encounter_reference.get_node("PlayedObject").target:
-				var cartridge:Cartridge = plug.connected_cartridge
-				cartridge.disable_cartridge()
-				add_future(rounds_played+2, func():cartridge.enable_cartridge();print("Cartridge Restored"))
+				var transmitter:Transmitter = plug.connected_transmitter
+				transmitter.disable_transmitter()
+				add_future(rounds_played+2, func():transmitter.enable_transmitter();print("Transmitter Restored"))
 	else:
-		loser.disable_cartridge(loser.played_object)
-		add_future(rounds_played+2, func():loser.enable_cartridge(loser.played_object);print("Opponent Cartridge Restored"))
+		loser.disable_transmitter(loser.played_object)
+		add_future(rounds_played+2, func():loser.enable_transmitter(loser.played_object);print("Opponent Transmitter Restored"))
 
 
 func copies(winner:Participant, loser:Participant) -> void:
@@ -132,8 +132,8 @@ func copies(winner:Participant, loser:Participant) -> void:
 func poisons(winner:Participant, loser:Participant) -> void:
 	print("%s poisoned %s for the next 2 rounds!" % [winner.participant_name, loser.participant_name])
 	
-	add_future(rounds_played+2, func():loser.health -= 1;print("%s took poison damage!" % loser.participant_name))
-	add_future(rounds_played+3, func():loser.health -= 1;print("%s took poison damage! They recovered from their poison" % loser.participant_name))
+	add_future(rounds_played+2, func():loser.dosage += 1;print("%s took poison damage!" % loser.participant_name))
+	add_future(rounds_played+3, func():loser.dosage += 1;print("%s took poison damage! They recovered from their poison" % loser.participant_name))
 
 
 

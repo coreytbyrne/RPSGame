@@ -1,26 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://dceqq3rblubhe"]
+[gd_scene load_steps=7 format=3 uid="uid://dceqq3rblubhe"]
 
 [ext_resource type="Script" uid="uid://iigfsg457oq7" path="res://game_scenes/shop/shop.gd" id="1_mrvn4"]
-[ext_resource type="Script" uid="uid://bsn2dk1jfphmj" path="res://game_scenes/shop/shop_segment.gd" id="2_6csaa"]
+[ext_resource type="Script" uid="uid://bhfnkesbmuqh1" path="res://game_scenes/shop/patch_up_segment.gd" id="2_v14t4"]
+[ext_resource type="Script" uid="uid://dd4urw2da44c5" path="res://game_scenes/shop/utility_segment.gd" id="3_v14t4"]
+[ext_resource type="Script" uid="uid://dppdyp1y3oa6b" path="res://game_scenes/shop/disposable_cart_segment.gd" id="4_31gmt"]
+[ext_resource type="Script" uid="uid://bau070qlb8ckw" path="res://game_scenes/shop/new_cart_segment.gd" id="5_v3iba"]
+[ext_resource type="Script" uid="uid://bxb81hk5h8vfp" path="res://game_scenes/shop/upgrade_segment.gd" id="6_hka44"]
 
 [node name="Shop" type="Node2D"]
 script = ExtResource("1_mrvn4")
 
-[node name="Repairs" type="Node2D" parent="."]
-script = ExtResource("2_6csaa")
+[node name="Services" type="Node2D" parent="."]
+script = ExtResource("2_v14t4")
+segment_availability = 2
+
+[node name="DisposableTransmitters" type="Node2D" parent="."]
+script = ExtResource("4_31gmt")
+segment_type = 2
+segment_availability = 2
 
 [node name="Utility" type="Node2D" parent="."]
-script = ExtResource("2_6csaa")
+script = ExtResource("3_v14t4")
 segment_type = 1
-
-[node name="DisposableCartridges" type="Node2D" parent="."]
-script = ExtResource("2_6csaa")
-segment_type = 2
+segment_availability = 2
 
 [node name="NewCartridges" type="Node2D" parent="."]
-script = ExtResource("2_6csaa")
+script = ExtResource("5_v3iba")
 segment_type = 3
+segment_availability = 1
 
 [node name="Upgrades" type="Node2D" parent="."]
-script = ExtResource("2_6csaa")
+script = ExtResource("6_hka44")
 segment_type = 4
+segment_availability = 1
