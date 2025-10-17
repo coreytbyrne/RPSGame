@@ -229,7 +229,7 @@ func resolve_rules(player_obj:GameplayUtils.OBJECT,opponent_obj:GameplayUtils.OB
 			await RuleResolver.rule_resolved
 		
 		#NOTE: This is here just so the player can see the activated rule in the interim
-		await get_tree().create_timer(5.0).timeout
+		await get_tree().create_timer(3.0).timeout
 		rule_board_ref.mark_rule_triggered(rule_num, false)
 
 

@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://cdgqxguivf58" path="res://entities/rule/rule_configs/rock_beats_scissors.tres" id="2_6ep3v"]
 [ext_resource type="PackedScene" uid="uid://dhsdd451drwon" path="res://entities/spinner_tile/spinner_word.tscn" id="3_1anpc"]
 [ext_resource type="PackedScene" uid="uid://fij6f1fc1n3b" path="res://entities/plug_target/plug_target.tscn" id="4_6ep3v"]
-[ext_resource type="Texture2D" uid="uid://c8vcpi7u0e3e3" path="res://entities/rule/assets/RuleConstantSlate.png" id="5_6ep3v"]
+[ext_resource type="Texture2D" uid="uid://b02ovlvho78o" path="res://entities/rule/assets/placeholder-lock.png" id="5_qfgrd"]
 [ext_resource type="Texture2D" uid="uid://dmy8u8t0gg1vo" path="res://icon.svg" id="6_qfgrd"]
 
 [node name="Rule" type="Node2D"]
@@ -17,32 +17,23 @@ position = Vector2(22, 0)
 [node name="LeftTarget" parent="." instance=ExtResource("4_6ep3v")]
 
 [node name="SpinnerEffect" parent="." instance=ExtResource("3_1anpc")]
-position = Vector2(21, 30)
+position = Vector2(49, 30)
+
+[node name="SpinnerConstantEffect" parent="." instance=ExtResource("3_1anpc")]
+position = Vector2(49, 59)
+
+[node name="ConstantEffectSprite" type="Sprite2D" parent="."]
+position = Vector2(27, 57.999996)
+texture = ExtResource("5_qfgrd")
 
 [node name="EffectTarget" parent="." instance=ExtResource("4_6ep3v")]
-position = Vector2(0, 30)
+position = Vector2(28, 30)
 
 [node name="SpinnerRight" parent="." instance=ExtResource("3_1anpc")]
-position = Vector2(22, 58)
+position = Vector2(22, 88)
 
 [node name="RightTarget" parent="." instance=ExtResource("4_6ep3v")]
-position = Vector2(0, 58)
-
-[node name="StaticRule" type="Sprite2D" parent="."]
-position = Vector2(37, 89)
-texture = ExtResource("5_6ep3v")
-
-[node name="Text" type="Label" parent="StaticRule"]
-offset_left = -46.0
-offset_top = -12.0
-offset_right = 46.0
-offset_bottom = 11.0
-theme_override_colors/font_color = Color(0.9843137, 0.9607843, 0.9372549, 1)
-theme_override_font_sizes/font_size = 12
-text = "Text"
-horizontal_alignment = 1
-vertical_alignment = 1
-metadata/_edit_use_anchors_ = true
+position = Vector2(0, 88)
 
 [node name="RuleActive" type="Sprite2D" parent="."]
 visible = false
@@ -52,10 +43,10 @@ scale = Vector2(0.021613598, 0.582656)
 texture = ExtResource("6_qfgrd")
 
 [node name="RuleSwapButton" type="CheckButton" parent="."]
-offset_left = 89.0
-offset_top = 73.0
-offset_right = 217.0
-offset_bottom = 104.0
+offset_left = -14.0
+offset_top = -49.0
+offset_right = 114.0
+offset_bottom = -18.0
 disabled = true
 text = "Rule Swap"
 

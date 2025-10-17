@@ -8,6 +8,6 @@
 script = ExtResource("1_83m2p")
 
 [node name="PlugTarget" parent="." instance=ExtResource("3_3u7fn")]
-position = Vector2(70, 30)
 
 [node name="SpinnerWord" parent="." instance=ExtResource("4_abdi8")]
+position = Vector2(24, 0)

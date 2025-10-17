@@ -31,10 +31,16 @@ func _ready() -> void:
 	
 	# Check if static rule is applicable
 	if rule_config.constant_effect != GameplayUtils.EFFECT.NONE:
-		$StaticRule/Text.text = GameplayUtils.get_effect_name(rule_config.constant_effect)
-		$StaticRule.visible = true
+		#$StaticRule/Text.text = GameplayUtils.get_effect_name(rule_config.constant_effect)
+		#$StaticRule.visible = true
+		$SpinnerConstantEffect.update_word(GameplayUtils.get_effect_name(rule_config.constant_effect), 1, 5)
+		
 	else:
-		$StaticRule.visible = false
+		$SpinnerConstantEffect.visible = false
+		$ConstantEffectSprite.visible = false
+		$SpinnerRight.position.y = $SpinnerConstantEffect.position.y
+		$RightTarget.position.y = $ConstantEffectSprite.position.y
+		
 	
 	rule_intent = {
 		RULE_TARGET.LEFT: RuleObjectIntent.new(rule_config.left_object),

@@ -39,29 +39,54 @@ text = "\"Snips\" disables the loser's played cartridge for a round
 ***Remember: ANYTHING BEATS NOTHING***"
 
 [node name="ResetPlugsButton" type="Button" parent="."]
-offset_left = 331.0
-offset_top = 5.0
-offset_right = 430.0
-offset_bottom = 36.0
+offset_left = 1020.0
+offset_top = 425.0
+offset_right = 1119.0
+offset_bottom = 456.0
 text = "Reset Plugs"
 
 [node name="EndRoundButton" type="Button" parent="."]
-offset_left = 332.0
-offset_top = 47.0
-offset_right = 430.0
-offset_bottom = 78.0
+offset_left = 1021.0
+offset_top = 467.0
+offset_right = 1119.0
+offset_bottom = 498.0
 text = "End Round"
 
 [node name="RuleBoardSpawnPosition" type="Marker2D" parent="."]
-position = Vector2(185, 134)
+position = Vector2(185, 56)
 
 [node name="Player" parent="." instance=ExtResource("7_1kcpe")]
 position = Vector2(153, 7)
 participant_name = "Rebecca"
 
+[node name="DoseLocation" parent="Player" index="0"]
+position = Vector2(717, 256)
+
+[node name="NameLocation" parent="Player" index="1"]
+position = Vector2(718, 310)
+
+[node name="SwapCharge" parent="Player" index="2"]
+position = Vector2(692, 477)
+
+[node name="StatusLocation" parent="Player" index="3"]
+position = Vector2(718, 337)
+
+[node name="PlugCount" parent="Player" index="4"]
+position = Vector2(692, 450)
+
 [node name="Opponent" parent="." instance=ExtResource("8_1kcpe")]
+position = Vector2(873, 134)
 preferences = ExtResource("9_fbhgj")
 participant_name = "Fynn"
+
+[node name="DoseLocation" parent="Opponent" index="0"]
+position = Vector2(-3, 87)
+
+[node name="NameLocation" parent="Opponent" index="1"]
+position = Vector2(-3, 33)
+
+[node name="StatusLocation" parent="Opponent" index="2"]
+position = Vector2(-3, 0)
 
 [node name="TransmitterSpawnPositions" type="Node2D" parent="."]
 
@@ -95,7 +120,7 @@ position = Vector2(165, 646)
 position = Vector2(298, 647)
 
 [node name="PlayedObject" parent="." instance=ExtResource("10_bghur")]
-position = Vector2(871, 268)
+position = Vector2(846, 290)
 
 [node name="EnemyPlayedObject" parent="." instance=ExtResource("11_wkw02")]
 position = Vector2(871, 195)
@@ -104,3 +129,6 @@ position = Vector2(871, 195)
 
 [connection signal="pressed" from="ResetPlugsButton" to="." method="_on_reset_plugs_button_pressed"]
 [connection signal="pressed" from="EndRoundButton" to="." method="_on_next_round_button_pressed"]
+
+[editable path="Player"]
+[editable path="Opponent"]

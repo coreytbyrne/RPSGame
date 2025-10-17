@@ -23,6 +23,12 @@ var default_plug_count:int :
 var current_plug_count:int
 var rule_board_reference:RulesBoard
 
+func _ready() -> void:
+	super._ready()
+	spinner_dose_node.position = $DoseLocation.position
+	spinner_name_node.position = $NameLocation.position
+	spinner_status_node.position = $StatusLocation.position
+
 
 func set_available_transmitters(transmitter_list:Array[CartridgeConfig]) -> void:
 	available_transmitters = transmitter_list
