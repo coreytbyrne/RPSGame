@@ -17,6 +17,10 @@ signal data_updated(data:CartridgeConfig)
 enum TARGET_TYPE {OBJECT, EFFECT}
 
 func _ready() -> void:
+	update_plug_sprite_position()
+
+
+func update_plug_sprite_position() -> void:
 	plug_sprite_position = $PlugSlot.global_position
 
 

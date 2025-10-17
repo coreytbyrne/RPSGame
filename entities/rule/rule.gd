@@ -33,13 +33,14 @@ func _ready() -> void:
 	if rule_config.constant_effect != GameplayUtils.EFFECT.NONE:
 		#$StaticRule/Text.text = GameplayUtils.get_effect_name(rule_config.constant_effect)
 		#$StaticRule.visible = true
-		$SpinnerConstantEffect.update_word(GameplayUtils.get_effect_name(rule_config.constant_effect), 1, 5)
+		$SpinnerConstantEffect.update_word(GameplayUtils.get_effect_name(rule_config.constant_effect), 1, 3)
 		
 	else:
 		$SpinnerConstantEffect.visible = false
 		$ConstantEffectSprite.visible = false
 		$SpinnerRight.position.y = $SpinnerConstantEffect.position.y
 		$RightTarget.position.y = $ConstantEffectSprite.position.y
+		$RightTarget.update_plug_sprite_position()
 		
 	
 	rule_intent = {
