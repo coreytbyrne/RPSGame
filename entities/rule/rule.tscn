@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://20mp2ubdxjf0" path="res://entities/rule/rule.gd" id="1_v7cnk"]
 [ext_resource type="Resource" uid="uid://cdgqxguivf58" path="res://entities/rule/rule_configs/rock_beats_scissors.tres" id="2_6ep3v"]
+[ext_resource type="PackedScene" uid="uid://dhsdd451drwon" path="res://entities/spinner_tile/spinner_word.tscn" id="3_1anpc"]
 [ext_resource type="PackedScene" uid="uid://fij6f1fc1n3b" path="res://entities/plug_target/plug_target.tscn" id="4_6ep3v"]
-[ext_resource type="PackedScene" uid="uid://chufnjnekqpus" path="res://entities/roller/roller.tscn" id="4_kn5j0"]
 [ext_resource type="Texture2D" uid="uid://c8vcpi7u0e3e3" path="res://entities/rule/assets/RuleConstantSlate.png" id="5_6ep3v"]
 [ext_resource type="Texture2D" uid="uid://dmy8u8t0gg1vo" path="res://icon.svg" id="6_qfgrd"]
 
@@ -11,17 +11,25 @@
 script = ExtResource("1_v7cnk")
 rule_config = ExtResource("2_6ep3v")
 
-[node name="LeftRoller" parent="." instance=ExtResource("4_kn5j0")]
-position = Vector2(62, 0)
+[node name="SpinnerLeft" parent="." instance=ExtResource("3_1anpc")]
+position = Vector2(22, 0)
 
-[node name="EffectRoller" parent="." instance=ExtResource("4_kn5j0")]
-position = Vector2(194, 0)
+[node name="LeftTarget" parent="." instance=ExtResource("4_6ep3v")]
 
-[node name="RightRoller" parent="." instance=ExtResource("4_kn5j0")]
-position = Vector2(324, 0)
+[node name="SpinnerEffect" parent="." instance=ExtResource("3_1anpc")]
+position = Vector2(21, 30)
+
+[node name="EffectTarget" parent="." instance=ExtResource("4_6ep3v")]
+position = Vector2(0, 30)
+
+[node name="SpinnerRight" parent="." instance=ExtResource("3_1anpc")]
+position = Vector2(22, 58)
+
+[node name="RightTarget" parent="." instance=ExtResource("4_6ep3v")]
+position = Vector2(0, 58)
 
 [node name="StaticRule" type="Sprite2D" parent="."]
-position = Vector2(194, 44)
+position = Vector2(37, 89)
 texture = ExtResource("5_6ep3v")
 
 [node name="Text" type="Label" parent="StaticRule"]
@@ -36,26 +44,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="LeftTarget" parent="." instance=ExtResource("4_6ep3v")]
-
-[node name="EffectTarget" parent="." instance=ExtResource("4_6ep3v")]
-position = Vector2(131, 0)
-
-[node name="RightTarget" parent="." instance=ExtResource("4_6ep3v")]
-position = Vector2(262, 0)
-
 [node name="RuleActive" type="Sprite2D" parent="."]
 visible = false
 self_modulate = Color(18.892157, 0, 0, 1)
-position = Vector2(383, -1)
-scale = Vector2(0.07384632, 0.4296875)
+position = Vector2(181, 31.000002)
+scale = Vector2(0.021613598, 0.582656)
 texture = ExtResource("6_qfgrd")
 
 [node name="RuleSwapButton" type="CheckButton" parent="."]
-offset_left = 252.0
-offset_top = 28.0
-offset_right = 380.0
-offset_bottom = 59.0
+offset_left = 89.0
+offset_top = 73.0
+offset_right = 217.0
+offset_bottom = 104.0
 disabled = true
 text = "Rule Swap"
 

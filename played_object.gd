@@ -2,7 +2,7 @@ extends Node2D
 class_name PlayedObject
 
 @onready var target:PlugTarget = $PlugTarget
-@onready var roller:Roller = $Roller
+@onready var spinner:SpinnerWord = $SpinnerWord
 var played_object:GameplayUtils.OBJECT
 
 
@@ -21,6 +21,7 @@ func played_object_updated(data:CartridgeConfig) -> void:
 	else:
 		update_text = GameplayUtils.get_object_name(data.object)
 		played_object = data.object
-	#if not roller.is_roller_display_matching(update_text):
-	await roller.roll(update_text)
+
+	if not spinner.is_word_matching(update_text):
+		await spinner.update_word(update_text, 1, 5)
 	

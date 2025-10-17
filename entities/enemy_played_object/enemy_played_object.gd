@@ -1,8 +1,10 @@
 extends Node2D
 class_name EnemyPlayedObject
 
-@onready var roller:Roller = $Roller
+#@onready var roller:Roller = $Roller
+@onready var spinner:SpinnerWord = $SpinnerWord
 var played_object:GameplayUtils.OBJECT
+
 
 func _ready() -> void:
 	played_object_updated(null)
@@ -21,4 +23,5 @@ func played_object_updated(data:CartridgeConfig) -> void:
 		played_object = data.object
 	
 	#if not roller.is_roller_display_matching(update_text):
-	await roller.roll(update_text)
+	if not spinner.is_word_matching(update_text):
+		await spinner.update_word(update_text, 1, 5)

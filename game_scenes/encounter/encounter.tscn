@@ -95,10 +95,10 @@ position = Vector2(165, 646)
 position = Vector2(298, 647)
 
 [node name="PlayedObject" parent="." instance=ExtResource("10_bghur")]
-position = Vector2(947, 292)
+position = Vector2(871, 268)
 
 [node name="EnemyPlayedObject" parent="." instance=ExtResource("11_wkw02")]
-position = Vector2(948, 196)
+position = Vector2(871, 195)
 
 [node name="Plugs" type="Node2D" parent="."]
 

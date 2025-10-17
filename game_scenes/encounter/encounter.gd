@@ -276,8 +276,8 @@ func _on_next_round_button_pressed() -> void:
 	$Opponent.apply_actions(opponent_action_sequence)
 	await rule_board_ref.apply_changes_to_rules()
 	await $EnemyPlayedObject.played_object_updated(GameplayUtils.get_config_from_object($Opponent.played_object))
-	
-	#$Opponent.add_to_player_history($PlayedObject.played_object)
+	# So the player can see the enemy played object
+	await get_tree().create_timer(3.0).timeout
 	
 	# Resolve the outcome of the cards played, given the new updates
 	await resolve_round()

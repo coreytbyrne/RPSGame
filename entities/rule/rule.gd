@@ -7,9 +7,13 @@ class_name Rule
 @onready var effect_target:PlugTarget = $EffectTarget
 @onready var right_target:PlugTarget = $RightTarget
 
-@onready var left_roller:Roller = $LeftRoller
-@onready var effect_roller:Roller = $EffectRoller
-@onready var right_roller:Roller = $RightRoller
+#@onready var left_spinner:Roller = $LeftRoller
+#@onready var effect_roller:Roller = $EffectRoller
+#@onready var right_roller:Roller = $RightRoller
+
+@onready var left_spinner:SpinnerWord = $SpinnerLeft
+@onready var effect_spinner:SpinnerWord  = $SpinnerEffect
+@onready var right_spinner:SpinnerWord  = $SpinnerRight
 
 @onready var rule_swap:CheckButton = $RuleSwapButton
 
@@ -38,7 +42,7 @@ func _ready() -> void:
 		RULE_TARGET.RIGHT: RuleObjectIntent.new(rule_config.right_object),
 	}
 	
-	await update_all_rollers()
+	await update_all_spinners()
 	
 	# Connect to signals
 	left_target.data_updated.connect(player_rule_intent_update.bind(RULE_TARGET.LEFT))
@@ -55,7 +59,7 @@ func toggle_rule_swap_disable(is_disable:bool) -> void:
 
 
 func apply_rule_changes() -> void:
-	await update_all_rollers()
+	await update_all_spinners()
 	
 	rule_intent[RULE_TARGET.LEFT].new_round()
 	rule_config.left_object = rule_intent[RULE_TARGET.LEFT].round_start_rule
@@ -76,18 +80,18 @@ func player_rule_intent_update(update:CartridgeConfig, rule_target:RULE_TARGET) 
 	if update != null:
 		if rule_target == RULE_TARGET.EFFECT:
 			rule_intent[rule_target].participant_intent_add(Participant.TYPE.PLAYER, update.effect)
-			await update_roller(rule_target, GameplayUtils.get_effect_name(update.effect))
+			await update_spinner(rule_target, GameplayUtils.get_effect_name(update.effect))
 		else:
 			rule_intent[rule_target].participant_intent_add(Participant.TYPE.PLAYER, update.object)
-			await update_roller(rule_target, GameplayUtils.get_object_name(update.object))
+			await update_spinner(rule_target, GameplayUtils.get_object_name(update.object))
 	# Rever the rule
 	else:
 		rule_intent[rule_target].participant_intent_remove(Participant.TYPE.PLAYER)
 		
 		if rule_target == RULE_TARGET.EFFECT:
-			await update_roller(rule_target, GameplayUtils.get_effect_name(rule_intent[rule_target].determine_rule_update()))
+			await update_spinner(rule_target, GameplayUtils.get_effect_name(rule_intent[rule_target].determine_rule_update()))
 		else:
-			await update_roller(rule_target, GameplayUtils.get_object_name(rule_intent[rule_target].determine_rule_update()))
+			await update_spinner(rule_target, GameplayUtils.get_object_name(rule_intent[rule_target].determine_rule_update()))
 
 
 func opponent_update(rule_target:RULE_TARGET, update) -> void:
@@ -100,11 +104,11 @@ func opponent_swap() -> void:
 	
 
 
-func update_all_rollers() -> void:
+func update_all_spinners() -> void:
 	
-	await update_roller(RULE_TARGET.LEFT, GameplayUtils.get_object_name(rule_intent[RULE_TARGET.LEFT].determine_rule_update()))
-	await update_roller(RULE_TARGET.EFFECT, GameplayUtils.get_effect_name(rule_intent[RULE_TARGET.EFFECT].determine_rule_update()))
-	await update_roller(RULE_TARGET.RIGHT, GameplayUtils.get_object_name(rule_intent[RULE_TARGET.RIGHT].determine_rule_update()))
+	await update_spinner(RULE_TARGET.LEFT, GameplayUtils.get_object_name(rule_intent[RULE_TARGET.LEFT].determine_rule_update()))
+	await update_spinner(RULE_TARGET.EFFECT, GameplayUtils.get_effect_name(rule_intent[RULE_TARGET.EFFECT].determine_rule_update()))
+	await update_spinner(RULE_TARGET.RIGHT, GameplayUtils.get_object_name(rule_intent[RULE_TARGET.RIGHT].determine_rule_update()))
 	
 	
 
@@ -116,17 +120,17 @@ func update_all_rollers() -> void:
 		#await update_roller(associated_roller, GameplayUtils.get_object_name(rule_intent[associated_roller].round_start_rule))
 
 
-func update_roller(associated_roller:RULE_TARGET, update_text:String) -> void:
-	match(associated_roller):
+func update_spinner(associated_spinner:RULE_TARGET, update_text:String) -> void:
+	match(associated_spinner):
 		RULE_TARGET.LEFT:
-			if not left_roller.is_roller_display_matching(update_text):
-				await left_roller.roll(update_text)
+			if not left_spinner.is_word_matching(update_text):
+				await left_spinner.update_word(update_text, 1, 3)
 		RULE_TARGET.EFFECT:
-			if not effect_roller.is_roller_display_matching(update_text):
-				await effect_roller.roll(update_text)
+			if not effect_spinner.is_word_matching(update_text):
+				await effect_spinner.update_word(update_text,1, 3)
 		RULE_TARGET.RIGHT:
-			if not right_roller.is_roller_display_matching(update_text):
-				await right_roller.roll(update_text)
+			if not right_spinner.is_word_matching(update_text):
+				await right_spinner.update_word(update_text, 1, 3)
 	
 
 
@@ -152,12 +156,12 @@ func _on_rule_swap_button_toggled(toggled_on: bool) -> void:
 	if toggled_on: 
 		rule_intent[RULE_TARGET.LEFT].rule_swap(Participant.TYPE.PLAYER, rule_intent[RULE_TARGET.RIGHT])
 		rule_intent[RULE_TARGET.RIGHT].rule_swap(Participant.TYPE.PLAYER, rule_intent[RULE_TARGET.LEFT])
-		await update_all_rollers()
+		await update_all_spinners()
 		rule_swapped.emit(-swap_change)
 	else:
 		rule_intent[RULE_TARGET.LEFT].player_rule_swap_revert()
 		rule_intent[RULE_TARGET.RIGHT].player_rule_swap_revert()
-		await update_all_rollers()
+		await update_all_spinners()
 		rule_swapped.emit(swap_change)
 	
 

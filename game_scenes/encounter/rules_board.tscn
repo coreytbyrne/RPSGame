@@ -17,15 +17,18 @@ rule_configs = Array[ExtResource("3_ivdpk")]([ExtResource("4_l7fxn"), ExtResourc
 [node name="RuleSpawn1" type="Marker2D" parent="RuleSpawnPositions"]
 
 [node name="RuleSpawn2" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 100)
+position = Vector2(0, 127)
 
 [node name="RuleSpawn3" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 201)
+position = Vector2(0, 257)
 
 [node name="RuleSpawn4" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 302)
+position = Vector2(330, 1)
 
 [node name="RuleSpawn5" type="Marker2D" parent="RuleSpawnPositions"]
-position = Vector2(0, 400)
+position = Vector2(330, 131)
+
+[node name="RuleSpawn6" type="Marker2D" parent="RuleSpawnPositions"]
+position = Vector2(330, 261)
 
 [node name="Rules" type="Node2D" parent="."]

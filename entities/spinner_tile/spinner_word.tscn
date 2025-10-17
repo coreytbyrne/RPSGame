@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhsdd451drwon"]
+
+[ext_resource type="Script" uid="uid://bwmcsoqeh5lq7" path="res://entities/spinner_tile/spinner_word.gd" id="1_1f0bu"]
+[ext_resource type="PackedScene" uid="uid://t6eumvckgvn4" path="res://entities/spinner_tile/spinner_tile.tscn" id="2_gqmtb"]
+
+[node name="SpinnerWord" type="Node2D"]
+script = ExtResource("1_1f0bu")
+spinner_tile_scene = ExtResource("2_gqmtb")
