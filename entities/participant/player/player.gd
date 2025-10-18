@@ -8,8 +8,8 @@ class_name Player
 		
 @export var remaining_plug_count:int :
 	set(value):
-		remaining_plug_count = value
-		$PlugCount.update_word("Plugs " + str(value), 1, 3)
+		remaining_plug_count = value + plug_count_modifier
+		$PlugCount.update_word("Plugs " + str(remaining_plug_count), 1, 3)
 		#update_plug_label()
 
 @export var swap_charge:int = 100:

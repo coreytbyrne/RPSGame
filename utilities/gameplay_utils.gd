@@ -24,13 +24,16 @@ enum EFFECT {
 	REVERSES
 }
 
-#static var _effect_text:Dictionary[EFFECT, String] = {
-	#EFFECT.BEATS : "%s beats %s",
-	#EFFECT.SMASHES: "%s smashes %s's button", 
-	#EFFECT.SNIPS: "%s snips %s's wire",
-	#EFFECT.COPIES: "%s copies the effect of %s",
-	#EFFECT.NONE: ""
-#}
+static var object_effect_map:Dictionary[OBJECT, EFFECT] = {
+	OBJECT.ROCK : EFFECT.SMASHES,
+	OBJECT.PAPER : EFFECT.COPIES,
+	OBJECT.SCISSORS : EFFECT.SNIPS,
+	OBJECT.DART_FROG : EFFECT.POISONS,
+	OBJECT.HAM : EFFECT.SHOWS_OFF,
+	OBJECT.SHIELD : EFFECT.DEFENDS,
+	OBJECT.NO_YOU : EFFECT.REVERSES,
+}
+
 
 static func get_object_name(obj:OBJECT) -> String:
 	return OBJECT.keys()[obj].capitalize()
@@ -40,11 +43,9 @@ static func get_effect_name(effect:EFFECT) -> String:
 	return EFFECT.keys()[effect].capitalize()
 
 
-#static func get_effect_text(left_object:OBJECT, effect:EFFECT, right_object:OBJECT) -> String:
-	#if effect != EFFECT.NONE:
-		#return _effect_text[effect] % [get_object_name(left_object), get_object_name(right_object)]
-	#else:
-		#return ""
+static func get_object_from_effect(effect:EFFECT) -> OBJECT:
+	return object_effect_map.find_key(effect)
+
 
 static func get_config_from_object(obj:OBJECT) -> CartridgeConfig:
 	var object_name:String = get_object_name(obj).to_lower()

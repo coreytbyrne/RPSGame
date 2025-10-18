@@ -2,7 +2,8 @@ extends Node
 
 var rule_board_reference:RulesBoard
 var rounds_played:int = 0
-var future_tracker:Dictionary[int, Array] = {}
+#var future_tracker:Dictionary[int, Array] = {}
+var futures:Array[Future]
 var encounter_reference:Encounter
 
 
@@ -13,21 +14,18 @@ func next_round() -> void:
 	rounds_played += 1
 
 
-func add_future(future_round:int, function:Callable) -> void:
-	var futures:Array = future_tracker.get_or_add(future_round, [])
-	
-	if futures.is_empty():
-		future_tracker[future_round] = [function]
-	else:
-		future_tracker[future_round].append(function)
+func add_future(num_rounds:int, target:Participant, trigger_type:Future.TRIGGER_TIME, function:Callable) -> void:
+	var new_future = Future.new(target, function, num_rounds, trigger_type)
+	futures.append(new_future)
 
 
 func resolve_futures_round_start() -> void:
-	if future_tracker.has(rounds_played):
-		var futures_to_resolve:Array = future_tracker[rounds_played]
-		
-		for future:Callable in futures_to_resolve:
-			future.call()
+	var temp_futures:Array[Future] = futures.duplicate()
+	for future:Future in temp_futures:
+		var is_future_exhausted:bool = future.next_round()
+		if is_future_exhausted:
+			futures.pop_at(futures.find(future))
+
 
 
 ## The format of these function parameters should always be (winner, loser, other_params)
@@ -92,7 +90,8 @@ func smashes(winner:Participant, loser:Participant) -> void:
 	
 	## At the start of 2 rounds from now, restore the wire count modifier
 	## Ex: Currently round 0, Wire count effects round 1, and restored on round 2
-	add_future(rounds_played+2, func():loser.plug_count_modifier += 1;print("Plug Count Restored"))
+	add_future(2, loser, Future.TRIGGER_TIME.AFTER_COUNTDOWN, 
+	func(targ:Participant): targ.plug_count_modifier += 1; print("%s Plug Count Restored" % targ.participant_name))
 
 
 func snips(winner:Participant, loser:Participant) -> void:
@@ -103,10 +102,13 @@ func snips(winner:Participant, loser:Participant) -> void:
 			if plug.connected_target == encounter_reference.get_node("PlayedObject").target:
 				var transmitter:Transmitter = plug.connected_transmitter
 				transmitter.disable_transmitter()
-				add_future(rounds_played+2, func():transmitter.enable_transmitter();print("Transmitter Restored"))
+				#add_future(rounds_played+2, func():transmitter.enable_transmitter();print("Transmitter Restored"))
+				add_future(2, loser, Future.TRIGGER_TIME.AFTER_COUNTDOWN, 
+				func(targ:Participant):transmitter.enable_transmitter();print("%s Transmitter Restored" % targ.participant_name))
 	else:
 		loser.disable_transmitter(loser.played_object)
-		add_future(rounds_played+2, func():loser.enable_transmitter(loser.played_object);print("Opponent Transmitter Restored"))
+		add_future(2, loser, Future.TRIGGER_TIME.AFTER_COUNTDOWN, 
+		func(targ:Participant):loser.enable_transmitter(loser.played_object);print("%s Transmitter Restored" % targ.participant_name))
 
 
 func copies(winner:Participant, loser:Participant) -> void:
@@ -130,10 +132,10 @@ func copies(winner:Participant, loser:Participant) -> void:
 
 
 func poisons(winner:Participant, loser:Participant) -> void:
-	print("%s poisoned %s for the next 2 rounds!" % [winner.participant_name, loser.participant_name])
-	
-	add_future(rounds_played+2, func():loser.dosage += 1;print("%s took poison damage!" % loser.participant_name))
-	add_future(rounds_played+3, func():loser.dosage += 1;print("%s took poison damage! They recovered from their poison" % loser.participant_name))
+	print("%s poisoned %s!" % [winner.participant_name, loser.participant_name])
+
+	add_future(2, loser, Future.TRIGGER_TIME.PER_ROUND, 
+	func(targ:Participant):targ.dosage += 1;print("%s took poison damage!" % loser.participant_name))
 
 
 
@@ -165,3 +167,33 @@ func defends(winner:Participant, loser:Participant) -> void:
 func reverses(winner:Participant, loser:Participant) -> void:
 	winner.has_reverse = true
 	print("%s will reverse the effects of their next loss! " % winner.participant_name)
+
+
+
+class Future:
+	var _target:Participant
+	var _function:Callable
+	var _remaining_rounds:int
+	var _trigger:TRIGGER_TIME
+	
+	enum TRIGGER_TIME {PER_ROUND, AFTER_COUNTDOWN}
+	
+	func _init(target:Participant, function:Callable, rounds:int, trigger:TRIGGER_TIME):
+		_target = target
+		_function = function
+		_remaining_rounds = rounds
+		_trigger = trigger
+	
+	func next_round() -> bool:
+		_remaining_rounds -= 1
+		
+		if _trigger == TRIGGER_TIME.PER_ROUND:
+			_function.call(_target)
+		elif _trigger == TRIGGER_TIME.AFTER_COUNTDOWN and _remaining_rounds == 0:
+			_function.call(_target)
+		
+		if _remaining_rounds <= 0:
+			return true
+		else:
+			return false
+	

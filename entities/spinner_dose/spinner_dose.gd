@@ -28,6 +28,9 @@ func _ready() -> void:
 
 
 func update_dose_value(dose:int) -> void:
+	if dose > max_dose:
+		return
+	
 	for i:int in range(dose):
 		if i == 0:
 			await get_tree().create_timer(randf_range(0.05, 0.15)).timeout

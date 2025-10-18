@@ -9,3 +9,7 @@ enum POSSIBLE_INVENTORY {
 	DEFENSE_TONIC, # Gives a "defense" 
 	REVERSE_TONIC, # Gives a "reverse"
 }
+
+
+func choose_inventory() -> Array[UtilityShopItem]:
+	return []

@@ -12,3 +12,7 @@ enum POSSIBLE_INVENTORY {
 	STATUS_EFFECT_CLEAR, # Removes any outstanding status effects 
 	SWAP_CHARGE_REFRESH # Adds 100 to your swap charge 
 }
+
+
+func choose_inventory() -> Array[ServiceShopItem]:
+	return []

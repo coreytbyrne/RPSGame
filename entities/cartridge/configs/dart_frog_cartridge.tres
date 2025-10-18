@@ -6,4 +6,5 @@
 script = ExtResource("1_1fbym")
 object = 4
 effect = 5
+tier = 2
 metadata/_custom_type_script = "uid://bjdowbdjn3vcg"

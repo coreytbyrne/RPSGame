@@ -8,3 +8,7 @@ enum POSSIBLE_INVENTORY {
 	SWAP_CHARGE_REFRESH_RATE, # Upgrades the amound of SWAP that gets restored after each round
 	MAX_DOSAGE # Upgrades the max dosage required before losing
 }
+
+
+func choose_inventory() -> Array[UpgradeShopItem]:
+	return []

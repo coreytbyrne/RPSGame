@@ -369,3 +369,4 @@ texture = ExtResource("4_opg56")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -5.0
+bus = &"User_SFX"

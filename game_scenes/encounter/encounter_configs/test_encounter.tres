@@ -1,45 +1,39 @@
-[gd_resource type="Resource" script_class="EncounterConfig" load_steps=12 format=3 uid="uid://dcy8ipl26k8dx"]
+[gd_resource type="Resource" script_class="EncounterConfig" load_steps=10 format=3 uid="uid://dcy8ipl26k8dx"]
 
 [ext_resource type="Script" uid="uid://bjdowbdjn3vcg" path="res://entities/cartridge/cartridge_config_base.gd" id="1_v7cu4"]
+[ext_resource type="Resource" uid="uid://cgl7wwkbxxgc5" path="res://entities/cartridge/configs/rock_cartridge.tres" id="2_ko5nk"]
 [ext_resource type="Script" uid="uid://qhm0afqsyma5" path="res://game_scenes/encounter/encounter_configs/encounter_config_base.gd" id="2_nn4yx"]
-[ext_resource type="Resource" uid="uid://h7e67t3yvwi3" path="res://entities/cartridge/configs/shield_cartridge.tres" id="3_rmxvs"]
-[ext_resource type="Resource" uid="uid://deesxaf4iww38" path="res://entities/cartridge/configs/paper_cartridge.tres" id="3_y41la"]
-[ext_resource type="Resource" uid="uid://dw8x1kkl8q3nf" path="res://entities/cartridge/configs/ham_cartridge.tres" id="4_rmxvs"]
+[ext_resource type="Resource" uid="uid://ksr4gsxd78bf" path="res://entities/cartridge/configs/scissors_cartridge.tres" id="4_ln0t5"]
 [ext_resource type="Script" uid="uid://cfk5nrkdvl5ig" path="res://entities/rule/rule_configs/rule_configs.gd" id="5_ko5nk"]
 [ext_resource type="Resource" uid="uid://cb3gmitt1e1ge" path="res://entities/cartridge/configs/dart_frog_cartridge.tres" id="5_y41la"]
-[ext_resource type="Resource" uid="uid://nip2xaxsoor6" path="res://entities/cartridge/configs/no_you_cartridge.tres" id="6_v7cu4"]
 
 [sub_resource type="Resource" id="Resource_y41la"]
 script = ExtResource("5_ko5nk")
 left_object = 4
 effect = 1
-right_object = 2
-constant_effect = 1
+right_object = 3
+constant_effect = 5
 metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
 
 [sub_resource type="Resource" id="Resource_p0vx0"]
 script = ExtResource("5_ko5nk")
-left_object = 2
+left_object = 3
 effect = 1
-right_object = 6
+right_object = 1
+constant_effect = 2
 metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
 
 [sub_resource type="Resource" id="Resource_p3r7q"]
 script = ExtResource("5_ko5nk")
-left_object = 6
+left_object = 1
 effect = 1
 right_object = 4
+constant_effect = 5
 metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
 
 [resource]
 script = ExtResource("2_nn4yx")
-player_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("5_y41la"), ExtResource("3_y41la"), ExtResource("6_v7cu4")])
-player_disposable_transmitters = Dictionary[ExtResource("1_v7cu4"), int]({
-ExtResource("3_rmxvs"): 5
-})
-opponent_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("3_rmxvs"), ExtResource("5_y41la"), ExtResource("4_rmxvs")])
-opponent_disposable_cartridges = Dictionary[ExtResource("1_v7cu4"), int]({
-ExtResource("3_y41la"): 5
-})
+player_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("2_ko5nk"), ExtResource("4_ln0t5"), ExtResource("5_y41la")])
+opponent_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("2_ko5nk"), ExtResource("5_y41la"), ExtResource("4_ln0t5")])
 rules = Array[ExtResource("5_ko5nk")]([SubResource("Resource_y41la"), SubResource("Resource_p0vx0"), SubResource("Resource_p3r7q")])
 metadata/_custom_type_script = "uid://qhm0afqsyma5"
