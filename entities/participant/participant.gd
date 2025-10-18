@@ -8,8 +8,7 @@ extends Node2D
 
 @onready var dosage:int = 0:
 	set(value):
-		if self is Player:
-			spinner_dose_node.update_dose_value(value)
+		spinner_dose_node.update_dose_value(value)
 		dosage = value
 
 @onready var max_dosage:int = 5:

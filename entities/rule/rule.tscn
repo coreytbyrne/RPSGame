@@ -38,8 +38,8 @@ position = Vector2(0, 88)
 [node name="RuleActive" type="Sprite2D" parent="."]
 visible = false
 self_modulate = Color(18.892157, 0, 0, 1)
-position = Vector2(181, 31.000002)
-scale = Vector2(0.021613598, 0.582656)
+position = Vector2(0, 30)
+scale = Vector2(0.1045568, 0.10937499)
 texture = ExtResource("6_qfgrd")
 
 [node name="RuleSwapButton" type="CheckButton" parent="."]
