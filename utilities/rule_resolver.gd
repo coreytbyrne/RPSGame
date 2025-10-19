@@ -80,7 +80,7 @@ func delegate_rule_resolve(winner:Participant, loser:Participant, effect:Gamepla
 	(func(): rule_resolved.emit()).call_deferred()
 
 func beats(winner:Participant, loser:Participant) -> void:
-	loser.dosage += 1
+	await loser.update_dose(1)
 	print("%s's dosage increased! They're now at %d/%d!" % [loser.participant_name, loser.dosage, loser.max_dosage])
 
 
@@ -135,7 +135,7 @@ func poisons(winner:Participant, loser:Participant) -> void:
 	print("%s poisoned %s!" % [winner.participant_name, loser.participant_name])
 
 	add_future(2, loser, Future.TRIGGER_TIME.PER_ROUND, 
-	func(targ:Participant):targ.dosage += 1;print("%s took poison damage!" % loser.participant_name))
+	func(targ:Participant):await targ.update_dose(1);print("%s took poison damage!" % loser.participant_name))
 
 
 

@@ -7,33 +7,31 @@
 [ext_resource type="Script" uid="uid://cfk5nrkdvl5ig" path="res://entities/rule/rule_configs/rule_configs.gd" id="5_ko5nk"]
 [ext_resource type="Resource" uid="uid://cb3gmitt1e1ge" path="res://entities/cartridge/configs/dart_frog_cartridge.tres" id="5_y41la"]
 
-[sub_resource type="Resource" id="Resource_y41la"]
-script = ExtResource("5_ko5nk")
-left_object = 4
-effect = 1
-right_object = 3
-constant_effect = 5
-metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
-
-[sub_resource type="Resource" id="Resource_p0vx0"]
-script = ExtResource("5_ko5nk")
-left_object = 3
-effect = 1
-right_object = 1
-constant_effect = 2
-metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
-
-[sub_resource type="Resource" id="Resource_p3r7q"]
+[sub_resource type="Resource" id="Resource_ko5nk"]
 script = ExtResource("5_ko5nk")
 left_object = 1
 effect = 1
+right_object = 3
+constant_effect = 1
+metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
+
+[sub_resource type="Resource" id="Resource_ln0t5"]
+script = ExtResource("5_ko5nk")
+left_object = 3
+effect = 8
 right_object = 4
-constant_effect = 5
+metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
+
+[sub_resource type="Resource" id="Resource_rmxvs"]
+script = ExtResource("5_ko5nk")
+left_object = 4
+effect = 5
+right_object = 1
 metadata/_custom_type_script = "uid://cfk5nrkdvl5ig"
 
 [resource]
 script = ExtResource("2_nn4yx")
-player_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("2_ko5nk"), ExtResource("4_ln0t5"), ExtResource("5_y41la")])
+player_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("4_ln0t5"), ExtResource("5_y41la"), ExtResource("2_ko5nk")])
 opponent_cartridges = Array[ExtResource("1_v7cu4")]([ExtResource("2_ko5nk"), ExtResource("5_y41la"), ExtResource("4_ln0t5")])
-rules = Array[ExtResource("5_ko5nk")]([SubResource("Resource_y41la"), SubResource("Resource_p0vx0"), SubResource("Resource_p3r7q")])
+rules = Array[ExtResource("5_ko5nk")]([SubResource("Resource_ko5nk"), SubResource("Resource_ln0t5"), SubResource("Resource_rmxvs")])
 metadata/_custom_type_script = "uid://qhm0afqsyma5"

@@ -51,6 +51,10 @@ func spin_to_letter(character:String, num_spins:int) -> void:
 
 
 func spin_to_symbol(symbol:Texture, num_spins:int) -> void:
+	if $AnimationPlayer.is_playing():
+		await $AnimationPlayer.animation_finished
+
+	
 	if symbol == null:
 		spin_to_letter("", num_spins)
 		return

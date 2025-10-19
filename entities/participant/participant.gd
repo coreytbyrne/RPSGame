@@ -6,10 +6,10 @@ extends Node2D
 @export var spinner_status_scene:PackedScene
 @export var participant_name:String
 
-@onready var dosage:int = 0:
-	set(value):
-		spinner_dose_node.update_dose_value(value)
-		dosage = value
+@onready var dosage:int = 0#:
+	#set(value):
+		#spinner_dose_node.update_dose_value(value)
+		#dosage = value
 
 @onready var max_dosage:int = 5:
 	set(value):
@@ -32,6 +32,8 @@ var has_reverse:bool = false:
 		has_reverse = value
 var play_history:Dictionary[GameplayUtils.OBJECT, int]
 
+
+
 enum TYPE {PLAYER, OPPONENT}
 
 func _ready() -> void:
@@ -53,3 +55,8 @@ func _ready() -> void:
 func add_to_play_history(obj:GameplayUtils.OBJECT) -> void:
 	var current_count:int = play_history.get_or_add(obj, 0)
 	play_history[obj] = current_count + 1
+
+
+func update_dose(dose_change:int) -> void:
+	dosage += dose_change
+	await spinner_dose_node.update_dose_value(dosage)
