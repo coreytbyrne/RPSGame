@@ -1,0 +1,4 @@
+class_name PlayerPlayAction
+extends PlayerAction
+
+var button_used:ConsoleButton

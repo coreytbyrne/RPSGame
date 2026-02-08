@@ -1,0 +1,8 @@
+class_name ConUtil
+extends RefCounted
+
+enum BUTTON_TYPE {MIND, MIGHT, SPIRIT, PLACEHOLDER_GREEN, PLACEHOLDER_BLACK}
+
+enum BUTTON_EFFECT {
+	TEST1
+}
